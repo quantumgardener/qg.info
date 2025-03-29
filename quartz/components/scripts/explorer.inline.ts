@@ -18,7 +18,7 @@ interface MenuItem {
     slug: string;
     children?: MenuItem[];
     parent?: MenuItem | undefined;
-    name?: string,
+    title?: string,
     depth?: number;
   }
 
@@ -52,8 +52,10 @@ const menu: MenuItem[] = [
         },
         { slug: 'notes/miniature-painting',
           children: [
-            { slug: 'notes/painting-nagash'},
-            { slug: 'notes/sylvaneth-treelord-ancient'}
+            { slug: 'notes/sylvaneth-treelord-ancient',
+              title: 'Current WIP'
+            },
+            { slug: 'notes/painting-nagash'}
           ]
         },
         { slug: 'notes/lego',
@@ -247,11 +249,15 @@ async function setupExplorer(currentSlug: FullSlug) {
     const trie = new FileTrieNode<ContentDetails>([])
     const parseMenu = (items: MenuItem[], parent: FileTrieNode<ContentDetails>) => {
       items.forEach(item => {
+        console.log(item)
         const slugSegments = item.slug.split("/")
         const newNode = new FileTrieNode<ContentDetails>(
           slugSegments,
           data[item.slug]
         )
+        if (item.title) {
+          newNode.displayName = item.title
+        }
         parent.children.push(newNode)
         if (item.children) {
           newNode.isFolder = true

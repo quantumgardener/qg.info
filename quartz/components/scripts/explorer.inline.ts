@@ -50,12 +50,19 @@ const menu: MenuItem[] = [
             { slug: 'notes/imatch-to-site' }
           ],
         },
-        { slug: 'notes/miniature-painting',
+        { slug: 'notes/my-miniature-painting-hobby',
           children: [
-            { slug: 'notes/sylvaneth-treelord-ancient',
-              title: 'Current WIP'
+            { slug: 'notes/painting-nagash'},
+            { slug: 'notes/sylvaneth-treelord-ancient'},
+            { slug: 'notes/my-painted-miniatures',
+              title: 'All painted minis'
             },
-            { slug: 'notes/painting-nagash'}
+            { slug: 'notes/my-incomplete-miniatures',
+              title: 'Pile of shame'
+            },
+            { slug: 'notes/my-miniature-painting-toolkit',
+              title: 'Toolkit'
+            }
           ]
         },
         { slug: 'notes/lego',

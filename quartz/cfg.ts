@@ -69,7 +69,8 @@ export interface GlobalConfiguration {
    * Language Codes: https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
    * Region Codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
    */
-  locale: ValidLocale
+  locale: ValidLocale,
+  timezone: string
 }
 
 export interface QuartzConfig {
@@ -88,5 +89,5 @@ export interface FullPageLayout {
   footer: QuartzComponent
 }
 
-export type PageLayout = Pick<FullPageLayout, "beforeBody" | "left" | "right">
+export type PageLayout = Pick<FullPageLayout, "beforeBody" | "afterBody" | "left" | "right">
 export type SharedLayout = Pick<FullPageLayout, "head" | "header" | "footer" | "afterBody">

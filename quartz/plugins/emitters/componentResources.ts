@@ -180,7 +180,7 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
     const siteId = cfg.analytics.siteId
     componentResources.afterDOMLoaded.push(`
       const tinylyticsScript = document.createElement('script');
-      tinylyticsScript.src = 'https://tinylytics.app/embed/${siteId}.js?spa';
+      tinylyticsScript.src = 'https://tinylytics.app/embed/${siteId}.js?spa&hits&kudos=❤️&countries';
       tinylyticsScript.defer = true;
       tinylyticsScript.onload = () => {
         window.tinylytics.triggerUpdate();

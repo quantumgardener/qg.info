@@ -9,6 +9,7 @@ import { visit } from "unist-util-visit"
 import { Root, Element, ElementContent } from "hast"
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
+import { emailComment, mastodonComment } from "../util/comment"
 
 interface RenderComponents {
   head: QuartzComponent
@@ -252,6 +253,19 @@ export function renderPage(
                 </div>
               </div>
               <Content {...componentData} />
+              <div id="engage">
+                <button class="tinylytics_kudos"></button>
+                {
+                  <button id="mastodonComment">
+                    <a onclick="MastodonShare(event);" data-src={mastodonComment(componentData.fileData.frontmatter?.title)}>
+                      <i class="nf nf-fa-mastodon"></i> Comment
+                    </a>
+                  </button>
+                }          
+                {
+                  <button id="emailComment"><a href={emailComment(componentData.fileData.frontmatter?.title)}><i class="nf nf-md-email_check"></i> Comment</a></button>
+                }
+              </div>
               <hr />
               <div class="page-footer">
                 {afterBody.map((BodyComponent) => (

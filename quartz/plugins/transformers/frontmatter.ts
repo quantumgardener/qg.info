@@ -77,8 +77,43 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
               data.title = file.stem ?? i18n(cfg.configuration.locale).propertyDefaults.title
             }
 
+            let classes: string[] = []
+            data.keywords = []
             const tags = coerceToArray(coalesceAliases(data, ["tags", "tag"]))
-            if (tags) data.tags = [...new Set(tags.map((tag: string) => slugTag(tag)))]
+            if (tags) {            
+              //
+              // NOT PULLING IN ANY TAGS OTHER THAN THOSE TYPES PREFIXED BELOW
+              // - class/* describes the type of note and kept as tags without the "class/" prefix
+              // - keyword/* are for photos only and are funneled into a separate array
+              //
+              
+              // Ensure there are no duplicate tags in the frontmatter. This can sometimes happen
+              let uniqueTags = new Set(tags.map((tag: string) => slugTag(tag)))
+    
+              for (let tag of uniqueTags) {
+                const tagGroup = tag.split("/")
+                switch (tagGroup[0]) {
+                  case "class":
+                    classes.push(tag.replace("class/", "")) // add it in without the "class/"
+                    break
+                  case "keyword":
+                    // The tag coming in is hiearchical, even if just one level. keyword/lvl1/lvl2/...
+                    // We want the whole keyword, plus all it's level's parts
+                    for (let part of tag.substring("keywords".length).split("/")) {
+                      if (part === "") {
+                        throw new RangeError(`Empty keyword for ${data.title}`)
+                      }
+                      if (!data.keywords.includes(part.toLowerCase())) {
+                        data.keywords.push(part.toLowerCase())
+                      }
+                    }
+                    break
+                  default:
+                    break
+                }   
+              }
+            }
+            data.tags = classes
 
             const aliases = coerceToArray(coalesceAliases(data, ["aliases", "alias"]))
             if (aliases) {
@@ -97,6 +132,8 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
 
             const cssclasses = coerceToArray(coalesceAliases(data, ["cssclasses", "cssclass"]))
             if (cssclasses) data.cssclasses = cssclasses
+
+            if (data.thumbnail) data.thumbnail = data.thumbnail.replace(/\[\[|\]\]/g,'')
 
             const socialImage = coalesceAliases(data, ["socialImage", "image", "cover"])
 
@@ -147,6 +184,10 @@ declare module "vfile" {
         cssclasses: string[]
         socialImage: string
         comments: boolean | string
+        rating: string,
+        classes: string[],
+        keywords: string[],
+        uri: string
       }>
   }
 }

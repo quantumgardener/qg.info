@@ -112,6 +112,12 @@ export const FolderPage: QuartzEmitterPlugin<Partial<FolderPageOptions>> = (user
   const Header = HeaderConstructor()
   const Body = BodyConstructor()
 
+  const foldersToIgnore = [
+    '.',
+    'tags',
+    'keywords'
+  ]
+
   return {
     name: "FolderPage",
     getQuartzComponents() {
@@ -136,7 +142,7 @@ export const FolderPage: QuartzEmitterPlugin<Partial<FolderPageOptions>> = (user
         allFiles.flatMap((data) => {
           return data.slug
             ? _getFolders(data.slug).filter(
-                (folderName) => folderName !== "." && folderName !== "tags",
+                (folderName) => !foldersToIgnore.includes(folderName),
               )
             : []
         }),
@@ -155,7 +161,7 @@ export const FolderPage: QuartzEmitterPlugin<Partial<FolderPageOptions>> = (user
         if (!changeEvent.file) continue
         const slug = changeEvent.file.data.slug!
         const folders = _getFolders(slug).filter(
-          (folderName) => folderName !== "." && folderName !== "tags",
+          (folderName) => !foldersToIgnore.includes(folderName),
         )
         folders.forEach((folder) => affectedFolders.add(folder))
       }

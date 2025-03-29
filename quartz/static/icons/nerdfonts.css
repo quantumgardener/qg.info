@@ -1,0 +1,34 @@
+/*
+ *# [Nerd Fonts]  Website: https://www.nerdfonts.com
+ *# [Nerd Fonts]  Development Website: https://github.com/ryanoasis/nerd-fonts
+ *# [Nerd Fonts]  Version: 3.3.0
+ *# [Nerd Fonts]  Manually cut down from original file
+ */
+ @font-face{font-family:'NerdFontsSymbols Nerd Font';src:url("https://www.nerdfonts.com/assets/fonts/Symbols-2048-em Nerd Font Complete.woff2") format("woff2");font-weight:normal;font-style:normal}.nf,.nerd-font,.nerd-fonts{font-family:'NerdFontsSymbols Nerd Font';font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+ .nf-cod-key:before{content:"\eb11"}
+ .nf-cod-tag:before{content:"\ea66"}
+ .nf-fa-address_card:before{content:"\f2bb"}
+ .nf-fa-book_open:before{content:"\ede2"}
+ .nf-fa-camera:before{content:"\f030"}
+ .nf-fa-gamepad:before{content: "\f11b"}
+ .nf-fa-github:before{content:"\f09b"}
+ .nf-fa-link:before{content:"\f0c1"}
+ .nf-fa-lock:before{content:"\f023"}
+ .nf-fa-mastodon:before{content:"\edc0"}
+ .nf-fa-message:before{content:"\f27a"}
+ .nf-fa-photo_film:before{content:"\efab"}
+ .nf-fa-question_circle:before{content:"\f059"}
+ .nf-fa-ruler_horizontal:before{content:"\ee10"}
+ .nf-fa-square_rss:before{content:"\f143"} 
+ .nf-fae-mountains:before{content:"\e2a6"}
+ .nf-md-brain:before{content:"\f09d1"}
+ .nf-md-calendar:before{content:"\f00ed"}
+ .nf-md-camera_iris:before{content:"\f0104"}
+ .nf-md-camera_timer:before{content:"\f0109"}
+ .nf-md-email_check:before{content:"\f0ab1"}
+ .nf-md-eye:before{content:"\f0208"}
+ .nf-md-image_album:before{content:"\f02ea"}
+ .nf-md-map_marker:before{content:"\f034e"}
+ .nf-md-movie_open:before{content:"\f0fce"}
+ .nf-md-remote_tv:before{content:"\f0ec5"}
+ .nf-md-thought_bubble:before{content:"\f07f6"}

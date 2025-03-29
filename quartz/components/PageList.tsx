@@ -1,8 +1,11 @@
-import { FullSlug, isFolderPath, resolveRelative } from "../util/path"
+import { isFolderPath, resolveRelative, SimpleSlug } from "../util/path"
 import { QuartzPluginData } from "../plugins/vfile"
-import { Date, getDate } from "./Date"
+import { formatDate, getDate, latestDate  } from "./Date"
 import { QuartzComponent, QuartzComponentProps } from "./types"
 import { GlobalConfiguration } from "../cfg"
+import { listClasses } from "../util/classes"
+import { JSX } from "preact/jsx-runtime"
+import { Data } from "vfile"
 
 export type SortFn = (f1: QuartzPluginData, f2: QuartzPluginData) => number
 
@@ -16,8 +19,9 @@ export function byDateAndAlphabetical(cfg: GlobalConfiguration): SortFn {
 
     // If both are folders or both are files, sort by date/alphabetical
     if (f1.dates && f2.dates) {
-      // sort descending
-      return getDate(cfg, f2)!.getTime() - getDate(cfg, f1)!.getTime()
+      // sort descending by latest of modified and create date for each item
+      //return getDate(cfg, f2)!.getTime() - getDate(cfg, f1)!.getTime()
+      return latestDate(f2)!.getTime() - latestDate(f1)!.getTime()
     } else if (f1.dates && !f2.dates) {
       // prioritize files with dates
       return -1
@@ -44,43 +48,152 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
     list = list.slice(0, limit)
   }
 
-  return (
-    <ul class="section-ul">
-      {list.map((page) => {
-        const title = page.frontmatter?.title
-        const tags = page.frontmatter?.tags ?? []
+  const groupedByYear = list.reduce((acc: Record<string, Data[]>, page: Data) => {
+    const dateObj = page.dates ? latestDate(page) : null;
+    const year = dateObj ? dateObj.toLocaleString(cfg.locale || "en", { year: "numeric" }) : "";
+    if (!year) return acc; // Skip items without a valid date
+    if (!acc[year]) {
+      acc[year] = [];
+    }
+    acc[year].push(page);
+    return acc;
+  }, {});
 
-        return (
-          <li class="section-li">
-            <div class="section">
-              <p class="meta">
-                {page.dates && <Date date={getDate(cfg, page)!} locale={cfg.locale} />}
-              </p>
-              <div class="desc">
-                <h3>
-                  <a href={resolveRelative(fileData.slug!, page.slug!)} class="internal">
-                    {title}
-                  </a>
-                </h3>
-              </div>
-              <ul class="tags">
-                {tags.map((tag) => (
-                  <li>
-                    <a
-                      class="internal tag-link"
-                      href={resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)}
-                    >
-                      {tag}
-                    </a>
+  const groupedByMonthYear = list.reduce((acc: Record<string, Data[]>, page: Data) => {
+    const dateObj = page.dates ? latestDate(page) : null;
+    const monthYear = dateObj ? dateObj.toLocaleString(cfg.locale || "en", { year: "numeric", month: "long" }) : "";
+    if (!monthYear) return acc; // Skip items without a valid date
+    if (!acc[monthYear]) {
+      acc[monthYear] = [];
+    }
+    acc[monthYear].push(page);
+    return acc;
+  }, {});
+
+  
+  const defaultLayout = () => {
+    return (
+      <div className="section">
+        {Object.entries(groupedByMonthYear).map(([date, pages]) => {
+          const id = date.replace(" ", "-").toLowerCase()
+  
+          return (
+          <div key={date}>
+            <hr/>
+            <h2 id={id}>{date}</h2> {/* Display the grouped date as a heading */}
+            <ul className="section-ul">
+              {pages.map((page: Data) => {
+                const title = page.frontmatter?.title
+                const fileDataSlug = fileData.slug!
+                const classList = listClasses(page)
+                let pagedate:string | JSX.Element = ""
+                if (page.dates && fileDataSlug! != "now/index") {
+                  if (page.dates?.created.getTime() === page.dates?.modified.getTime()) {
+                    pagedate = (
+                      <span>
+                        {formatDate(getDate(cfg, page)!, cfg.locale)}
+                      </span>
+                    )
+                  } else {
+                    pagedate = (
+                      <span>
+                        {formatDate(latestDate(page)!, cfg.locale)}
+                        &dagger;
+                      </span>
+                    )
+                  }
+                }              
+                return (
+                  <li className="page-list-li">
+                    <div className="page-list-meta">
+                      <p>
+                        <a
+                          href={resolveRelative(fileDataSlug, page.slug!)}
+                          className="internal"
+                        >
+                          {title}
+                        </a> {pagedate}
+                      </p>
+                      {classList}
+                    </div>
                   </li>
-                ))}
-              </ul>
+                );
+              })}
+            </ul>
+          </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  const basicGalleryLayout = () => {
+    return (
+      <div className="section">
+        <div class="my-gallery justified-gallery">
+          {list.map((page: Data) => {
+            const title = page.frontmatter?.title
+            let thumbnail = page.frontmatter?.thumbnail
+            if (thumbnail) {
+              return (
+                <a href={resolveRelative(fileData.slug!, page.slug!)} class="internal">
+                    <img src={resolveRelative(fileData.slug!, "photos/"+thumbnail as SimpleSlug)} style="float:left; margin-top:0; margin-right:1rem;" alt={title}/>
+                  </a>
+              )  
+            } else {
+              console.error(`\nPhoto ${page.slug!} missing thumbnail for album.`)
+              process.exit(1)            
+            }
+          })}
+        </div>
+      </div>
+    )
+  }
+
+  const datedGalleryLayout = () => {
+    return (
+      <div className="section">
+        {Object.keys(groupedByYear).sort((a, b) => b.localeCompare(a)).map(year => (
+          <div key={year}>
+            <hr/>
+            <h2 id={year}>{year}</h2>
+            <div className="my-gallery justified-gallery">
+              {groupedByYear[year].map((page: Data) => {
+                const title = page.frontmatter?.title;
+                const thumbnail = page.frontmatter?.thumbnail;
+                if (thumbnail) {
+                  return (
+                    <a href={resolveRelative(fileData.slug!, page.slug!)} className="internal" key={page.slug}>
+                      <img
+                        src={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
+                        style={{ float: "left", marginTop: 0, marginRight: "1rem" }}
+                        alt={title}
+                      />
+                    </a>
+                  );
+                } else {
+                  console.error(`\nPhoto ${page.slug!} missing thumbnail for photo gallery.`)
+                  process.exit(1)
+                }
+              })}
             </div>
-          </li>
-        )
-      })}
-    </ul>
-  )
+          </div>
+        ))
+        }
+      </div>
+    )
+  }
+
+  switch (fileData.slug?.split('/')[0]) {
+    case "albums":
+    case "keywords":
+      return basicGalleryLayout()
+    case "photos":
+      return datedGalleryLayout()
+    default:
+      return defaultLayout()
+  }
+  
 }
 
 PageList.css = `

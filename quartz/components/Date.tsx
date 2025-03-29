@@ -21,11 +21,24 @@ export function getDate(cfg: GlobalConfiguration, data: QuartzPluginData): Date 
 export function formatDate(d: Date, locale: ValidLocale = "en-US"): string {
   return d.toLocaleDateString(locale, {
     year: "numeric",
-    month: "short",
-    day: "2-digit",
+    month: "long",
+    day: "numeric",
   })
 }
 
 export function Date({ date, locale }: Props) {
   return <time datetime={date.toISOString()}>{formatDate(date, locale)}</time>
+}
+
+export function latestDate(data: QuartzPluginData): Date | undefined {
+  if (!data.dates?.created || !data.dates?.modified) {
+    // Handle cases where dates are undefined or missing
+    return undefined;
+  }
+
+  if (data.dates?.created.getTime() === data.dates?.modified.getTime()) {
+    return data.dates?.created;
+  } else {
+    return data.dates?.modified;
+  }
 }

@@ -7,6 +7,7 @@ import { QuartzEmitterPlugin } from "../types"
 import { toHtml } from "hast-util-to-html"
 import { write } from "./helpers"
 import { i18n } from "../../i18n"
+import { emailComment } from "../../util/comment"
 
 export type ContentIndexMap = Map<FullSlug, ContentDetails>
 export type ContentDetails = {
@@ -18,7 +19,8 @@ export type ContentDetails = {
   content: string
   richContent?: string
   date?: Date
-  description?: string
+  description?: string,
+  uri?: string
 }
 
 interface Options {
@@ -54,15 +56,38 @@ function generateSiteMap(cfg: GlobalConfiguration, idx: ContentIndexMap): string
 function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?: number): string {
   const base = cfg.baseUrl ?? ""
 
-  const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => `<item>
-    <title>${escapeHTML(content.title)}</title>
-    <link>https://${joinSegments(base, encodeURI(slug))}</link>
-    <guid>https://${joinSegments(base, encodeURI(slug))}</guid>
-    <description>${content.richContent ?? content.description}</description>
-    <pubDate>${content.date?.toUTCString()}</pubDate>
-  </item>`
+  const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => {
+    const inviteComment = escapeHTML(`<p><a href="${emailComment(content.title)}">Email a comment</a></p>`);
+    const description = content.richContent ? `${content.richContent}${inviteComment}` : `${content.description}${inviteComment}`;
+
+    // DO NOT use the filename as a guid in RSS. If the name every changes, then RSS readers will pick up
+    // the old file as a new file becuase Quartz uses the filename to create the GUID.
+    // The GUID should be immutable from first publication. From 8 February 2025, I'm using tag: but prior
+    // to that I have published items using URL as GUID. My Obsidian vault now has a URI for all that is
+    // consistent so title changes or file moves, won't cause a future problem.
+    let guid = ""
+    if (content.uri !== undefined ) {
+      if (content.uri.startsWith("tag:") ) {
+        guid = content.uri
+      } else {
+        guid = `https://${joinSegments(base, encodeURI(slug))}`
+      }
+    } else {
+      console.error(`Blog missing URI: ${content.title}`)
+      process.exit(1)
+    }
+
+    return `<item>
+      <title>${escapeHTML(content.title)}</title>
+      <link>https://${joinSegments(base, encodeURI(slug))}</link>
+      <guid>${guid}</guid>
+      <description>${description}</description>
+      <pubDate>${content.date?.toUTCString()}</pubDate>
+    </item>`
+  }
 
   const items = Array.from(idx)
+    .filter(([slug,content]) => slug.startsWith(`notes`) && content.tags?.includes("blog"))
     .sort(([_, f1], [__, f2]) => {
       if (f1.date && f2.date) {
         return f2.date.getTime() - f1.date.getTime()
@@ -78,15 +103,26 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?:
     .slice(0, limit ?? idx.size)
     .join("")
 
+    const year = new Date().getFullYear()
+
   return `<?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
       <title>${escapeHTML(cfg.pageTitle)}</title>
       <link>https://${base}</link>
-      <description>${!!limit ? i18n(cfg.locale).pages.rss.lastFewNotes({ count: limit }) : i18n(cfg.locale).pages.rss.recentNotes} on ${escapeHTML(
-        cfg.pageTitle,
-      )}</description>
+      <description>A digital garden cultivating the possibilities of life. ${!!limit ? i18n(cfg.locale).pages.rss.lastFewNotes({ count: limit }) : i18n(cfg.locale).pages.rss.recentNotes}</description>
+      <copyright>© David C. Buchan 2002-${year}</copyright>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
+      <managingEditor>qg.info@mail.buchan.org</managingEditor>
+      <webMaster>qg.info@mail.buchan.org (David Buchan)</webMaster>
+      <atom:link href="https://quantumgardener.info/index.xml" rel="self" type="application/rss+xml" />
+      <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+            <docs>https://www.rssboard.org/rss-specification</docs>
+      <image>
+        <url>https://${base}/static/qg-image-500.webp</url>
+        <title>${escapeHTML(cfg.pageTitle)}</title>
+        <link>https://${base}</link>
+      </image>
       ${items}
     </channel>
   </rss>`
@@ -115,6 +151,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
               : undefined,
             date: date,
             description: file.data.description ?? "",
+            uri: file.data.frontmatter?.uri,
           })
         }
       }

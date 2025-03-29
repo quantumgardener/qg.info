@@ -1,18 +1,5 @@
-# Quartz v4
+# The Quantum Garden
 
-> “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
+All documents and images within the content folder, copyright David C. Buchan.
 
-Quartz is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
-Quartz v4 features a from-the-ground rewrite focusing on end-user extensibility and ease-of-use.
-
-🔗 Read the documentation and get started: https://quartz.jzhao.xyz/
-
-[Join the Discord Community](https://discord.gg/cRFFHYye7t)
-
-## Sponsors
-
-<p align="center">
-  <a href="https://github.com/sponsors/jackyzha0">
-    <img src="https://cdn.jsdelivr.net/gh/jackyzha0/jackyzha0/sponsorkit/sponsors.svg" />
-  </a>
-</p>
+Code is a forked extension of [Quartz V4](https://quartz.jzhao.xyz) and licensed under the MIT Licence. A summary of the customisations I've made, including the files involved see [Customisations of Quartz 4 for The Quantum Garden](https://quantumgardener.info/notes/customisations-of-quartz-4-for-the-quantum-garden).

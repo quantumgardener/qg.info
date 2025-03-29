@@ -1,29 +1,41 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import style from "./styles/footer.scss"
-import { version } from "../../package.json"
-import { i18n } from "../i18n"
 
 interface Options {
   links: Record<string, string>
 }
 
 export default ((opts?: Options) => {
-  const Footer: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
-    const year = new Date().getFullYear()
-    const links = opts?.links ?? []
+  const Footer: QuartzComponent = ({ allFiles, displayClass, cfg }: QuartzComponentProps) => {
+    const today: Date = new Date()
+    const localYear = today.toLocaleString(cfg.locale, {
+      timeZone: cfg.timezone,
+      year: 'numeric',
+    })
+    const localToday = today.toLocaleString(cfg.locale, {
+      timeZone: cfg.timezone,
+      dateStyle: "long",
+      timeStyle: "short"
+    })
     return (
       <footer class={`${displayClass ?? ""}`}>
-        <p>
-          {i18n(cfg.locale).components.footer.createdWith}{" "}
-          <a href="https://quartz.jzhao.xyz/">Quartz v{version}</a> © {year}
-        </p>
+        
+        <hr />
         <ul>
-          {Object.entries(links).map(([text, link]) => (
-            <li>
-              <a href={link}>{text}</a>
-            </li>
-          ))}
+          <li><a href="/subscribe"><i class="nf nf-fa-square_rss"></i> Subscribe</a></li>
+          <li><a href="/about"><i class="nf nf-fa-address_card"></i> About</a></li>
+          <li>|</li>
+          <li><a href="/privacy"><i class="nf nf-fa-lock"></i> Privacy</a></li>
+          <li><a href="/ai"><i class="nf nf-md-brain"></i> AI Policy</a></li>
+          <li>|</li>
+          <li><a href="https://aus.social/@dcbuchan"><i class="nf nf-fa-mastodon"></i> Mastodon</a></li>
+          <li><a href="https://github.com/quantumgardener"><i class="nf nf-fa-github"></i> Github</a></li>
         </ul>
+        <div class="site-metadata">
+          &copy; David C. Buchan 2002&ndash;{localYear}. Last update: {localToday}. <a href="/notes">Recently updated notes</a>.<br/>
+          {allFiles.length} site pages. <a href="/colophon">Colophon</a>. 
+          <a rel="me" href="https://aus.social/@dcbuchan"></a> <span class="tinylytics_hits"></span> <a href="/visits">total unique visits</a>.
+        </div>
       </footer>
     )
   }

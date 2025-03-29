@@ -30,7 +30,7 @@ export default ((opts?: Partial<BacklinksOptions>) => {
     }
     return (
       <div class={classNames(displayClass, "backlinks")}>
-        <h3>{i18n(cfg.locale).components.backlinks.title}</h3>
+        <h3>{i18n(cfg.locale).components.backlinks.title} <a href="/notes/backlink" style="color:var(--secondary)"><i class="nf nf-fa-question_circle"></i></a></h3>
         <OverflowList>
           {backlinkFiles.length > 0 ? (
             backlinkFiles.map((f) => (

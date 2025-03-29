@@ -1,10 +1,11 @@
-import { Date, getDate } from "./Date"
+import { formatDate } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import readingTime from "reading-time"
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
 import { JSX } from "preact"
 import style from "./styles/contentMeta.scss"
+import { listClasses } from "../util/classes"
 
 interface ContentMetaOptions {
   /**
@@ -12,11 +13,13 @@ interface ContentMetaOptions {
    */
   showReadingTime: boolean
   showComma: boolean
+  showDate: boolean
 }
 
 const defaultOptions: ContentMetaOptions = {
   showReadingTime: true,
   showComma: true,
+  showDate: true
 }
 
 export default ((opts?: Partial<ContentMetaOptions>) => {
@@ -29,23 +32,60 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
     if (text) {
       const segments: (string | JSX.Element)[] = []
 
-      if (fileData.dates) {
-        segments.push(<Date date={getDate(cfg, fileData)!} locale={cfg.locale} />)
+      switch (fileData.slug) {
+        case "blog/index":
+        case "keywords/index":
+        case "notes/index":
+        case "now/index":
+          if(fileData.dates?.created) {
+            fileData.dates.created = fileData.dates?.published
+          }
+          if(fileData.dates?.modified) {
+            fileData.dates.modified = fileData.dates?.published
+          }
+          break
+        default:
+          break
       }
 
-      // Display reading time if enabled
+      if (fileData.dates && options.showDate) {
+        if (fileData.dates?.created.getTime() == fileData.dates?.modified.getTime()) {
+          segments.push(`${formatDate(fileData.dates?.created,cfg.locale)}`)
+        } else {
+          segments.push(`${formatDate(fileData.dates?.modified,cfg.locale)} [original ${formatDate(fileData.dates?.created,cfg.locale)}]`)
+        }
+      }
+
+      // Display reading time if enabled, but only if more than 2 minutes
       if (options.showReadingTime) {
         const { minutes, words: _words } = readingTime(text)
-        const displayedTime = i18n(cfg.locale).components.contentMeta.readingTime({
-          minutes: Math.ceil(minutes),
-        })
-        segments.push(<span>{displayedTime}</span>)
+        if ( minutes >= 2) {
+          const displayedTime = i18n(cfg.locale).components.contentMeta.readingTime({
+            minutes: Math.ceil(minutes),
+          })
+          segments.push(<span> | {displayedTime}</span>)
+        }
       }
 
+      if(fileData.frontmatter?.rating) {
+        const regex = /\[\[(.*?)\|(.*?)\]\]/
+        const match = fileData.frontmatter?.rating.match(regex)
+        if (match) {
+          const ratingSlug = match[1]
+          const ratingStars = match[2]
+          segments.push(<span> | <a href={`/notes/${ratingSlug}`}>{ratingStars}</a></span>)
+        }        
+      }
+
+      const classList = listClasses(fileData)
+
       return (
-        <p show-comma={options.showComma} class={classNames(displayClass, "content-meta")}>
-          {segments}
-        </p>
+        <div class={classNames(displayClass, "content-meta")}>
+          <p show-comma={options.showComma}>
+            {segments}
+          </p>
+          {classList}
+        </div>
       )
     } else {
       return null

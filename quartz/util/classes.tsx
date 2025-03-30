@@ -28,7 +28,7 @@ export function listClasses(fileData:Data): string | JSX.Element {
             classes.push( createClassLink(`/${cls}`, clsText, "nf nf-fa-square_rss") )
             break;
         case 'book':
-            classes.push( createClassLink("/books", clsText, "nf nf-fa-book_open") )
+            classes.push( createClassLink("/books", clsText, "nf nf-md-book") )
             break;
         case 'gear':
             classes.push( createClassLink("/uses", clsText) )

@@ -8,7 +8,6 @@
  .nf-cod-key:before{content:"\eb11"}
  .nf-cod-tag:before{content:"\ea66"}
  .nf-fa-address_card:before{content:"\f2bb"}
- .nf-fa-book_open:before{content:"\ede2"}
  .nf-fa-camera:before{content:"\f030"}
  .nf-fa-gamepad:before{content: "\f11b"}
  .nf-fa-github:before{content:"\f09b"}
@@ -21,6 +20,7 @@
  .nf-fa-ruler_horizontal:before{content:"\ee10"}
  .nf-fa-square_rss:before{content:"\f143"} 
  .nf-fae-mountains:before{content:"\e2a6"}
+ .nf-md-book:before{content:"\f00ba"}
  .nf-md-brain:before{content:"\f09d1"}
  .nf-md-calendar:before{content:"\f00ed"}
  .nf-md-camera_iris:before{content:"\f0104"}

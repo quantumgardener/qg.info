@@ -105,6 +105,7 @@ p {
   --callout-icon-album: url('/static/icons/nf-md-image_album.svg');
   --callout-icon-years: url('/static/icons/nf-md-calendar.svg');
   --callout-icon-movie-plot: url('/static/icons/nf-md-movie_open.svg');
+  --callout-icon-book: url('/static/icons/nf-md-book.svg');
 
   &[data-callout="landscape"] {
     --color: #8a614e;
@@ -167,6 +168,13 @@ p {
     --border: #6C996B44;
     --bg: #d0fd7b13;
     --callout-icon: var(--callout-icon-movie-plot);
+  }
+
+  &[data-callout="book"] {
+    --color: #54a4ff;
+    --border: #127ffc;
+    --bg: #95a9ff13;
+    --callout-icon: var(--callout-icon-book);
   }
 }
 

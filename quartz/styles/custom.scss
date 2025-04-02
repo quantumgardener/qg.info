@@ -334,6 +334,45 @@ p {
   }
 }
 
+.recent-notes {
+  & > h3 {
+    margin: 0.5rem 0 0 0;
+    font-size: 1rem;
+  }
+
+  & > p {
+    font-style: italic;
+    font-size: small;
+  }
+
+  & > ul.recent-ul {
+    list-style: none;
+    margin-top: 0.5rem;
+    padding-left: 0;
+
+    & > li {
+      margin: 0;
+      .section > .desc > h3 {
+        line-height: 0.8rem;
+      }
+
+      .section > .desc > h3 > a {
+        background-color: transparent;
+        font-size: smaller;
+        hyphens: none;
+        line-height: 1.2rem;
+      }
+
+      .section > .meta {
+        font-size: small;
+        margin: 0 0 0.5rem 0;
+        opacity: 0.6;
+        line-height: 1rem;
+      }
+    }
+  }
+}
+
 .table-container {
 
   & table {
@@ -375,6 +414,10 @@ p {
 
 .tags {
   font-size: smaller;
+}
+
+.toc {
+  min-height: 8rem;
 }
 
 div#engage {

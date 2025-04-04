@@ -287,6 +287,11 @@ p {
   }
 }
 
+img-comparison-slider {
+  --divider-width: 2px;
+  --default-handle-width: clamp(40px, 10vw, 200px);
+}
+
 .preview-inner {
 
   & img {

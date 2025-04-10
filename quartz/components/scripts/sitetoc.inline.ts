@@ -1,4 +1,4 @@
-function toggleToc(this: HTMLElement) {
+function siteToggleToc(this: HTMLElement) {
   this.classList.toggle("collapsed")
   this.setAttribute(
     "aria-expanded",
@@ -9,16 +9,16 @@ function toggleToc(this: HTMLElement) {
   content.classList.toggle("collapsed")
 }
 
-function setupToc() {
+function siteSetupToc() {
   for (const toc of document.getElementsByClassName("sitetoc")) {
     const button = toc.querySelector(".sitetoc-header")
     const content = toc.querySelector(".sitetoc-content")
     if (!button || !content) return
-    button.addEventListener("click", toggleToc)
-    window.addCleanup(() => button.removeEventListener("click", toggleToc))
+    button.addEventListener("click", siteToggleToc)
+    window.addCleanup(() => button.removeEventListener("click", siteToggleToc))
   }
 }
 
 document.addEventListener("nav", () => {
-  setupToc()
+  siteSetupToc()
 })

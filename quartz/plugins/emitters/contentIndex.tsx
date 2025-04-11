@@ -8,6 +8,7 @@ import { toHtml } from "hast-util-to-html"
 import { write } from "./helpers"
 import { i18n } from "../../i18n"
 import { emailComment } from "../../util/comment"
+import chalk from "chalk"
 
 export type ContentIndexMap = Map<FullSlug, ContentDetails>
 export type ContentDetails = {
@@ -73,7 +74,7 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?:
         guid = `https://${joinSegments(base, encodeURI(slug))}`
       }
     } else {
-      console.error(`Blog missing URI: ${content.title}`)
+      console.error(chalk.red(`\nBlog missing URI: ${content.title}`));
       process.exit(1)
     }
 

@@ -21,6 +21,7 @@
  .nf-fa-square_rss:before{content:"\f143"} 
  .nf-fae-mountains:before{content:"\e2a6"}
  .nf-md-book:before{content:"\f00ba"}
+ .nf-md-bookshelf:before{content:"\f125f"}
  .nf-md-brain:before{content:"\f09d1"}
  .nf-md-calendar:before{content:"\f00ed"}
  .nf-md-camera_iris:before{content:"\f0104"}
@@ -31,4 +32,5 @@
  .nf-md-map_marker:before{content:"\f034e"}
  .nf-md-movie_open:before{content:"\f0fce"}
  .nf-md-remote_tv:before{content:"\f0ec5"}
+ .nf-md-slash_forward:before{content:"\f0fdf"}
  .nf-md-thought_bubble:before{content:"\f07f6"}

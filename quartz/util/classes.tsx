@@ -45,6 +45,9 @@ export function listClasses(fileData:Data): string | JSX.Element {
         case 'photo':
             classes.push( createClassLink("/photos", clsText, "nf nf-fa-camera") )
             break;
+        case 'quote':
+            classes.push( createClassLink("/quotes", clsText, "nf nf-fa-quote_right") )
+            break;    
         case 'slash-page':
             classes.push( createClassLink("/slashes", clsText, "nf nf-md-slash_forward") )
             break;

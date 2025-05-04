@@ -16,7 +16,9 @@ const ReaderMode: QuartzComponent = ({ displayClass }: QuartzComponentProps) => 
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
+        aria-label="Reader mode"
       >
+        <title>Reader mode</title>
         <rect x="6" y="4" width="12" height="16" rx="1"></rect>
         <line x1="9" y1="8" x2="15" y2="8"></line>
         <line x1="9" y1="12" x2="15" y2="12"></line>

@@ -201,6 +201,10 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
             return `${embedDisplay}[${displayAlias.replace(/^\|/, "")}](${rawFp})`
           }
 
+          if (rawHeader?.startsWith("#")) {
+            const fullDisplayAlias = fp ? `|${fp} > ${rawHeader.replace("#","")}` : `|${rawHeader.replace("#","")}`
+            return `${embedDisplay}[[${fp}${displayAnchor}${fullDisplayAlias}]]`  
+          }
           return `${embedDisplay}[[${fp}${displayAnchor}${displayAlias}]]`
         })
       }

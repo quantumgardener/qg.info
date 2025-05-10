@@ -2,18 +2,20 @@
 import readerModeScript from "./scripts/readermode.inline"
 import styles from "./styles/readermode.scss"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { i18n } from "../i18n"
 import { classNames } from "../util/lang"
 
-const ReaderMode: QuartzComponent = ({ displayClass }: QuartzComponentProps) => {
+const ReaderMode: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
   return (
     <button class={classNames(displayClass, "readermode")}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        version="1.1"
         class="readerIcon"
-        viewBox="0 0 24 24"
-        fill="none"
+        fill="currentColor"
         stroke="currentColor"
-        stroke-width="2"
+        stroke-width="0.2"
         stroke-linecap="round"
         stroke-linejoin="round"
         aria-label="Reader mode"

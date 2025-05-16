@@ -3,6 +3,7 @@
  *# [Nerd Fonts]  Development Website: https://github.com/ryanoasis/nerd-fonts
  *# [Nerd Fonts]  Version: 3.3.0
  *# [Nerd Fonts]  Manually cut down from original file
+ *# [Material Design] https://github.com/Templarian/MaterialDesign
  */
  @font-face{font-family:'NerdFontsSymbols Nerd Font';src:url("https://www.nerdfonts.com/assets/fonts/Symbols-2048-em Nerd Font Complete.woff2") format("woff2");font-weight:normal;font-style:normal}.nf,.nerd-font,.nerd-fonts{font-family:'NerdFontsSymbols Nerd Font';font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
  .nf-cod-key:before{content:"\eb11"}

@@ -249,8 +249,8 @@ p {
           margin-left: auto;
           margin-right: auto;
 
-          &[alt*="left"],
-          &[alt*="media_cover"] {
+          &[alt="left"],
+          &[alt="media_cover"] {
             float:left;
             clear:left;
             margin-right: 1.5rem;
@@ -259,7 +259,7 @@ p {
             width: 200px;
           } 
 
-          &[alt*="right"] {
+          &[alt="right"] {
             float:right;
             clear:right;
             margin-left: 1.5rem;
@@ -267,7 +267,7 @@ p {
             margin-top: 4px;
           } 
 
-          &[alt*="logo"]
+          &[alt="logo"]
           {
             float:left;
             clear:left;

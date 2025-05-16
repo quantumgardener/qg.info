@@ -21,7 +21,7 @@ export function listClasses(fileData:Data): string | JSX.Element {
         const clsText = cls.replace(/-/g, " ")
         switch (cls) {
         case 'album': // photo album, not music
-            classes.push( createClassLink("/albums", clsText) )
+            classes.push( createClassLink("/albums", clsText, "nf nf-md-image_album") )
             break;
         case 'blog':
         case 'now':

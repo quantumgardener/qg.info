@@ -500,3 +500,12 @@ span.footer {
   text-align: right;
   font-size: smaller;
 }
+
+div.sitetoc-content {
+  & ul {
+    &  li {
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+  }
+}

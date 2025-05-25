@@ -30,8 +30,10 @@ const menu: MenuItem[] = [
     { 
         slug: 'notes/expand-my-way-of-being', 
         children: [
-        { slug: 'notes/way-of-being'},
-        { slug: 'notes/basic-moods-of-life'}
+          { slug: 'notes/the-ontology-of-the-human-observer'},
+          { slug: 'notes/way-of-being'},
+          { slug: 'notes/basic-moods-of-life'},
+          { slug: 'notes/ontological-distinction'}
         ]
     },
     { 
@@ -43,19 +45,21 @@ const menu: MenuItem[] = [
     { 
         slug: 'notes/hobby-together',
         children: [
-        { slug: 'photos/index'},
-        { slug: 'notes/photography'},
-        { slug: 'notes/video-gaming'}
+          { slug: 'notes/photography',
+            children: [
+              { slug: 'photos/index'},
+              { slug: 'albums/index'},
+              { slug: 'notes/astrophotography'},
+              { slug: 'notes/100-hours-learning-affinity-photo'},
+              { slug: 'notes/imatch-to-site' }
+            ],
+          },
+          { slug: 'notes/video-gaming'},
+          { slug: 'notes/cross-stitch'},
         ]
     },
     {
         slug: 'notes/quantum-os',
-    },
-    { slug: 'projects',
-        children: [
-        { slug: 'notes/100-hours-learning-affinity-photo'},
-        { slug: 'notes/imatch-to-site' }
-        ]
     },
     { slug: 'subscribe'}
 ]

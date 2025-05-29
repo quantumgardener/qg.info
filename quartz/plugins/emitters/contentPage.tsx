@@ -90,6 +90,28 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
           if (elem.tagName === "a" && elem.properties.href) {
             const href = elem.properties.href.toString()
 
+            if (splitAnchor(href)[0] as RelativeURL == `../${file.data.slug}`) {
+              if (elem.properties.className === undefined) {
+                elem.properties.className = "self-link"
+              } else if (Array.isArray(elem.properties.className)) {
+                if (elem.properties.className.includes("external")) {
+                  return
+                }
+                elem.properties.className.push("self-link")
+              } else if (typeof elem.properties.className === "string") {
+                if (elem.properties.className.includes("external")) {
+                  return
+                }
+                elem.properties.className += " self-link"
+              } else {
+                return
+              }
+              delete elem.properties.href
+              elem.tagName = "span"
+              return
+            }
+
+
             if(href.startsWith('#')) {
               return
             }

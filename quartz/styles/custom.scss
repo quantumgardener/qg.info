@@ -505,3 +505,12 @@ span.self-link {
   font-variant-caps: small-caps;
   font-weight: bold;
 }
+
+div.sitetoc-content {
+  & ul {
+    &  li {
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+  }
+}

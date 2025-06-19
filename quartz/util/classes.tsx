@@ -2,13 +2,21 @@ import { JSX } from "preact"
 import { Data } from "vfile"
 
 function createClassLink(target:string, text:string, icon:string = "nf nf-fa-link") {
-    return (
-        <li>
-        <a class="internal tag-link" href={`${target}`}>
-        {text} <i className={icon}></i>
-        </a>                
-    </li>
-    )
+    if (target != "") {
+        return (
+            <li>
+                <a class="internal tag-link" href={`${target}`}>
+                    {text} <i className={icon}></i>
+                </a>                
+            </li>
+        )
+    } else {
+         return (
+            <li>
+                {text} <i className={icon}></i>
+            </li>
+        )
+    }
 }
 
 
@@ -41,6 +49,10 @@ export function listClasses(fileData:Data): string | JSX.Element {
             break;
         case 'ontological-distinction':
             classes.push( createClassLink("/notes/ontological-distinction", clsText, "nf nf-md-thought_bubble") )
+            break;
+        case 'person':
+            // Not linked anywhere
+            classes.push( createClassLink("", clsText, "nf nf-oct-person") )
             break;
         case 'photo':
             classes.push( createClassLink("/photos", clsText, "nf nf-fa-camera") )

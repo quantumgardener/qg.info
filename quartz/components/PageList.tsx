@@ -177,15 +177,14 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
           {list.map((page: Data) => {
             const title = page.frontmatter?.title
             let thumbnail = page.frontmatter?.thumbnail as string
-            const fullsize = thumbnail.replace('_m', '_c');
             if (thumbnail) {
               return (
                 <a
                   href="#" 
-                  data-fullsize={resolveRelative(fileData.slug!, "photos/" + fullsize as SimpleSlug)}
+                  data-fullsize={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
                   data-caption={title}
                   data-photopage={resolveRelative(fileData.slug!, page.slug!)}
-                  data-orientation={page.frontmatter.orientation}
+                  data-orientation={page.frontmatter?.orientation}
                   >
                   <img 
                     src={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
@@ -215,12 +214,11 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
               {groupedByYear[year].map((page: Data) => {
                 const title = page.frontmatter?.title;
                 const thumbnail = page.frontmatter?.thumbnail as string;
-                const fullsize = thumbnail.replace('_m', '_c');
                 if (thumbnail) {
                   return (
                     <a
                       href="#" 
-                      data-fullsize={resolveRelative(fileData.slug!, "photos/" + fullsize as SimpleSlug)}
+                      data-fullsize={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
                       data-caption={title}
                       data-photopage={resolveRelative(fileData.slug!, page.slug!)}
                       data-orientation={page.frontmatter?.orientation}

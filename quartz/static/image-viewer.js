@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Populate overlay metadata
       fullImage.alt = link.dataset.caption || img.alt || '';
       caption.textContent = link.dataset.caption || img.alt || '';
-      photopage.href = link.dataset.photopage || '';
-      photopage.textContent = 'More details';
+      photopage.href = link.dataset.photopage;
+      photopage.textContent = 'more details…';
       fullImage.src = '';
 
       overlay.style.display = 'flex';
@@ -76,7 +76,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  overlay.addEventListener('click', () => {
+  overlay.addEventListener('click', e => {
+    const isPhotopage = e.target.closest('#photopage');
+
+    if (isPhotopage) {
+      console.log('Delegated navigation to:', isPhotopage.href);
+      // Let the link do its job: don't stop propagation or prevent default
+      return;
+    }
+
+    // Close the overlay for all other clicks
     overlay.style.display = 'none';
     fullImage.src = '';
     fullImage.alt = '';
@@ -84,8 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
     photopage.href = '';
   });
 
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && overlay.style.display === 'flex') {
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.style.display === 'flex') {
       overlay.style.display = 'none';
       fullImage.src = '';
       fullImage.alt = '';
@@ -94,3 +103,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+

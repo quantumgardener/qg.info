@@ -433,12 +433,6 @@ img-comparison-slider {
     width: 1.5rem;
   }
 
-  & p {   
-    & img {
-      pointer-events: none;
-    }
-  }
-
   & iframe {
     display: block;
     margin: 20px auto;
@@ -534,6 +528,7 @@ img-comparison-slider {
 
 .tags {
   font-size: smaller;
+  gap: 0;
 }
 
 // .toc {

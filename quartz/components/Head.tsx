@@ -106,8 +106,8 @@ export default (() => {
         <script defer type="text/javascript" src="/static/justified-gallery.js"></script> 
         <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js" ></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css" />
-        <script defer src="/src/replaceflags.js"></script>
-
+        <script defer src="/static/replaceflags.js"></script>
+        <script src="/static/image-viewer.js" defer></script>
       </head>
     )
   }

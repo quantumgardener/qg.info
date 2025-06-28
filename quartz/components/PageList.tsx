@@ -147,6 +147,7 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
     )
   }
 
+  // This is for the gallery of albums, not the album itself
   const albumGalleryLayout = () => {
     return (
       <div className="section">
@@ -156,7 +157,7 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
             let thumbnail = page.frontmatter?.thumbnail
             if (thumbnail) {
               return (
-                <a href={resolveRelative(fileData.slug!, page.slug!)} class="internal">
+                <a href={resolveRelative(fileData.slug!, page.slug!)}>
                     <img src={resolveRelative(fileData.slug!, "photos/"+thumbnail as SimpleSlug)} style="float:left; margin-top:0; margin-right:1rem;" alt={title}/>
                   </a>
               )  

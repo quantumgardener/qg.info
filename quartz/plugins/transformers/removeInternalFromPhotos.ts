@@ -8,8 +8,6 @@ export const RemoveInternalFromPhotoLinks: QuartzTransformerPlugin = () => {
     htmlPlugins() {
       return [
         () => (tree: Root) => {
-          console.log("✅ Plugin running on tree")
-
           visit(tree, "element", (node: Element) => {
             if (
               node.tagName === "a" &&
@@ -18,7 +16,6 @@ export const RemoveInternalFromPhotoLinks: QuartzTransformerPlugin = () => {
               typeof node.properties.dataFullsize === "string" &&
               node.properties.dataFullsize.startsWith("/photos")
             ) {
-              console.log("🔍 Found photo-like link:", node.properties.dataFullsize)
               const classes = node.properties.className as string[] | undefined
               if (classes?.includes("internal")) {
                 node.properties.className = classes.filter(c => c !== "internal")

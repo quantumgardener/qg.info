@@ -5,6 +5,7 @@ a {
 
     &.internal {
       background-color: transparent;
+      padding: 0;
       
       &.tag-link {
         &::before {
@@ -616,7 +617,17 @@ span.self-link {
   text-align: center;
 }
 
-#caption {
-  margin-top: 0.5rem;
-  font-size: 1.5rem;
+#overlayContent {
+  text-align: center;
+  width:100%;
+  max-width:100%;
+
+  & img {
+    display:block; 
+    margin: 0 auto; 
+    max-width:100%; 
+    border: 1px solid var(--gray);
+    box-shadow: 0.3rem 0.3rem 0.2rem var(--lightgray);
+  }
 }
+

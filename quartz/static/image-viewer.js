@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
 
   overlay.innerHTML = `
-    <div id="overlayContent" style="text-align:center; width:100%; max-width:100%;">
-      <img id="fullImage" style="display:block; margin: 0 auto; max-width:100%; box-shadow:0 0 10px rgba(0,0,0,0.2);" alt="" />
-      <p id="caption" class="caption" style="margin:1rem 0 0.5rem 0;"></p>
+    <div id="overlayContent">
+      <img id="fullImage" alt="" />
+      <h2 id="caption"></h2>
       <p><a id="photopage" href="" rel="noopener">more details…</a></p>
     </div>
   `;

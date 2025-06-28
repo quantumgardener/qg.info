@@ -51,8 +51,8 @@ export default ((opts?: Partial<Options>) => {
             if (matchedFile) {
                 const slug = resolveRelative(fileData.slug!, tocEntry.slug)
                 return (
-                <li key={slug} className={`depth-${tocEntry.depth}`}>
-                    <a href={`${slug}`} data-for={slug}>
+                <li key={slug} className={` depth-${tocEntry.depth}`}>
+                    <a href={`${slug}`} data-for={slug} className={"internal"}>
                     {matchedFile.frontmatter?.title ?? ""}
                     </a>
                 </li>

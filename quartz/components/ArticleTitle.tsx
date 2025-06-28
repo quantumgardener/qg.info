@@ -40,7 +40,7 @@ const ArticleTitle: QuartzComponent = ({ cfg, fileData, displayClass }: QuartzCo
   const title = fileData.frontmatter?.title
   if (title) {
     if (title.startsWith(`${i18n(cfg.locale).pages.keywordContent.keyword}: `)) {
-      return <h1 class={classNames(displayClass, "article-title")}>{title.replace(`${i18n(cfg.locale).pages.keywordContent.keyword}: `,"")} <i class="nf nf-cod-key"></i></h1>
+      return <h1 class={classNames(displayClass, "article-title")}>{title.replace(`${i18n(cfg.locale).pages.keywordContent.keyword}: `,"")}</h1>
     }
 
     return <h1 class={classNames(displayClass, "article-title")}>{title}</h1>

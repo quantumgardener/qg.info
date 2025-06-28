@@ -3,8 +3,8 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { classNames } from "../util/lang"
 
 const iconClass = {
-  'keyword' : 'nf nf-cod-key',
-  'tag' : 'nf nf-cod-tag',
+  'keyword' : '', // 'nf nf-cod-key',
+  'tag' : '' // 'nf nf-cod-tag',
 }
 
 const TagList: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {

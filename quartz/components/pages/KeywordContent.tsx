@@ -70,6 +70,7 @@ export default ((opts?: Partial<KeywordContentOptions>) => {
         return acc;
       }, {});
 
+      // This is the page for the keyword
       return (
         <div class="popover-hint">
           <article class={classes}>
@@ -104,10 +105,11 @@ export default ((opts?: Partial<KeywordContentOptions>) => {
         allFiles: pages,
       }
 
+      // This is a keyword page, listing the thumbnails
       return (
         <div class={classes}>
-          <article class="popover-hint">{content}</article>
-          <div class="page-listing">
+          <article>{content}</article>
+          <div class="page-listing popover-hint">
             <p>{i18n(cfg.locale).pages.keywordContent.itemsUnderKeyword({ count: pages.length })}</p>
             <div>
               <PageList {...listProps} sort={options?.sort} />

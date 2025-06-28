@@ -1,3 +1,5 @@
+import { RemoveInternalFromPhotoLinks } from "./removeInternalFromPhotos"
+
 export { FrontMatter } from "./frontmatter"
 export { GitHubFlavoredMarkdown } from "./gfm"
 export { Citations } from "./citations"
@@ -12,3 +14,4 @@ export { TableOfContents } from "./toc"
 export { HardLineBreaks } from "./linebreaks"
 export { RoamFlavoredMarkdown } from "./roam"
 export { SiteTableOfContents } from "./sitetoc"
+export { RemoveInternalFromPhotoLinks } from "./removeInternalFromPhotos"

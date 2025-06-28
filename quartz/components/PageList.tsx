@@ -93,7 +93,7 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
   
   const defaultLayout = () => {
     return (
-      <div className="section">
+      <div className="section" data-layout="default">
         {Object.entries(groupedByMonthYear).map(([date, pages]) => {
           const id = date.replace(" ", "-").toLowerCase()
   
@@ -150,15 +150,19 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
   // This is for the gallery of albums, not the album itself
   const albumGalleryLayout = () => {
     return (
-      <div className="section">
-        <div class="my-gallery justified-gallery">
+      <div className="section" data-layout="album">
+        <div class="my-gallery justified-gallery" >
           {list.map((page: Data) => {
-            const title = page.frontmatter?.title
+            const title = page.frontmatter?.title?.replace("Album: ","")
             let thumbnail = page.frontmatter?.thumbnail
             if (thumbnail) {
               return (
                 <a href={resolveRelative(fileData.slug!, page.slug!)}>
-                    <img src={resolveRelative(fileData.slug!, "photos/"+thumbnail as SimpleSlug)} style="float:left; margin-top:0; margin-right:1rem;" alt={title}/>
+                    <img 
+                      src={resolveRelative(fileData.slug!, "photos/"+thumbnail as SimpleSlug)} 
+                      style="float:left; margin-top:0; margin-right:1rem;" 
+                      alt={title}
+                    />
                   </a>
               )  
             } else {
@@ -173,7 +177,7 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
 
   const basicGalleryLayout = () => {
     return (
-      <div className="section">
+      <div className="section" data-layout="basic">
         <div class="my-gallery justified-gallery">
           {list.map((page: Data) => {
             const title = page.frontmatter?.title
@@ -206,12 +210,12 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
 
   const datedGalleryLayout = () => {
     return (
-      <div className="section">
+      <div className="section"  data-layout="dated">
         {Object.keys(groupedByYear).sort((a, b) => b.localeCompare(a)).map(year => (
           <div key={year}>
             <hr/>
             <h2 id={year}>{year}</h2>
-            <div className="my-gallery justified-gallery">
+            <div class="my-gallery justified-gallery">
               {groupedByYear[year].map((page: Data) => {
                 const title = page.frontmatter?.title;
                 const thumbnail = page.frontmatter?.thumbnail as string;

@@ -13,7 +13,9 @@ function initializeJustifiedGallery() {
             320 : '_n', // ...
             500 : '',
             640 : '_z',
-            800 : '_c' // used with images that are more than 640px on the longest side
+            800 : '_c',
+            1024: '_b',
+            1600: '_h' // used with images that are more than 640px on the longest side
           }
         }).on('jg.complete', function() {
           $("#please-wait").fadeOut(); // Fade out after the gallery is initialized

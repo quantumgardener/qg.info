@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <div id="overlayContent" style="text-align:center; width:100%; max-width:100%;">
       <img id="fullImage" style="display:block; margin: 0 auto; max-width:100%; box-shadow:0 0 10px rgba(0,0,0,0.2);" alt="" />
       <p id="caption" class="caption" style="margin:1rem 0 0.5rem 0;"></p>
-      <p><a id="photopage" href="" target="_blank" rel="noopener">More details</a></p>
+      <p><a id="photopage" href="" rel="noopener">more details…</a></p>
     </div>
   `;
   document.body.appendChild(overlay);
@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
       fullImage.alt = link.dataset.caption || img.alt || '';
       caption.textContent = link.dataset.caption || img.alt || '';
       photopage.href = link.dataset.photopage;
-      photopage.textContent = 'more details…';
       fullImage.src = '';
 
       overlay.style.display = 'flex';

@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   overlay.id = 'overlay';
   overlay.style.cssText = `
     position: fixed; inset: 0;
-    padding: 2rem; background: white;
+    padding: 2rem; 
+    background-color: var(--light);
     display: none; justify-content: center; align-items: center;
     box-sizing: border-box; z-index: 9999;
   `;

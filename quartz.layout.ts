@@ -63,7 +63,14 @@ export const defaultContentPageLayout: PageLayout = {
       }),
     ),
     Component.DesktopOnly(
-      Component.Graph(),
+      Component.Graph({
+        localGraph: {
+          showTags: false
+        },
+        globalGraph: {
+          showTags: false
+        }
+      }),
     )
   ],
 }

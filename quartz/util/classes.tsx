@@ -42,7 +42,7 @@ export function listClasses(fileData:Data): string | JSX.Element {
             classes.push( createClassLink("/book-series", clsText, "nf nf-md-bookshelf") )
             break;
         case 'gear':
-            classes.push( createClassLink("/uses", clsText) )
+            classes.push( createClassLink("/uses#gear-that-i-use", clsText) )
             break;
         case 'movie':
             classes.push( createClassLink("/movies", clsText, "nf nf-md-movie_open") )
@@ -62,6 +62,9 @@ export function listClasses(fileData:Data): string | JSX.Element {
             break;    
         case 'slash-page':
             classes.push( createClassLink("/slashes", clsText, "nf nf-md-slash_forward") )
+            break;
+        case 'software':
+            classes.push( createClassLink("/uses#software-that-i-use", clsText, "nf nf-fa-laptop_code") )
             break;
         case 'tv-show':
             classes.push( createClassLink("/tv", clsText, "nf nf-md-remote_tv") )

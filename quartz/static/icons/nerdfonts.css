@@ -12,12 +12,14 @@
  .nf-fa-camera:before{content:"\f030"}
  .nf-fa-gamepad:before{content: "\f11b"}
  .nf-fa-github:before{content:"\f09b"}
+ .nf-fa-laptop_code:before{content:"\eea7"}
  .nf-fa-link:before{content:"\f0c1"}
  .nf-fa-lock:before{content:"\f023"}
  .nf-fa-mastodon:before{content:"\edc0"}
  .nf-fa-message:before{content:"\f27a"}
  .nf-fa-photo_film:before{content:"\efab"}
  .nf-fa-question_circle:before{content:"\f059"}
+ .nf-fa-quote_right:before{content:"\f10e"}
  .nf-fa-ruler_horizontal:before{content:"\ee10"}
  .nf-fa-square_rss:before{content:"\f143"} 
  .nf-fae-mountains:before{content:"\e2a6"}
@@ -35,5 +37,4 @@
  .nf-md-remote_tv:before{content:"\f0ec5"}
  .nf-md-slash_forward:before{content:"\f0fdf"}
  .nf-md-thought_bubble:before{content:"\f07f6"}
- .nf-fa-quote_right:before{content:"\f10e"}
  .nf-oct-person:before{content:"\f415"}

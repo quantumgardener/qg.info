@@ -608,35 +608,15 @@ span.self-link {
   ul.content {
     li {
       font-size: 0.875rem;
-      // padding-left: 0.75rem; // base indent
+      padding-top: 0.5rem;
+      line-height: normal;
 
       a {
-        line-height: 1.2;
         display: inline-block;
         hyphens: none;
         word-break: normal;
         overflow-wrap: normal;
         font-weight: normal;
-      }
-
-      svg.folder-icon {
-        width: 10px;
-        height: 10px;
-        margin-right: 4px;
-      }
-    }
-
-    // deeper nesting: .folder-outer inside .folder-outer
-    .folder-outer & {
-      li {
-        // padding-left: 0.5rem; // deeper level gets more indent
-      }
-    }
-
-    // even deeper: third level
-    .folder-outer .folder-outer & {
-      li {
-        // padding-left: 1rem;
       }
     }
   }

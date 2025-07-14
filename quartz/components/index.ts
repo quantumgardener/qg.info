@@ -23,7 +23,6 @@ import Breadcrumbs from "./Breadcrumbs"
 import Comments from "./Comments"
 import Flex from "./Flex"
 import KeywordContent from "./pages/KeywordContent"
-import SiteTableOfContents from "./SiteTableOfContents"
 
 export {
   ArticleTitle,
@@ -51,5 +50,4 @@ export {
   Comments,
   Flex,
   KeywordContent,
-  SiteTableOfContents
 }

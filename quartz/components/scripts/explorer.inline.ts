@@ -14,6 +14,53 @@ interface ParsedOptions {
   order: "sort" | "filter" | "map"[]
 }
 
+interface MenuItem {
+    slug: string;
+    children?: MenuItem[];
+    parent?: MenuItem | undefined;
+    name?: string,
+    depth?: number;
+  }
+
+const menu: MenuItem[] = [
+    { slug: 'notes/humanity-in-the-workplace' },
+    { 
+        slug: 'notes/expand-my-way-of-being', 
+        children: [
+          { slug: 'notes/the-ontology-of-the-human-observer'},
+          { slug: 'notes/way-of-being'},
+          { slug: 'notes/basic-moods-of-life'},
+          { slug: 'notes/ontological-distinction'}
+        ]
+    },
+    { 
+        slug: 'notes/productive-laziness',
+        children: [
+        { slug: 'notes/personal-knowledge-management'}
+        ]
+    },
+    { 
+        slug: 'notes/hobby-together',
+        children: [
+          { slug: 'notes/photography',
+            children: [
+              { slug: 'photos/index'},
+              { slug: 'albums/index'},
+              { slug: 'notes/astrophotography'},
+              { slug: 'notes/100-hours-learning-affinity-photo'},
+              { slug: 'notes/imatch-to-site' }
+            ],
+          },
+          { slug: 'notes/video-gaming'},
+          { slug: 'notes/cross-stitch'},
+        ]
+    },
+    {
+        slug: 'notes/quantum-os',
+    },
+    { slug: 'subscribe'}
+]
+
 type FolderState = {
   path: string
   collapsed: boolean
@@ -173,8 +220,41 @@ async function setupExplorer(currentSlug: FullSlug) {
     )
 
     const data = await fetchData
-    const entries = [...Object.entries(data)] as [FullSlug, ContentDetails][]
-    const trie = FileTrieNode.fromEntries(entries)
+    // const entries = [...Object.entries(data)] as [FullSlug, ContentDetails][]
+    // const trie = FileTrieNode.fromEntries(entries)
+    const trie = new FileTrieNode<ContentDetails>([])
+    const parseMenu = (items: MenuItem[], parent: FileTrieNode<ContentDetails>) => {
+      items.forEach(item => {
+        const slugSegments = item.slug.split("/")
+        const newNode = new FileTrieNode<ContentDetails>(
+          slugSegments,
+          data[item.slug]
+        )
+        parent.children.push(newNode)
+        if (item.children) {
+          newNode.isFolder = true
+          parseMenu(item.children,newNode)
+        }
+        if (item.slug == 'albums/index') {
+          // Special case, build a list of albums automatically
+          newNode.isFolder = true
+          const albums = Object.keys(data)
+            .filter(key => key.startsWith("albums/") && key !== "albums/index")
+            .sort((a, b) => a.localeCompare(b))
+          albums.forEach(album => {
+            const albumSlugSegments = album.split("/")
+            const newAlbum = new FileTrieNode<ContentDetails>(
+              albumSlugSegments,
+              data[album]
+            )
+            newAlbum.displayName = data[album]['title'].slice(7)
+            newNode.children.push(newAlbum)
+          })
+
+        }
+      })
+    }              
+    parseMenu(menu, trie)
 
     // Apply functions in order
     for (const fn of opts.order) {
@@ -218,6 +298,7 @@ async function setupExplorer(currentSlug: FullSlug) {
 
     // restore explorer scrollTop position if it exists
     const scrollTop = sessionStorage.getItem("explorerScrollTop")
+    console.log(scrollTop)
     if (scrollTop) {
       explorerUl.scrollTop = parseInt(scrollTop)
     } else {

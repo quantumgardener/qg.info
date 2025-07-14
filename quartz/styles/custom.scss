@@ -564,6 +564,8 @@ span.self-link {
   font-weight: bold;
 }
 
+
+
 .toc-content {
   list-style: none;
   position: relative;
@@ -572,16 +574,20 @@ span.self-link {
     list-style: none;
     margin: 0.5rem 0;
     padding: 0;
-    & > li > a {
-      color: var(--dark);
-      opacity: 0.75;
-      transition:
-        0.5s ease opacity,
-        0.3s ease color;
-      &.in-view {
-        opacity: 0.75;
-      }
-    }
+    & > li {
+      line-height: 1.2;
+       margin-bottom: 0.5rem;
+      & a {
+            color: var(--dark);
+            opacity: 0.75;
+            transition:
+              0.5s ease opacity,
+              0.3s ease color;
+            &.in-view {
+              opacity: 0.75;
+            }
+          }
+        }
   }
 
   @for $i from 0 through 6 {
@@ -597,21 +603,32 @@ span.self-link {
   }
 }
 
-.sitetoc-content {
-  & ul {
-    &  li {
-      line-height: 1.2;
-      margin-bottom: 0.5rem;
-    }
+
+.folder-outer {
+  ul.content {
+    li {
+      font-size: 0.875rem;
+
+      a {
+        line-height: 1.2;
+        padding: 2px 4px;
+        display: inline-block;
+        hyphens: none;
+        word-break: normal;
+        overflow-wrap: normal;
+      }
+
+      svg.folder-icon {
+        width: 10px;
+        height: 10px;
+        margin-right: 4px;
+      }
+    };
   }
 }
 
-.toc-content {
-  &  li {
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
-  }
-}
+
+
 
 .image-container {
   text-align: center;

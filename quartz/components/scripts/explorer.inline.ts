@@ -298,7 +298,6 @@ async function setupExplorer(currentSlug: FullSlug) {
 
     // restore explorer scrollTop position if it exists
     const scrollTop = sessionStorage.getItem("explorerScrollTop")
-    console.log(scrollTop)
     if (scrollTop) {
       explorerUl.scrollTop = parseInt(scrollTop)
     } else {

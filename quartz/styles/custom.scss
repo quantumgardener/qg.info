@@ -606,9 +606,9 @@ span.self-link {
 
 .folder-outer {
   ul.content {
+
     li {
       font-size: 0.875rem;
-      padding-top: 0.5rem;
       line-height: normal;
 
       a {
@@ -616,7 +616,8 @@ span.self-link {
         hyphens: none;
         word-break: normal;
         overflow-wrap: normal;
-        font-weight: normal;
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
       }
     }
   }

@@ -36,7 +36,7 @@ const menu: MenuItem[] = [
     { 
         slug: 'notes/productive-laziness',
         children: [
-        { slug: 'notes/personal-knowledge-management'}
+          { slug: 'notes/personal-knowledge-management'}
         ]
     },
     { 
@@ -51,6 +51,13 @@ const menu: MenuItem[] = [
               { slug: 'notes/imatch-to-site' }
             ],
           },
+          { slug: 'notes/lego',
+            children: [
+              { slug: 'notes/building-the-millennium-falcon-in-lego' },
+              { slug: 'notes/building-r2-d2-in-lego' },
+              { slug: 'notes/building-the-batman-tumbler-in-lego' }
+            ]
+          },
           { slug: 'notes/video-gaming'},
           { slug: 'notes/cross-stitch'},
         ]
@@ -58,7 +65,8 @@ const menu: MenuItem[] = [
     {
         slug: 'notes/quantum-os',
     },
-    { slug: 'subscribe'}
+    { slug: 'subscribe'},
+    { slug: 'slashes'}
 ]
 
 type FolderState = {
@@ -131,7 +139,7 @@ function createFileNode(currentSlug: FullSlug, node: FileTrieNode): HTMLLIElemen
   const clone = template.content.cloneNode(true) as DocumentFragment
   const li = clone.querySelector("li") as HTMLLIElement
   const a = li.querySelector("a") as HTMLAnchorElement
-  a.href = resolveRelative(currentSlug, node.slug)
+  a.href = resolveRelative(currentSlug, node.slug).replace("..","") // Halts /notes/notes recursion error
   a.dataset.for = node.slug
   a.textContent = node.displayName
 
@@ -162,7 +170,8 @@ function createFolderNode(
     // Replace button with link for link behavior
     const button = titleContainer.querySelector(".folder-button") as HTMLElement
     const a = document.createElement("a")
-    a.href = resolveRelative(currentSlug, folderPath)
+    console.log(currentSlug, folderPath, resolveRelative(currentSlug, folderPath))
+    a.href = resolveRelative(currentSlug, folderPath).replace("..","") // Halts /notes/notes recursion error
     a.dataset.for = folderPath
     a.className = "folder-title"
     a.textContent = node.displayName
@@ -250,7 +259,22 @@ async function setupExplorer(currentSlug: FullSlug) {
             newAlbum.displayName = data[album]['title'].slice(7)
             newNode.children.push(newAlbum)
           })
-
+        }
+        if (item.slug == 'slashes') {
+          // Special case, build a list of albums automatically
+          newNode.isFolder = true
+          const slashes = Object.keys(data)
+            .filter(key => !key.includes("/") && key !== "slashes" && key !== "index")
+            .sort((a, b) => a.localeCompare(b))
+          slashes.forEach(slash => {
+            const slashSlugSegments = slash.split("/")
+            const newSlash = new FileTrieNode<ContentDetails>(
+              slashSlugSegments,
+              data[slash]
+            )
+            newNode.children.push(newSlash)
+          })
+          newNode.children.sort((a, b) => a.data.title.localeCompare(b.data.title));
         }
       })
     }              

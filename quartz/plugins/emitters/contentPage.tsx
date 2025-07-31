@@ -116,9 +116,15 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
               return
             }
 
-            // Handle slash pages for folders
+            // Handle slash pages for folders 
             if(href.startsWith("./public/")) {
               elem.properties.href = `/${href.split("/")[2]}`
+              return
+            }
+
+            // Handle pages from Dataview Serializer
+            if(href.startsWith("../public")) {
+              elem.properties.href = href.replace('../public','')
               return
             }
 
@@ -139,6 +145,16 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
                 return
               }
               elem.tagName = "span"
+            }
+          }
+
+          if (elem.tagName === "img" && elem.properties.src) {
+            const src = elem.properties.src.toString()
+
+            // Handle images from Dataview Serializer
+            if(src.startsWith('../public')) {
+              elem.properties.src = src.replace('../public','')
+              return
             }
           }
         })

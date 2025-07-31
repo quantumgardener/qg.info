@@ -170,7 +170,6 @@ function createFolderNode(
     // Replace button with link for link behavior
     const button = titleContainer.querySelector(".folder-button") as HTMLElement
     const a = document.createElement("a")
-    console.log(currentSlug, folderPath, resolveRelative(currentSlug, folderPath))
     a.href = resolveRelative(currentSlug, folderPath).replace("..","") // Halts /notes/notes recursion error
     a.dataset.for = folderPath
     a.className = "folder-title"

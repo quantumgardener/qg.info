@@ -117,8 +117,9 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
             }
 
             // Handle slash pages for folders 
-            if(href.startsWith("./public/")) {
-              elem.properties.href = `/${href.split("/")[2]}`
+            if(href.startsWith("./public")) {
+              //elem.properties.href = `/${href.split("/")[2]}`
+              elem.properties.href = href.replace('./public','')
               return
             }
 
@@ -156,6 +157,11 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
               elem.properties.src = src.replace('../public','')
               return
             }
+            if(src.startsWith('./public')) {
+              elem.properties.src = src.replace('./public','')
+              return
+            }
+
           }
         })
 

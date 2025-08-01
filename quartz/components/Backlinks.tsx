@@ -4,6 +4,7 @@ import { resolveRelative, simplifySlug } from "../util/path"
 import { i18n } from "../i18n"
 import { classNames } from "../util/lang"
 import OverflowListFactory from "./OverflowList"
+import { fileSyntax } from "esbuild-sass-plugin/lib/utils"
 
 interface BacklinksOptions {
   hideWhenEmpty: boolean
@@ -26,7 +27,8 @@ export default ((opts?: Partial<BacklinksOptions>) => {
     const slug = simplifySlug(fileData.slug!)
     const backlinkFiles = allFiles
       .filter((file) => file.links?.includes(slug))
-      .filter(f => !f.slug?.startsWith("photos"));  // stop links to photos
+      .filter(file => !file.slug?.startsWith("photos"))  // stop links to photos
+      .filter(file => file.slug != slug);
     if (options.hideWhenEmpty && backlinkFiles.length == 0) {
       return null
     }

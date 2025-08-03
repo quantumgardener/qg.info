@@ -116,18 +116,18 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
               return
             }
 
-            // Handle slash pages for folders 
+            // Handle pages from Dataview Serializer
+            if(href.startsWith("../public")) {
+              elem.properties.href = href.replace('../public','')
+              return
+            }
+
             if(href.startsWith("./public")) {
               //elem.properties.href = `/${href.split("/")[2]}`
               elem.properties.href = href.replace('./public','')
               return
             }
 
-            // Handle pages from Dataview Serializer
-            if(href.startsWith("../public")) {
-              elem.properties.href = href.replace('../public','')
-              return
-            }
 
             if (!allSlugs.includes(splitAnchor(href)[0] as RelativeURL)) {
               if (elem.properties.className === undefined) {

@@ -58,6 +58,7 @@ const menu: MenuItem[] = [
               { slug: 'notes/building-the-batman-tumbler-in-lego' }
             ]
           },
+          { slug: 'notes/home-theatre'},
           { slug: 'notes/video-gaming'},
           { slug: 'notes/cross-stitch'},
         ]

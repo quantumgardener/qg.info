@@ -233,7 +233,7 @@ li:has(> .folder-outer:not(.open)) > .folder-container > svg {
     .explorer-content {
       box-sizing: border-box;
       z-index: 100;
-      position: absolute;
+      position: fixed !important;
       top: 0;
       left: 0;
       margin-top: 0;

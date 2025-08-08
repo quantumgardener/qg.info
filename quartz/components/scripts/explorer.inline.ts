@@ -67,7 +67,7 @@ const menu: MenuItem[] = [
         slug: 'notes/quantum-os',
     },
     { slug: 'subscribe'},
-    { slug: 'slashes'}
+    { slug: 'about'}
 ]
 
 type FolderState = {
@@ -244,38 +244,44 @@ async function setupExplorer(currentSlug: FullSlug) {
           newNode.isFolder = true
           parseMenu(item.children,newNode)
         }
-        if (item.slug == 'albums/index') {
-          // Special case, build a list of albums automatically
-          newNode.isFolder = true
-          const albums = Object.keys(data)
-            .filter(key => key.startsWith("albums/") && key !== "albums/index")
-            .sort((a, b) => a.localeCompare(b))
-          albums.forEach(album => {
-            const albumSlugSegments = album.split("/")
-            const newAlbum = new FileTrieNode<ContentDetails>(
-              albumSlugSegments,
-              data[album]
-            )
-            newAlbum.displayName = data[album]['title'].slice(7)
-            newNode.children.push(newAlbum)
-          })
-        }
-        if (item.slug == 'slashes') {
-          // Special case, build a list of albums automatically
-          newNode.isFolder = true
-          const slashes = Object.keys(data)
-            .filter(key => !key.includes("/") && key !== "slashes" && key !== "index")
-            .sort((a, b) => a.localeCompare(b))
-          slashes.forEach(slash => {
-            const slashSlugSegments = slash.split("/")
-            const newSlash = new FileTrieNode<ContentDetails>(
-              slashSlugSegments,
-              data[slash]
-            )
-            newNode.children.push(newSlash)
-          })
-          newNode.children.sort((a, b) => a.data.title.localeCompare(b.data.title));
-        }
+        // if (item.slug == 'albums/index') {
+        //   // Special case, build a list of albums automatically
+        //   newNode.isFolder = true
+        //   const albums = Object.keys(data)
+        //     .filter(key => key.startsWith("albums/") && key !== "albums/index")
+        //     .sort((a, b) => a.localeCompare(b))
+        //   albums.forEach(album => {
+        //     const albumSlugSegments = album.split("/")
+        //     const newAlbum = new FileTrieNode<ContentDetails>(
+        //       albumSlugSegments,
+        //       data[album]
+        //     )
+        //     newAlbum.displayName = data[album]['title'].slice(7)
+        //     newNode.children.push(newAlbum)
+        //   })
+        // }
+
+        // if (item.slug == 'slashes') {
+        //   // Special case, build a list of albums automatically
+        //   // ***** Currenltly working on folder, not slash tagged pages. It should be the tags.
+        //   newNode.isFolder = true
+        //   const slashes = Object.keys(data)
+        //     .filter(key => !key.includes("/") && key !== "slashes" && key !== "index")
+        //     .sort((a, b) => a.localeCompare(b))
+        //   slashes.forEach(slash => {
+        //     const slashSlugSegments = slash.split("/")
+        //     const newSlash = new FileTrieNode<ContentDetails>(
+        //       slashSlugSegments,
+        //       data[slash]
+        //     )
+        //     newNode.children.push(newSlash)
+        //   })
+        //   newNode.children.sort((a, b) => {
+        //     if (!a || !a.data || !a.data.title) return 1;
+        //     if (!b || !b.data || !b.data.title) return -1;
+        //     return a.data.title.localeCompare(b.data.title);
+        //   });
+        // }
       })
     }              
     parseMenu(menu, trie)
@@ -294,7 +300,6 @@ async function setupExplorer(currentSlug: FullSlug) {
           break
       }
     }
-
     // Get folder paths for state management
     const folderPaths = trie.getFolderPaths()
     currentExplorerState = folderPaths.map((path) => {
@@ -321,14 +326,27 @@ async function setupExplorer(currentSlug: FullSlug) {
     explorerUl.insertBefore(fragment, explorerUl.firstChild)
 
     // restore explorer scrollTop position if it exists
-    const scrollTop = sessionStorage.getItem("explorerScrollTop")
+    const scrollTop = sessionStorage.getItem("explorerScrollTop");
     if (scrollTop) {
-      explorerUl.scrollTop = parseInt(scrollTop)
+      explorerUl.scrollTop = parseInt(scrollTop);
     } else {
-      // try to scroll to the active element if it exists
-      const activeElement = explorerUl.querySelector(".active")
+      const activeElement = explorerUl.querySelector(".active") as HTMLElement;
       if (activeElement) {
-        activeElement.scrollIntoView({ behavior: "smooth" })
+        // Ensure explorerUl is scrollable
+        const explorerRect = explorerUl.getBoundingClientRect();
+        const activeRect = activeElement.getBoundingClientRect();
+
+        const isBelow = activeRect.bottom > explorerRect.bottom;
+        const isAbove = activeRect.top < explorerRect.top;
+
+        if (isBelow || isAbove) {
+          // Scroll manually to center the active element
+          const offsetTop = activeElement.offsetTop;
+          const offsetHeight = activeElement.offsetHeight;
+          const containerHeight = explorerUl.clientHeight;
+
+          explorerUl.scrollTop = offsetTop - containerHeight / 2 + offsetHeight / 2;
+        }
       }
     }
 

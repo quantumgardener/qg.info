@@ -1,5 +1,9 @@
 @use "./base.scss";
 
+h1 {
+  font-size: 2rem;
+}
+
 a {
   font-weight: 600;
 
@@ -305,48 +309,58 @@ p {
 
 .page {
   & article {
-      & img {
-          border: 1px solid var(--gray);
-          box-shadow: 0.3rem 0.3rem 0.2rem var(--lightgray);
-          display: block;
-          margin-left: auto;
-          margin-right: auto;
+    & img {
+      border: 1px solid var(--gray);
+      box-shadow: 0.3rem 0.3rem 0.2rem var(--lightgray);
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
 
-          &[alt="left"],
-          &[alt="media_cover"] {
-            float:left;
-            clear:left;
-            margin-right: 1.5rem;
-            margin-bottom: 1rem;
-            margin-top: 4px;
-            width: 200px;
-          } 
+      &[alt="left"],
+      &[alt="media_cover"] {
+        float:left;
+        clear:left;
+        margin-right: 1.5rem;
+        margin-bottom: 1rem;
+        margin-top: 4px;
+        width: 200px;
+      } 
 
-          &[alt="right"] {
-            float:right;
-            clear:right;
-            margin-left: 1.5rem;
-            margin-bottom: 1rem;
-            margin-top: 4px;
-          } 
+      &[alt="right"] {
+        float:right;
+        clear:right;
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+        margin-top: 4px;
+      } 
 
-          &[alt="logo"]
-          {
-            float:left;
-            clear:left;
-            margin-right: 1.5rem;
-            margin-bottom: 1rem;
-            margin-top: 4px;
-            width: 200px;
-            border: none;
-            box-shadow: none;
-          } 
+      &[alt="logo"]
+      {
+        float:left;
+        clear:left;
+        margin-right: 1.5rem;
+        margin-bottom: 1rem;
+        margin-top: 4px;
+        width: 200px;
+        border: none;
+        box-shadow: none;
+      } 
 
-          + em {
-            text-align: center;
-            padding-top: 1rem;
-          }
+      + em {
+        text-align: center;
+        padding-top: 1rem;
       }
+    }
+
+    & > #quartz-body {
+      & .sidebar.left {
+        margin-right: 2rem;
+      }
+
+      & .sidebar.right {
+        margin-left: 2rem;
+      }
+    }
   }
 }
 
@@ -564,41 +578,40 @@ span.self-link {
   font-weight: bold;
 }
 
-
-
+.explorer-content {
+  & ul {
+    & li {
+      a {
+        font-weight: inherit;
+      }
+    }
+  }
+}
 .toc-content {
   list-style: none;
   position: relative;
 
-  & ul {
-    list-style: none;
-    margin: 0.5rem 0;
-    padding: 0;
-    & > li {
-      line-height: 1.2;
-       margin-bottom: 0.5rem;
-      & a {
-            color: var(--dark);
-            opacity: 0.75;
-            transition:
-              0.5s ease opacity,
-              0.3s ease color;
-            &.in-view {
-              opacity: 0.75;
-            }
-          }
-        }
-  }
+  & > li {
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
 
-  @for $i from 0 through 6 {
-    & .depth-#{$i} {
-      padding-left: calc(1rem * #{$i});
+    a {
+      color: var(--dark);
+      opacity: 0.75;
+      transition: 0.5s ease opacity, 0.3s ease color;
+      font-weight: inherit;
+
+      &.in-view {
+        opacity: 0.75;
+      }
     }
   }
 
-  @for $i from 1 through 6 {
-    & .depth-#{$i} {
-      font-size: smaller
+  // Apply depth-based styles directly to li elements
+  @for $i from 0 through 6 {
+    li.depth-#{$i} {
+      padding-left: calc(0.5rem * #{$i}) !important;
+      font-size: 0.875rem;
     }
   }
 }

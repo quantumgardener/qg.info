@@ -8,6 +8,7 @@ import { toHtml } from "hast-util-to-html"
 import { write } from "./helpers"
 import { i18n } from "../../i18n"
 import { emailComment } from "../../util/comment"
+import { buryDeadLinks } from "./buryDeadLinks"
 import chalk from "chalk"
 
 export type ContentIndexMap = Map<FullSlug, ContentDetails>
@@ -135,6 +136,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
     name: "ContentIndex",
     async *emit(ctx, content) {
       const cfg = ctx.cfg.configuration
+      const allFiles = content.map((c) => c[1].data)
       const linkIndex: ContentIndexMap = new Map()
       for (const [tree, file] of content) {
         const slug = file.data.slug!
@@ -148,7 +150,12 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             tags: file.data.frontmatter?.tags ?? [],
             content: file.data.text ?? "",
             richContent: opts?.rssFullHtml
-              ? escapeHTML(toHtml(tree as Root, { allowDangerousHtml: true }))
+              ? escapeHTML(
+                  toHtml(
+                    buryDeadLinks(tree as Root, file, allFiles),
+                    { allowDangerousHtml: true }
+                  )
+                )
               : undefined,
             date: date,
             description: file.data.description ?? "",

@@ -28,6 +28,13 @@ a {
     }
 } 
 
+span {
+  &.self-reference {
+    font-variant: small-caps;
+    font-weight: bolder;
+  }
+}
+
 %photo-caption-style {
   text-align: center;
   font-style: italic;

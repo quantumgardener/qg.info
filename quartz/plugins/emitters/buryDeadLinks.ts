@@ -12,6 +12,13 @@ export function buryDeadLinks(tree: Root, file: any, allFiles: any[]): Root {
     if (elem.tagName === "a" && elem.properties.href) {
       const href = elem.properties.href.toString()
 
+      if (elem.properties['data-slug'] == slug) {
+        elem.properties.className = "self-reference"
+        delete elem.properties.href
+        elem.tagName = "span"
+        return
+      }       
+
       if (href.startsWith("#")) return
 
       if (href.startsWith("../public")) {

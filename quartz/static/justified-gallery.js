@@ -3,7 +3,7 @@ function initializeJustifiedGallery() {
     if (gallery.length) {
       imagesLoaded(gallery, function() {
         gallery.justifiedGallery({
-          rowHeight: 150,
+          rowHeight: 200,
           lastRow: 'nojustify',
           margins: 5,
           randomize: false,

@@ -140,7 +140,10 @@ article {
 blockquote {
   &.transclude {
     margin-bottom: 1rem;
-    display: inline-block;
+
+    & h1 {
+      font-size: 1.6rem;
+    }
   }
 }
 

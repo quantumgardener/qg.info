@@ -17,19 +17,15 @@ export function buryDeadLinks(tree: Root, file: any, allFiles: any[]): Root {
         delete elem.properties.href
         elem.tagName = "span"
         return
-      }       
+      }
 
       if (href.startsWith("#")) return
 
-      if (href.startsWith("../public")) {
-        elem.properties.href = href.replace("../public", "")
+      if (href.includes("/public/")) {
+        elem.properties.href = href.replace("/public", "")
         return
       }
 
-      if (href.startsWith("./public")) {
-        elem.properties.href = href.replace("./public", "")
-        return
-      }
 
       if (!allSlugs.includes(splitAnchor(href)[0])) {
         if (elem.properties.className === undefined) {

@@ -168,6 +168,7 @@ article {
     } 
   }
 
+  // Caption after standard image
   &.photo-page {
     p:has(> img) + p,
     p:has(> img) + p + p,
@@ -181,6 +182,26 @@ article {
     p:has(> img) + p:has(> em) {
       @extend %photo-caption-style;
     }
+  }
+}
+
+// flickr embed captions, ahead of the image
+.flickr-caption-style {
+  text-align: center;
+  font-style: italic;
+  font-size: 0.9em;
+  line-height: 1.3rem;
+  margin: 0.2em 0;
+
+  & em::after {
+      content: " (click to image to view on flickr)"
+  }
+}
+
+iframe {
+  &.flickr-embed-frame {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
 }
 

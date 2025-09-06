@@ -174,7 +174,6 @@ article {
     p:has(> img) + p + p,
     p:has(> img) + p + p + p {
       @extend %photo-caption-style;
-
     }
   }
 
@@ -183,25 +182,22 @@ article {
       @extend %photo-caption-style;
     }
   }
-}
 
-// flickr embed captions, ahead of the image
-.flickr-caption-style {
-  text-align: center;
-  font-style: italic;
-  font-size: 0.9em;
-  line-height: 1.3rem;
-  margin: 0.2em 0;
+  &:not(.photo-page) {
+    p:has(a[data-flickr-embed="true"] img) + p:has(> em) {
+      @extend %photo-caption-style;
 
-  & em::after {
-      content: " (click to image to view on flickr)"
+      em::after {
+        content: " (click to image view on flickr)"
+      }
+    }
   }
 }
 
-iframe {
-  &.flickr-embed-frame {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+// hide external link icon for flickr images
+a[data-flickr-embed="true"] {
+  svg.external-icon {
+    display: none;
   }
 }
 

@@ -44,8 +44,7 @@ const menu: MenuItem[] = [
         children: [
           { slug: 'notes/photography',
             children: [
-              { slug: 'photos/index'},
-              { slug: 'albums/index'},
+              { slug: 'notes/photos'},
               { slug: 'notes/astrophotography'},
               { slug: 'notes/100-hours-learning-affinity-photo'},
               { slug: 'notes/imatch-to-site' }

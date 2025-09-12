@@ -131,7 +131,7 @@ article {
   }
 
   & img {
-    border: 1px solid var(--gray);
+    border: none !important;
     box-shadow: 0.3rem 0.3rem 0.2rem var(--lightgray);
     display: block;
     margin-left: auto;
@@ -192,7 +192,13 @@ article {
       }
     }
   }
+
 }
+
+[saved-theme="dark"] article img {
+  box-shadow: none !important;
+}
+
 
 // hide external link icon for flickr images
 a[data-flickr-embed="true"] {
@@ -385,7 +391,7 @@ p {
   & article {
     & img {
       border: 1px solid var(--gray);
-      box-shadow: 0.3rem 0.3rem 0.2rem var(--lightgray);
+      box-shadow: 0.5rem 0.5rem 1rem var(--darkgray);
       display: block;
       margin-left: auto;
       margin-right: auto;

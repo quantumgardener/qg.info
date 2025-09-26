@@ -62,6 +62,11 @@ export default (() => {
         <meta property="og:description" content={description} />
         <meta property="og:image:alt" content={description} />
 
+        <link rel="me authn" href="https://github.com/quantumgardener" />/
+        <link rel="pgpkey authn" href="/assets/qg_info_key_public.asc" />
+        <link rel="authn" href="https://indieauth.com/auth" />
+
+
         {!usesCustomOgImage && (
           <>
             <meta property="og:image" content={ogImageDefaultPath} />

@@ -26,6 +26,10 @@ export function buryDeadLinks(tree: Root, file: any, allFiles: any[]): Root {
         return
       }
 
+      if (href.includes("/assets")) {
+        return
+      }
+
 
       if (!allSlugs.includes(splitAnchor(href)[0])) {
         if (elem.properties.className === undefined) {

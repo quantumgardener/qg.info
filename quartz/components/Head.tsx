@@ -65,6 +65,8 @@ export default (() => {
         <link rel="me authn" href="https://github.com/quantumgardener" />/
         <link rel="pgpkey authn" href="/assets/qg_info_key_public.asc" />
         <link rel="authn" href="https://indieauth.com/auth" />
+        <link rel="webmention" href="https://webmention.io/quantumgardener.info/webmention" />
+        <link rel="pingback" href="https://webmention.io/quantumgardener.info/xmlrpc" />
 
 
         {!usesCustomOgImage && (

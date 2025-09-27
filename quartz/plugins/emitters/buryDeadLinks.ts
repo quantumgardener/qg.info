@@ -21,7 +21,7 @@ export function buryDeadLinks(tree: Root, file: any, allFiles: any[]): Root {
 
       if (href.startsWith("#")) return
 
-      if (href.includes("/public/")) {
+      if (href.includes("/public/") && !elem.properties.className.includes("external")) {
         elem.properties.href = href.replace("/public", "")
         return
       }

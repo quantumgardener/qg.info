@@ -240,7 +240,16 @@ export function renderPage(
         <div id="quartz-root" class="page">
           <Body {...componentData}>
             {LeftComponent}
-            <div class="center">
+            <div class="center h-entry">
+              <div id="indiewebinfo" class="h-card" style={{ display: 'none'}}>
+                <a class="p-name u-url u-uid" href="/about">David C. Buchan</a>
+                <a class="u-email" href="mailto:qg.info@mail.buchan.org"></a>
+                <div class="p-locality">Bendigo</div>
+                <div class="p-region">Victoria</div>
+                <div class="p-country-name">Australia</div>
+                <div class="p-job-title">Business Technology Consultant</div>
+                <img class="u-photo u-logo" src="/static/qg-image-500.webp"/>
+              </div>
               <div class="page-header">
                 <Header {...componentData}>
                   {header.map((HeaderComponent) => (
@@ -256,13 +265,13 @@ export function renderPage(
               <Content {...componentData} />
               <div id="engage">
                 <button class="tinylytics_kudos"></button>
-                {
+                {/*
                   <button id="mastodonComment">
                     <a onclick="MastodonShare(event);" data-src={mastodonComment(componentData.fileData.frontmatter?.title)}>
                       <i class="nf nf-fa-mastodon"></i> Comment
                     </a>
                   </button>
-                }          
+                */}          
                 {
                   <button id="emailComment"><a href={emailComment(componentData.fileData.frontmatter?.title)}><i class="nf nf-md-email_check"></i> Comment</a></button>
                 }

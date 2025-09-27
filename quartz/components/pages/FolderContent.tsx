@@ -122,7 +122,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
             .filter((page) => page !== undefined) ?? []
       }
     const cssClasses: string[] = fileData.frontmatter?.cssclasses ?? []
-    const classes = cssClasses.join(" ")
+    const classes = ["e-content", ...cssClasses].join(" ")
     const listProps = {
       ...props,
       sort: options.sort,

@@ -49,10 +49,23 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
       }
 
       if (fileData.dates && options.showDate) {
+        // Assumes I always have dates
+
         if (fileData.dates?.created.getTime() == fileData.dates?.modified.getTime()) {
-          segments.push(`${formatDate(fileData.dates?.created,cfg.locale)}`)
+          segments.push(
+            <a href={`/${fileData?.slug}`} className="u-url">
+              <time class="dt-published" datetime={`${fileData.dates?.created.toISOString()}`}>{`${formatDate(fileData.dates?.created,cfg.locale)}`}</time>
+            </a>)
         } else {
-          segments.push(`${formatDate(fileData.dates?.modified,cfg.locale)} [original ${formatDate(fileData.dates?.created,cfg.locale)}]`)
+          segments.push(
+            <>
+              <a href={`/${fileData?.slug}`} className="u-url">
+                <time class="dt-published" datetime={`${fileData.dates?.modified.toISOString()}`}>{`${formatDate(fileData.dates?.modified,cfg.locale)}`}</time>
+              </a>
+              {' '}
+              [original {formatDate(fileData.dates?.created,cfg.locale)}]
+            </>
+          )
         }
       }
 

@@ -115,6 +115,11 @@ export default (() => {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css" />
         <script defer src="/static/replaceflags.js"></script>
         <script src="/static/image-viewer.js" defer></script>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/kmhcreative/Share-on-Mastodon-Easily@main/some.js"></script>
+        <script type="text/javascript">
+          some.settings.rememberme = false;
+        </script>
       </head>
     )
   }

@@ -638,6 +638,7 @@ div#engage {
 }
 button#emailComment,
 button#mastodonComment {
+  color: var(--secondary);
   flex: 0 1 auto;
   width: auto;
   margin-left: 0.5rem;

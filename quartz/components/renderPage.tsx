@@ -265,13 +265,11 @@ export function renderPage(
               <Content {...componentData} />
               <div id="engage">
                 <button class="tinylytics_kudos"></button>
-                {/*
+                {
                   <button id="mastodonComment">
-                    <a onclick="MastodonShare(event);" data-src={mastodonComment(componentData.fileData.frontmatter?.title)}>
-                      <i class="nf nf-fa-mastodon"></i> Comment
-                    </a>
+                    <div class="mastodon"><i class="nf nf-fa-mastodon"></i> Comment</div>
                   </button>
-                */}          
+                }
                 {
                   <button id="emailComment"><a href={emailComment(componentData.fileData.frontmatter?.title)}><i class="nf nf-md-email_check"></i> Comment</a></button>
                 }

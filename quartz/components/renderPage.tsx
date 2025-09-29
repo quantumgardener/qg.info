@@ -9,7 +9,7 @@ import { visit } from "unist-util-visit"
 import { Root, Element, ElementContent } from "hast"
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
-import { emailComment, mastodonComment } from "../util/comment"
+import { emailComment } from "../util/comment"
 
 interface RenderComponents {
   head: QuartzComponent
@@ -240,9 +240,9 @@ export function renderPage(
         <div id="quartz-root" class="page">
           <Body {...componentData}>
             {LeftComponent}
-            <div class="center h-entry">
+            <div class="center">
               <div id="indiewebinfo" class="h-card" style={{ display: 'none'}}>
-                <a class="p-name u-url u-uid" href="/about">David C. Buchan</a>
+                <a class="p-name u-url u-uid" rel="me" href="https://quantumgardener.info/">David C. Buchan</a>
                 <a class="u-email" href="mailto:qg.info@mail.buchan.org"></a>
                 <div class="p-locality">Bendigo</div>
                 <div class="p-region">Victoria</div>
@@ -250,16 +250,18 @@ export function renderPage(
                 <div class="p-job-title">Business Technology Consultant</div>
                 <img class="u-photo u-logo" src="/static/qg-image-500.webp"/>
               </div>
-              <div class="page-header">
-                <Header {...componentData}>
-                  {header.map((HeaderComponent) => (
-                    <HeaderComponent {...componentData} />
-                  ))}
-                </Header>
-                <div class="popover-hintx">
-                  {beforeBody.map((BodyComponent) => (
-                    <BodyComponent {...componentData} />
-                  ))}
+              <div class="h-entry">
+                <div class="page-header">
+                  <Header {...componentData}>
+                    {header.map((HeaderComponent) => (
+                      <HeaderComponent {...componentData} />
+                    ))}
+                  </Header>
+                  <div class="popover-hintx">
+                    {beforeBody.map((BodyComponent) => (
+                      <BodyComponent {...componentData} />
+                    ))}
+                  </div>
                 </div>
               </div>
               <Content {...componentData} />

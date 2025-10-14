@@ -60,7 +60,10 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?:
 
   const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => {
     const inviteComment = escapeHTML(`<p><a href="${emailComment(content.title)}">Email a comment</a></p>`);
-    const description = content.richContent ? `${content.richContent}${inviteComment}` : `${content.description}${inviteComment}`;
+    //const description = content.richContent ? `${content.richContent}${inviteComment}` : `${content.description}${inviteComment}`;
+    const description = content.richContent
+      ? `<![CDATA[${content.richContent}${inviteComment}]]>`
+      : `<![CDATA[${content.description}${inviteComment}]]>`;
 
     // DO NOT use the filename as a guid in RSS. If the name every changes, then RSS readers will pick up
     // the old file as a new file becuase Quartz uses the filename to create the GUID.
@@ -82,7 +85,7 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?:
     return `<item>
       <title>${escapeHTML(content.title)}</title>
       <link>https://${joinSegments(base, encodeURI(slug))}</link>
-      <guid>${guid}</guid>
+      <guid isPermaLink="false">${guid}</guid>
       <description>${description}</description>
       <pubDate>${content.date?.toUTCString()}</pubDate>
     </item>`
@@ -115,13 +118,13 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?:
       <description>A digital garden cultivating the possibilities of life. ${!!limit ? i18n(cfg.locale).pages.rss.lastFewNotes({ count: limit }) : i18n(cfg.locale).pages.rss.recentNotes}</description>
       <copyright>© David C. Buchan 2002-${year}</copyright>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
-      <managingEditor>qg.info@mail.buchan.org</managingEditor>
+      <managingEditor>qg.info@mail.buchan.org (David Buchan)</managingEditor>
       <webMaster>qg.info@mail.buchan.org (David Buchan)</webMaster>
       <atom:link href="https://quantumgardener.info/index.xml" rel="self" type="application/rss+xml" />
       <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
             <docs>https://www.rssboard.org/rss-specification</docs>
       <image>
-        <url>https://${base}/static/qg-image-500.webp</url>
+        <url>https://${base}/static/qg-image-500.jpg</url>
         <title>${escapeHTML(cfg.pageTitle)}</title>
         <link>https://${base}</link>
       </image>

@@ -59,7 +59,7 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?:
   const base = cfg.baseUrl ?? ""
 
   const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => {
-    const inviteComment = escapeHTML(`<p><a href="${emailComment(content.title)}">Email a comment</a></p>`);
+    const inviteComment = `<p><a href="${emailComment(content.title)}">Email a comment</a></p>`;
     //const description = content.richContent ? `${content.richContent}${inviteComment}` : `${content.description}${inviteComment}`;
     const description = content.richContent
       ? `<![CDATA[${content.richContent}${inviteComment}]]>`
@@ -153,12 +153,11 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             tags: file.data.frontmatter?.tags ?? [],
             content: file.data.text ?? "",
             richContent: opts?.rssFullHtml
-              ? escapeHTML(
-                  toHtml(
+              ?   toHtml(
                     buryDeadLinks(tree as Root, file, allFiles),
                     { allowDangerousHtml: true }
                   )
-                )
+            
               : undefined,
             date: date,
             description: file.data.description ?? "",

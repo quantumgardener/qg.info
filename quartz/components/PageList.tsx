@@ -153,23 +153,26 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
       <div className="section" data-layout="cmdrs-log">
         <hr/>
         <ul className="section-ul">
-          {list.map((page: Data) => {
-            const title = page.frontmatter?.title
-            return (
-                  <li className="page-list-li">
-                    <div className="page-list-meta">
-                      <p>
-                        <i class="nf nf-fa-shuttle_space"/> <a
-                          href={resolveRelative(fileData.slug!, page.slug!)}
-                          className="internal"
-                        >
-                          {title}
-                        </a> 
-                      </p>
-                    </div>
-              </li>
-            )  
-          })}
+          {list
+            .sort((a,b) => (a.frontmatter?.title || '').localeCompare(b.frontmatter?.title || ''))
+            .map((page: Data) => {
+              const title = page.frontmatter?.title
+              return (
+                    <li className="page-list-li">
+                      <div className="page-list-meta">
+                        <p>
+                          <i class="nf nf-fa-shuttle_space"/> <a
+                            href={resolveRelative(fileData.slug!, page.slug!)}
+                            className="internal"
+                          >
+                            {title}
+                          </a> 
+                        </p>
+                      </div>
+                </li>
+              )  
+            }
+          )}
         </ul>
       </div>
     )
@@ -239,7 +242,10 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
   const datedGalleryLayout = () => {
     return (
       <div className="section"  data-layout="dated">
-        {Object.keys(groupedByYear).sort((a, b) => b.localeCompare(a)).map(year => (
+        {Object
+          .keys(groupedByYear)
+          .sort((a, b) => b.localeCompare(a))
+          .map(year => (
           <div key={year}>
             <hr/>
             <h2 id={year}>{year}</h2>

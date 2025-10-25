@@ -55,7 +55,17 @@ function generateSiteMap(cfg: GlobalConfiguration, idx: ContentIndexMap): string
   return `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${urls}</urlset>`
 }
 
-function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?: number): string {
+function generateRSSFeed(
+    cfg: GlobalConfiguration, 
+    idx: ContentIndexMap, 
+    title: string,
+    link: string,
+    description: string,
+    feedName: string,
+    folder: string,
+    tag: string,
+    limit?: number): string 
+  {
   const base = cfg.baseUrl ?? ""
 
   const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => {
@@ -78,7 +88,7 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?:
         guid = `https://${joinSegments(base, encodeURI(slug))}`
       }
     } else {
-      console.error(chalk.red(`\nBlog missing URI: ${content.title}`));
+      console.error(chalk.red(`\nRSS entry missing URI: ${content.title}`));
       process.exit(1)
     }
 
@@ -92,7 +102,7 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?:
   }
 
   const items = Array.from(idx)
-    .filter(([slug,content]) => slug.startsWith(`notes`) && content.tags?.includes("blog"))
+    .filter(([slug,content]) => slug.startsWith(`${folder}`) && content.tags?.includes(`${tag}`))
     .sort(([_, f1], [__, f2]) => {
       if (f1.date && f2.date) {
         return f2.date.getTime() - f1.date.getTime()
@@ -113,20 +123,20 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?:
   return `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-      <title>${escapeHTML(cfg.pageTitle)}</title>
-      <link>https://${base}</link>
-      <description>A digital garden cultivating the possibilities of life. ${!!limit ? i18n(cfg.locale).pages.rss.lastFewNotes({ count: limit }) : i18n(cfg.locale).pages.rss.recentNotes}</description>
+      <title>${escapeHTML(title)}</title>
+      <link>${link}</link>
+      <description>${description}</description>
       <copyright>© David C. Buchan 2002-${year}</copyright>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <managingEditor>qg.info@mail.buchan.org (David Buchan)</managingEditor>
       <webMaster>qg.info@mail.buchan.org (David Buchan)</webMaster>
-      <atom:link href="https://quantumgardener.info/index.xml" rel="self" type="application/rss+xml" />
+      <atom:link href="https://quantumgardener.info/${feedName}.xml" rel="self" type="application/rss+xml" />
       <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
             <docs>https://www.rssboard.org/rss-specification</docs>
       <image>
         <url>https://${base}/static/qg-image-500.jpg</url>
-        <title>${escapeHTML(cfg.pageTitle)}</title>
-        <link>https://${base}</link>
+        <title>${escapeHTML(title)}</title>
+        <link>${link}</link>
       </image>
       ${items}
     </channel>
@@ -176,10 +186,38 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       }
 
       if (opts?.enableRSS) {
+        const base = cfg.baseUrl ?? ""
         yield write({
           ctx,
-          content: generateRSSFeed(cfg, linkIndex, opts.rssLimit),
+          content: generateRSSFeed(
+            cfg, 
+            linkIndex, 
+            cfg.pageTitle,
+            `https://${base}`,
+            "A digital garden cultivating the possibilities of life.",
+            "index",
+            "notes",
+            "blog",
+            opts.rssLimit
+          ),
           slug: (opts?.rssSlug ?? "index") as FullSlug,
+          ext: ".xml",
+        })
+
+        yield write({
+          ctx,
+          content: generateRSSFeed(
+            cfg, 
+            linkIndex, 
+            "Commander's Log",
+            `https://${base}/cmdrs-log/`,
+            "The log of Commander Q4NTUM",
+            "cmdrs-log",
+            "cmdrs-log",
+            "cmdrs-log",
+            opts.rssLimit
+          ),
+          slug: ("cmdrs-log") as FullSlug,
           ext: ".xml",
         })
       }
@@ -212,6 +250,12 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
               type="application/rss+xml"
               title="RSS Feed"
               href={`https://${ctx.cfg.configuration.baseUrl}/index.xml`}
+            />,
+            <link
+              rel="alternate"
+              type="application/rss+xml"
+              title="Commander's Log"
+              href={`https://${ctx.cfg.configuration.baseUrl}/cmdrs-log.xml`}
             />,
           ],
         }

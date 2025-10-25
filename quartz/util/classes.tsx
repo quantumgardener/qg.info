@@ -6,7 +6,7 @@ function createClassLink(target:string, text:string, icon:string = "nf nf-fa-lin
         return (
             <li>
                 <a class="internal tag-link" href={`${target}`}>
-                    {text} <i className={icon}></i>
+                    <i className={icon}></i> {text}
                 </a>                
             </li>
         )
@@ -40,6 +40,9 @@ export function listClasses(fileData:Data): string | JSX.Element {
             break;
         case 'book-series':
             classes.push( createClassLink("/book-series", clsText, "nf nf-md-bookshelf") )
+            break;
+        case 'cmdrs-log':
+            classes.push( createClassLink("/cmdrs-log", clsText, "nf nf-fa-shuttle_space") )
             break;
         case 'gear':
             classes.push( createClassLink("/uses#gear-that-i-use", clsText) )

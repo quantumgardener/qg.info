@@ -147,6 +147,34 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
     )
   }
 
+  // For Elite: Dangerous commander log notes
+  const cmdrsLogLayout = () => {
+    return (
+      <div className="section" data-layout="cmdrs-log">
+        <hr/>
+        <ul className="section-ul">
+          {list.map((page: Data) => {
+            const title = page.frontmatter?.title
+            return (
+                  <li className="page-list-li">
+                    <div className="page-list-meta">
+                      <p>
+                        <i class="nf nf-fa-shuttle_space"/> <a
+                          href={resolveRelative(fileData.slug!, page.slug!)}
+                          className="internal"
+                        >
+                          {title}
+                        </a> 
+                      </p>
+                    </div>
+              </li>
+            )  
+          })}
+        </ul>
+      </div>
+    )
+  }
+
   // This is for the gallery of albums, not the album itself
   const albumGalleryLayout = () => {
     return (
@@ -251,6 +279,8 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
   switch (fileData.slug?.split('/')[0]) {
     case "albums":
       return albumGalleryLayout()
+    case "cmdrs-log":
+      return cmdrsLogLayout()
     case "keywords":
       return basicGalleryLayout()
     case "photos":

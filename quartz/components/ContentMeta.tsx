@@ -6,6 +6,7 @@ import { i18n } from "../i18n"
 import { JSX } from "preact"
 import style from "./styles/contentMeta.scss"
 import { listClasses } from "../util/classes"
+import { addYearsToUTC } from "../util/myDateUtils"
 
 interface ContentMetaOptions {
   /**
@@ -52,9 +53,17 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
         // Assumes I always have dates
 
         if (fileData.dates?.created.getTime() == fileData.dates?.modified.getTime()) {
+          let displayDate = ""
+          let prefix = ""
+          if (!fileData.frontmatter?.tags?.includes("cmdrs-log")) {
+            displayDate = formatDate(fileData.dates?.created,cfg.locale)
+          } else { 
+            prefix = "Universal Galactic Time: "
+            displayDate = formatDate(addYearsToUTC(fileData.dates?.created,1286),cfg.locale)
+          }
           segments.push(
-            <a href={`/${fileData?.slug}`} className="u-url">
-              <time class="dt-published" datetime={`${fileData.dates?.created.toISOString()}`}>{`${formatDate(fileData.dates?.created,cfg.locale)}`}</time>
+            <a href={`/${fileData?.slug}`} className="u-url">{prefix}
+              <time class="dt-published" datetime={`${fileData.dates?.created.toISOString()}`}>{`${displayDate}`}</time>
             </a>)
         } else {
           segments.push(

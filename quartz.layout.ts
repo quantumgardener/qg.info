@@ -102,5 +102,30 @@ export const defaultListPageLayout: PageLayout = {
     }),
     Component.Explorer(),
   ],
-  right: [],
+  right: [
+    Component.DesktopOnly(
+      Component.TableOfContents(),
+    ),
+    Component.DesktopOnly(
+      Component.RecentNotes({
+        title: "Recent Blogs",
+        linkToMore: "blog" as SimpleSlug,
+        showTags: false,
+        limit: 5,
+        filter: (note: QuartzPluginData) => {
+          return note.slug!.startsWith("notes") && note.frontmatter!.tags!.includes("blog");
+        }  
+      }),
+    ),
+    Component.DesktopOnly(
+      Component.Graph({
+        localGraph: {
+          showTags: false
+        },
+        globalGraph: {
+          showTags: false
+        }
+      }),
+    )
+  ],
 }

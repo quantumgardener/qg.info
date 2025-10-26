@@ -64,6 +64,7 @@ function generateRSSFeed(
     feedName: string,
     folder: string,
     tag: string,
+    image: string,
     limit?: number): string 
   {
   const base = cfg.baseUrl ?? ""
@@ -134,7 +135,7 @@ function generateRSSFeed(
       <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
             <docs>https://www.rssboard.org/rss-specification</docs>
       <image>
-        <url>https://${base}/static/qg-image-500.jpg</url>
+        <url>https://${base}/static/${image}</url>
         <title>${escapeHTML(title)}</title>
         <link>${link}</link>
       </image>
@@ -198,6 +199,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             "index",
             "notes",
             "blog",
+            "qg-image-500.jpg",
             opts.rssLimit
           ),
           slug: (opts?.rssSlug ?? "index") as FullSlug,
@@ -215,6 +217,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             "cmdrs-log",
             "cmdrs-log",
             "cmdrs-log",
+            "cmdr-q4ntum.jpg",
             opts.rssLimit
           ),
           slug: ("cmdrs-log") as FullSlug,

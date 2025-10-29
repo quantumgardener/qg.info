@@ -135,6 +135,10 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
 
             if (data.thumbnail) data.thumbnail = data.thumbnail.replace(/\[\[|\]\]/g,'')
 
+            // inter-article links
+            if (data.prev) data.prev = data.prev.replace(/\[\[|\]\]/g,'')
+            if (data.next) data.next = data.next.replace(/\[\[|\]\]/g,'')
+
             const socialImage = coalesceAliases(data, ["socialImage", "image", "cover"])
 
             const created = coalesceAliases(data, ["datetime", "created", "date"])
@@ -189,10 +193,12 @@ declare module "vfile" {
         cssclasses: string[]
         socialImage: string
         comments: boolean | string
-        rating: string,
-        classes: string[],
-        keywords: string[],
+        rating: string
+        classes: string[]
+        keywords: string[]
         uri: string
+        prev: string
+        next: string
       }>
   }
 }

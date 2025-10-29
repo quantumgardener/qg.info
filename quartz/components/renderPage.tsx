@@ -3,7 +3,7 @@ import { QuartzComponent, QuartzComponentProps } from "./types"
 import HeaderConstructor from "./Header"
 import BodyConstructor from "./Body"
 import { JSResourceToScriptElement, StaticResources } from "../util/resources"
-import { FullSlug, RelativeURL, joinSegments, normalizeHastElement } from "../util/path"
+import { FullSlug, RelativeURL, SimpleSlug, joinSegments, normalizeHastElement, resolveRelative } from "../util/path"
 import { clone } from "../util/clone"
 import { visit } from "unist-util-visit"
 import { Root, Element, ElementContent } from "hast"
@@ -233,6 +233,26 @@ export function renderPage(
 
   const lang = componentData.fileData.frontmatter?.lang ?? cfg.locale?.split("-")[0] ?? "en"
   const direction = i18n(cfg.locale).direction ?? "ltr"
+
+  let prevSlug = null;
+  let prevTitle = null;
+  let nextSlug = null;
+  let nextTitle = null;
+
+  const prev = componentData.fileData.frontmatter?.prev || null
+  if (prev) {
+    const prevFile = componentData.allFiles.find( file => file.relativePath === prev)
+    prevSlug = prevFile?.slug || null
+    prevTitle = prevFile?.frontmatter?.title || null
+  }
+
+  const next = componentData.fileData.frontmatter?.next || null
+  if (next) {
+    const nextFile = componentData.allFiles.find( file => file.relativePath === next)
+    nextSlug = nextFile?.slug || null
+    nextTitle = nextFile?.frontmatter?.title || null
+  }
+
   const doc = (
     <html lang={lang} dir={direction}>
       <Head {...componentData} />
@@ -265,6 +285,35 @@ export function renderPage(
                 </div>
               </div>
               <Content {...componentData} />
+              { (prev || next) && (
+                <div style = {{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center', 
+                  marginTop: '1rem',
+                  fontSize: 'smaller' }}>
+                  <div style = {{flex: 1}}>
+                    { prev && (
+                      <div>
+                        <i className={"nf nf-cod-triangle_left"} style={{marginRight: '0.3rem'}}/>
+                        <a href={resolveRelative(slug!, prevSlug!)} className={"internal"}>
+                          {prevTitle}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                  <div style = {{flex: 1, textAlign: 'right'}}>
+                    { next && (
+                      <div>
+                        <a href={resolveRelative(slug!, nextSlug!)} className={"internal"}>
+                          {nextTitle}
+                        </a> 
+                        <i className={"nf nf-cod-triangle_right"} style={{marginLeft: '0.3rem'}}/>
+                      </div>
+                    )} 
+                  </div>
+                </div>
+              )}
               <div id="engage">
                 <button class="tinylytics_kudos"></button>
                 {

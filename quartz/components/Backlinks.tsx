@@ -4,7 +4,6 @@ import { resolveRelative, simplifySlug } from "../util/path"
 import { i18n } from "../i18n"
 import { classNames } from "../util/lang"
 import OverflowListFactory from "./OverflowList"
-import { fileSyntax } from "esbuild-sass-plugin/lib/utils"
 
 interface BacklinksOptions {
   hideWhenEmpty: boolean

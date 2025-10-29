@@ -3,13 +3,14 @@ import { QuartzComponent, QuartzComponentProps } from "./types"
 import HeaderConstructor from "./Header"
 import BodyConstructor from "./Body"
 import { JSResourceToScriptElement, StaticResources } from "../util/resources"
-import { FullSlug, RelativeURL, SimpleSlug, joinSegments, normalizeHastElement, resolveRelative } from "../util/path"
+import { FullSlug, RelativeURL, joinSegments, normalizeHastElement, resolveRelative } from "../util/path"
 import { clone } from "../util/clone"
 import { visit } from "unist-util-visit"
 import { Root, Element, ElementContent } from "hast"
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
 import { emailComment } from "../util/comment"
+import { QuartzPluginData } from "../plugins/vfile"
 
 interface RenderComponents {
   head: QuartzComponent
@@ -234,24 +235,26 @@ export function renderPage(
   const lang = componentData.fileData.frontmatter?.lang ?? cfg.locale?.split("-")[0] ?? "en"
   const direction = i18n(cfg.locale).direction ?? "ltr"
 
-  let prevSlug = null;
-  let prevTitle = null;
-  let nextSlug = null;
-  let nextTitle = null;
+  // let prevSlug = null;
+  // let prevTitle = null;
+  // let nextSlug = null;
+  // let nextTitle = null;
 
-  const prev = componentData.fileData.frontmatter?.prev || null
-  if (prev) {
-    const prevFile = componentData.allFiles.find( file => file.relativePath === prev)
-    prevSlug = prevFile?.slug || null
-    prevTitle = prevFile?.frontmatter?.title || null
-  }
+  // const prev = componentData.fileData.frontmatter?.prev || null
+  // if (prev) {
+  //   const prevFile = componentData.allFiles.find( file => file.relativePath === prev)
+  //   prevSlug = prevFile?.slug || null
+  //   prevTitle = prevFile?.frontmatter?.title || null
+  // }
 
-  const next = componentData.fileData.frontmatter?.next || null
-  if (next) {
-    const nextFile = componentData.allFiles.find( file => file.relativePath === next)
-    nextSlug = nextFile?.slug || null
-    nextTitle = nextFile?.frontmatter?.title || null
-  }
+  // const next = componentData.fileData.frontmatter?.next || null
+  // if (next) {
+  //   const nextFile = componentData.allFiles.find( file => file.relativePath === next)
+  //   nextSlug = nextFile?.slug || null
+  //   nextTitle = nextFile?.frontmatter?.title || null
+  // }
+  const prev = componentData.fileData.prevFile as QuartzPluginData
+  const next = componentData.fileData.nextFile as QuartzPluginData
 
   const doc = (
     <html lang={lang} dir={direction}>
@@ -296,8 +299,8 @@ export function renderPage(
                     { prev && (
                       <div>
                         <i className={"nf nf-cod-triangle_left"} style={{marginRight: '0.3rem'}}/>
-                        <a href={resolveRelative(slug!, prevSlug!)} className={"internal"}>
-                          {prevTitle}
+                        <a href={resolveRelative(slug!, prev.slug!)} className={"internal"}>
+                          {prev.frontmatter?.title}
                         </a>
                       </div>
                     )}
@@ -305,8 +308,8 @@ export function renderPage(
                   <div style = {{flex: 1, textAlign: 'right'}}>
                     { next && (
                       <div>
-                        <a href={resolveRelative(slug!, nextSlug!)} className={"internal"}>
-                          {nextTitle}
+                        <a href={resolveRelative(slug!, next.slug!)} className={"internal"}>
+                          {next.frontmatter?.title}
                         </a> 
                         <i className={"nf nf-cod-triangle_right"} style={{marginLeft: '0.3rem'}}/>
                       </div>

@@ -6,7 +6,7 @@ import { i18n } from "../i18n"
 import { JSX } from "preact"
 import style from "./styles/contentMeta.scss"
 import { listClasses } from "../util/classes"
-import { addYearsToUTC } from "../util/myDateUtils"
+import { addYearsToUTC } from "../util/myUtils"
 
 interface ContentMetaOptions {
   /**

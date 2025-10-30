@@ -21,7 +21,7 @@ import { getStaticResourcesFromPlugins } from "./plugins"
 import { randomIdNonSecure } from "./util/random"
 import { ChangeEvent } from "./plugins/types"
 import { minimatch } from "minimatch"
-import { QuartzLogger } from "./util/log"
+import { buildNavigation } from "./util/myUtils"
 
 type ContentMap = Map<
   FilePath,
@@ -84,34 +84,8 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
 
   const parsedFiles = await parseMarkdown(ctx, filePaths)
   const filteredContent = filterContent(ctx, parsedFiles)
+  await buildNavigation(filteredContent)
   
-  // Now that we have filtered content, process to identify previous and next links
-  const tags = ["blog", "cmdrs-log"]
-  const filteredAllFiles = filteredContent.map((c) => c[1].data)
-  tags.forEach(tag => {
-    const log = new QuartzLogger(false)
-    let processedFiles = 0
-    log.start(`Creating links for ${tag}`)
-    
-    const matchedFiles = filteredAllFiles.filter(file => file.frontmatter?.tags?.includes(tag))
-      .sort((a, b) => {
-        const dateA = new Date(a.frontmatter?.created ?? 0);
-        const dateB = new Date(b.frontmatter?.created ?? 0);
-        return dateA.getTime() - dateB.getTime();
-      })
-  
-    matchedFiles.map((file, index) => {
-        //console.log("**", file.slug, index)
-        file.prevFile = matchedFiles[index - 1] ?? null
-        file.nextFile = matchedFiles[index + 1] ?? null
-        //console.log( file.prevFile?.slug, file.nextFile?.slug)
-        processedFiles += 1
-        log.updateText(`${tag} ${styleText("gray", `${processedFiles}/${matchedFiles.length}`)}`)
-      })
-    log.end(`Created links for ${tag}`)
-  });
-
-
   await emitContent(ctx, filteredContent)
   console.log(
     styleText("green", `Done processing ${markdownPaths.length} files in ${perf.timeSince()}`),

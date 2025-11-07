@@ -197,8 +197,8 @@ declare module "vfile" {
         classes: string[]
         keywords: string[]
         uri: string
-        prevFile: QuartzPluginData
-        nextFile: QuartzPluginData
+        series: string
+        sequence: number
       }>
   }
 }

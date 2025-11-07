@@ -7,6 +7,7 @@ import { JSX } from "preact"
 import style from "./styles/contentMeta.scss"
 import { listClasses } from "../util/classes"
 import { addYearsToUTC } from "../util/myUtils"
+import { resolveRelative } from "../util/path"
 
 interface ContentMetaOptions {
   /**
@@ -99,14 +100,19 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
         }        
       }
 
+      if(fileData.seriesLink) {
+        segments.push(<span> | <a href={`${resolveRelative(fileData.slug!, fileData.seriesLink.slug!)}`}>{fileData.seriesLink.title}</a></span>)
+      }
+
       const classList = listClasses(fileData)
+
 
       return (
         <div class={classNames(displayClass, "content-meta")}>
           <p show-comma={options.showComma}>
             {segments}
           </p>
-          {classList}
+          {classList} 
         </div>
       )
     } else {

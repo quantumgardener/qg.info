@@ -235,24 +235,6 @@ export function renderPage(
   const lang = componentData.fileData.frontmatter?.lang ?? cfg.locale?.split("-")[0] ?? "en"
   const direction = i18n(cfg.locale).direction ?? "ltr"
 
-  // let prevSlug = null;
-  // let prevTitle = null;
-  // let nextSlug = null;
-  // let nextTitle = null;
-
-  // const prev = componentData.fileData.frontmatter?.prev || null
-  // if (prev) {
-  //   const prevFile = componentData.allFiles.find( file => file.relativePath === prev)
-  //   prevSlug = prevFile?.slug || null
-  //   prevTitle = prevFile?.frontmatter?.title || null
-  // }
-
-  // const next = componentData.fileData.frontmatter?.next || null
-  // if (next) {
-  //   const nextFile = componentData.allFiles.find( file => file.relativePath === next)
-  //   nextSlug = nextFile?.slug || null
-  //   nextTitle = nextFile?.frontmatter?.title || null
-  // }
   const prev = componentData.fileData.prevFile as QuartzPluginData
   const next = componentData.fileData.nextFile as QuartzPluginData
 

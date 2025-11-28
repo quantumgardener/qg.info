@@ -86,22 +86,25 @@ export async function buildWebmentions(filteredContent: ProcessedContent[]) {
   console.log(allWebmentions.children)
   const filteredAllFiles = filteredContent.map((c) => c[1].data)
   filteredAllFiles.forEach( f => {
-    const matchedWebmentions = allWebmentions.children.filter( (wm) => wm["wm-target"].replace("https://quantumgardener.info/","") === f.slug)
-    const webmentions: WebMentions = {
+    const matchedWebmentions = allWebmentions.children.filter( (wm: WebmentionEntry) => 
+      wm["wm-target"].replace("https://quantumgardener.info/","") === f.slug
+      && !wm["wm-private"]
+    )
+    const webmentions: ProcessedWebMentions = {
       likes: 0,
       reposts: 0,
       mentions: []
     }
-    matchedWebmentions.forEach( mwm => {
+    matchedWebmentions.forEach( (mwm: WebmentionEntry) => {
       switch (mwm["wm-property"]) {
         case "like-of":
-          webmentions.likes += 1
+          webmentions.likes = (webmentions.likes ?? 0) + 1
           break;
         case "repost-of":
-          webmentions.reposts += 1
+          webmentions.reposts = (webmentions.reposts ?? 0) + 1
           break;
         case "in-reply-to":
-          webmentions.mentions.push(mwm)
+          (webmentions.mentions ??= []).push(mwm)
           break;
       }
     })
@@ -109,15 +112,39 @@ export async function buildWebmentions(filteredContent: ProcessedContent[]) {
   })
 }
 
-export interface SeriesLink {
-  slug: FullSlug | undefined
-  title: string | undefined
+export interface WebmentionEntry {
+  type: "entry";
+  author: {
+    type: "card";
+    name: string;
+    photo: string;
+    url: string;
+  };
+  url: string;
+  published: string; // ISO 8601 datetime string
+  "wm-received": string; // ISO 8601 datetime string
+  "wm-id": number;
+  "wm-source": string;
+  "wm-target": string;
+  "wm-protocol": "webmention";
+  content: {
+    html: string;
+    text: string;
+  };
+  "in-reply-to": string;
+  "wm-property": string;
+  "wm-private": boolean;
 }
 
-export interface WebMentions {
-  likes: number
-  reposts: number
-  mentions: []
+export interface SeriesLink {
+  slug?: FullSlug
+  title?: string
+}
+
+export interface ProcessedWebMentions {
+  likes?: number
+  reposts?: number
+  mentions?: WebmentionEntry[]
 }
 
 declare module "vfile" {
@@ -125,6 +152,6 @@ declare module "vfile" {
     prevFile: QuartzPluginData
     nextFile: QuartzPluginData
     seriesLink: SeriesLink
-    webmentions: WebMentions
+    webmentions: ProcessedWebMentions
   }
 }

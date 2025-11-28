@@ -10,9 +10,9 @@ import { Root, Element, ElementContent } from "hast"
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
 import { emailComment } from "../util/comment"
-import { QuartzPluginData } from "../plugins/vfile"
 import { styleText } from "util"
-import { WebMentions } from "../util/myUtils"
+import { ProcessedWebMentions } from "../util/myUtils"
+import { formatDate, formatTime } from "./Date"
 
 interface RenderComponents {
   head: QuartzComponent
@@ -263,29 +263,43 @@ export function renderPage(
   const lang = componentData.fileData.frontmatter?.lang ?? cfg.locale?.split("-")[0] ?? "en"
   const direction = i18n(cfg.locale).direction ?? "ltr"
 
-  const prev = componentData.fileData.prevFile as QuartzPluginData
-  const next = componentData.fileData.nextFile as QuartzPluginData
-  const webmentions = componentData.fileData.webmentions as WebMentions 
+  const prev = componentData.fileData.prevFile
+  const next = componentData.fileData.nextFile
+  const webmentions = componentData.fileData.webmentions!
 
-  function WebmentionsList({wbm}) {
+  interface WebMentionsListProps {
+    wbm: ProcessedWebMentions
+  }
+
+  function WebmentionsList({wbm} : WebMentionsListProps ){
     if (!wbm) {
       return null; 
     }
 
-    if (wbm.mentions.length == 0) {
+    if (wbm.mentions?.length == 0) {
       return null;
     }
 
     return (
-      <div>
-        <h2>Webmentions</h2>
-        <ul>
-          {wbm.mentions.map((wm) => (
-            <li key={wm['wm-id']}>
-              <strong>{wm.author?.name}</strong>: {wm.content?.text}
-            </li>
-          ))}
-        </ul>
+      <div id="webmentions" class="mentions hfeed">
+        {wbm.mentions?.map((wm) => (
+          <div class="h-entry mention">
+            <div class="author u-author h-card">
+              <img src={wm["author"]["photo"]} class="photo u-photo"/>
+              <a href={wm["author"]["url"]} class="name u-url p-name">{wm["author"]["name"]}</a> <a href={wm["author"]["url"]} class="url">{wm["author"]["url"]}</a>
+            </div>
+            <div class="e-content html">
+              {wm["content"]["text"]}
+            </div>
+            <div class="metaline">
+              <time class="dt-published" datetime={wm["wm-received"]}>
+                <a href={wm["wm-source"]} class="u-url">
+                  {formatDate(new Date(wm["wm-received"]),cfg.locale)}, {formatTime(new Date(wm["wm-received"]),cfg.locale)}
+                </a>
+              </time>
+            </div> 
+          </div>
+        ))}
       </div>
     );
   }
@@ -351,18 +365,21 @@ export function renderPage(
                   </div>
                 </div>
               )}
+              <hr />
               <div id="engage">
-                <button class="tinylytics_kudos"></button>
-                {
-                  <button id="mastodonComment">
-                    <div class="mastodon"><i class="nf nf-fa-mastodon"></i> Comment</div>
-                  </button>
-                }
-                {
-                  <button id="emailComment"><a href={emailComment(componentData.fileData.frontmatter?.title)}><i class="nf nf-md-email_check"></i> Comment</a></button>
-                }
+                <div id="engage-buttons">
+                  <button class="tinylytics_kudos"></button>
+                  {
+                    <button id="mastodonComment">
+                      <div class="mastodon"><i class="nf nf-fa-mastodon"></i> Comment</div>
+                    </button>
+                  }
+                  {
+                    <button id="emailComment"><a href={emailComment(componentData.fileData.frontmatter?.title)}><i class="nf nf-md-email_check"></i> Comment</a></button>
+                  }
+                </div>
+                <WebmentionsList wbm={webmentions}/>
               </div>
-              <WebmentionsList wbm={webmentions}/>
               <hr />
               <div class="page-footer">
                 {afterBody.map((BodyComponent) => (

@@ -630,7 +630,7 @@ img-comparison-slider {
 //   min-height: 8rem;
 // }
 
-div#engage {
+div#engage-buttons {
   display: flex;
   align-items: stretch;
   clear: both;
@@ -741,4 +741,73 @@ span.self-link {
 .subtitle {
   margin: 0;
   font-style: italic;
+}
+
+
+.mentions {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.mention {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  padding: 10px;
+
+  .context {
+    margin-bottom: 12px;
+    margin-top: -30px;
+  }
+
+  .author {
+    margin-bottom: 10px;
+
+    .photo {
+      margin-left: -54px;
+      float: left;
+      border-radius: 4px;
+      width: 48px;
+    }
+
+    a {
+      &.name {
+        text-decoration: none;
+      }
+
+      &.url {
+        color: #888;
+        font-weight: normal;
+        text-decoration: none;
+      }
+    }
+  }
+
+  code {
+    white-space: normal;
+  }
+
+  .e-content {
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .html {
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+
+  .plaintext {
+    font-size: 1.2em;
+  }
+
+  .metaline {
+    margin-top: 0.5em;
+    color: var(--darkgray);
+    font-size: 0.9rem;
+    opacity: 0.6;
+  }
 }

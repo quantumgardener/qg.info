@@ -21,7 +21,7 @@ import { getStaticResourcesFromPlugins } from "./plugins"
 import { randomIdNonSecure } from "./util/random"
 import { ChangeEvent } from "./plugins/types"
 import { minimatch } from "minimatch"
-import { buildNavigation } from "./util/myUtils"
+import { buildNavigation, buildWebmentions } from "./util/myUtils"
 
 type ContentMap = Map<
   FilePath,
@@ -85,6 +85,7 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
   const parsedFiles = await parseMarkdown(ctx, filePaths)
   const filteredContent = filterContent(ctx, parsedFiles)
   await buildNavigation(filteredContent)
+  await buildWebmentions(filteredContent)
   
   await emitContent(ctx, filteredContent)
   console.log(

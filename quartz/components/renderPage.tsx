@@ -11,6 +11,8 @@ import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
 import { emailComment } from "../util/comment"
 import { QuartzPluginData } from "../plugins/vfile"
+import { styleText } from "util"
+import { WebMentions } from "../util/myUtils"
 
 interface RenderComponents {
   head: QuartzComponent
@@ -263,6 +265,30 @@ export function renderPage(
 
   const prev = componentData.fileData.prevFile as QuartzPluginData
   const next = componentData.fileData.nextFile as QuartzPluginData
+  const webmentions = componentData.fileData.webmentions as WebMentions 
+
+  function WebmentionsList({wbm}) {
+    if (!wbm) {
+      return null; 
+    }
+
+    if (wbm.mentions.length == 0) {
+      return null;
+    }
+
+    return (
+      <div>
+        <h2>Webmentions</h2>
+        <ul>
+          {wbm.mentions.map((wm) => (
+            <li key={wm['wm-id']}>
+              <strong>{wm.author?.name}</strong>: {wm.content?.text}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 
   const doc = (
     <html lang={lang} dir={direction}>
@@ -336,6 +362,7 @@ export function renderPage(
                   <button id="emailComment"><a href={emailComment(componentData.fileData.frontmatter?.title)}><i class="nf nf-md-email_check"></i> Comment</a></button>
                 }
               </div>
+              <WebmentionsList wbm={webmentions}/>
               <hr />
               <div class="page-footer">
                 {afterBody.map((BodyComponent) => (

@@ -26,6 +26,14 @@ export function formatDate(d: Date, locale: ValidLocale = "en-US"): string {
   })
 }
 
+export function formatTime(d: Date, locale: ValidLocale = "en-US"): string {
+  return d.toLocaleTimeString(locale, {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  })
+}
+
 export function Date({ date, locale }: Props) {
   return <time datetime={date.toISOString()}>{formatDate(date, locale)}</time>
 }

@@ -83,7 +83,6 @@ export async function buildWebmentions(filteredContent: ProcessedContent[]) {
     throw new Error(`HTTP error querying webmentions. Status: ${response.status}`);
   }
   const allWebmentions = await response.json()
-  console.log(allWebmentions.children)
   const filteredAllFiles = filteredContent.map((c) => c[1].data)
   filteredAllFiles.forEach( f => {
     const matchedWebmentions = allWebmentions.children.filter( (wm: WebmentionEntry) => 

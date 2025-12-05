@@ -1,10 +1,9 @@
 import { ProcessedContent } from "../plugins/vfile";
-import { QuartzLogger } from "../util/log"
-import { styleText } from "util"
 import { QuartzPluginData } from "../plugins/vfile";
 import { FullSlug } from "./path";
 import { URLSearchParams } from "url";
 import { WEBMENTION_TOKEN } from "./myUtils_cfg";
+import { PerfTimer } from "./perf";
 
 export function addYearsToUTC(inputDate: unknown, yearsToAdd: number): Date {
 
@@ -28,13 +27,12 @@ export function addYearsToUTC(inputDate: unknown, yearsToAdd: number): Date {
 // Identify and add previous and next links to filtered content
 export function buildNavigation(filteredContent: ProcessedContent[]) {
   const tags = ["blog", "cmdrs-log"]
+  const perf = new PerfTimer()
   const filteredAllFiles = filteredContent.map((c) => c[1].data)
 
   // Build previous and next navigation
   tags.forEach(tag => {
-    const log = new QuartzLogger(false)
     let processedFiles = 0
-    log.start(`Creating links for ${tag}`)
     
     // Find the position of the current file within the list of all filtered files.
     const matchedFiles = filteredAllFiles.filter(file => file.frontmatter?.tags?.includes(tag))
@@ -48,9 +46,7 @@ export function buildNavigation(filteredContent: ProcessedContent[]) {
         file.prevFile = matchedFiles[index - 1] ?? null
         file.nextFile = matchedFiles[index + 1] ?? null
         processedFiles += 1
-        log.updateText(`${tag} ${styleText("gray", `${processedFiles}/${matchedFiles.length}`)}`)
       })
-    log.end(`Created links for ${tag}`)
   });
 
   // Process all files with a series. We want to convert the series [[ ]] value to a slug
@@ -70,6 +66,7 @@ export function buildNavigation(filteredContent: ProcessedContent[]) {
       console.error("Matched too many series")
     }
   })
+  console.log(`Inter-page navigation built in ${perf.timeSince()}`)
 }
 
 export async function buildWebmentions(filteredContent: ProcessedContent[]) {
@@ -78,6 +75,8 @@ export async function buildWebmentions(filteredContent: ProcessedContent[]) {
     //"since_id" : "1951999" 
   })
 
+  const perf = new PerfTimer()
+  
   const response = await fetch(`https://webmention.io/api/mentions.jf2?${params}`)
   if (!response.ok) {
     throw new Error(`HTTP error querying webmentions. Status: ${response.status}`);
@@ -109,6 +108,7 @@ export async function buildWebmentions(filteredContent: ProcessedContent[]) {
     })
     f.webmentions = webmentions
   })
+  console.log(`Webmentions processed in ${perf.timeSince()}`)
 }
 
 export interface WebmentionEntry {

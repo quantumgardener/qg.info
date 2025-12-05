@@ -25,47 +25,53 @@ interface MenuItem {
 const menu: MenuItem[] = [
     { slug: 'notes/humanity-in-the-workplace' },
     { 
-        slug: 'notes/expand-my-way-of-being', 
-        children: [
-          { slug: 'notes/the-ontology-of-the-human-observer'},
-          { slug: 'notes/way-of-being'},
-          { slug: 'notes/basic-moods-of-life'},
-          { slug: 'notes/ontological-distinction'}
-        ]
+      slug: 'notes/expand-my-way-of-being', 
+      children: [
+        { slug: 'notes/the-ontology-of-the-human-observer'},
+        { slug: 'notes/way-of-being'},
+        { slug: 'notes/basic-moods-of-life'},
+        { slug: 'notes/ontological-distinction'}
+      ]
     },
     { 
-        slug: 'notes/productive-laziness',
-        children: [
-          { slug: 'notes/personal-knowledge-management'}
-        ]
+      slug: 'notes/productive-laziness',
+      children: [
+        { slug: 'notes/personal-knowledge-management'}
+      ]
     },
     { 
-        slug: 'notes/hobby-together',
-        children: [
-          { slug: 'notes/photography',
-            children: [
-              { slug: 'notes/photos'},
-              { slug: 'notes/astrophotography'},
-              { slug: 'notes/100-hours-learning-affinity-photo'},
-              { slug: 'notes/imatch-to-site' }
-            ],
-          },
-          { slug: 'notes/lego',
-            children: [
-              { slug: 'notes/building-the-millennium-falcon-in-lego' },
-              { slug: 'notes/building-r2-d2-in-lego' },
-              { slug: 'notes/building-the-batman-tumbler-in-lego' }
-            ]
-          },
-          { slug: 'notes/video-gaming'},
-          { slug: 'notes/home-theatre'},
-          { slug: 'notes/cross-stitch'},
-          { slug: 'notes/software-development'},
-          { slug: 'cmdrs-log/index'},
-        ]
+      slug: 'notes/hobby-together',
+      children: [
+        { slug: 'notes/photography',
+          children: [
+            { slug: 'notes/photos'},
+            { slug: 'notes/astrophotography'},
+            { slug: 'notes/100-hours-learning-affinity-photo'},
+            { slug: 'notes/imatch-to-site' }
+          ],
+        },
+        { slug: 'notes/lego',
+          children: [
+            { slug: 'notes/building-the-millennium-falcon-in-lego' },
+            { slug: 'notes/building-r2-d2-in-lego' },
+            { slug: 'notes/building-the-batman-tumbler-in-lego' }
+          ]
+        },
+        { slug: 'notes/video-gaming'},
+        { slug: 'notes/home-theatre'},
+        { slug: 'notes/cross-stitch'},
+        { slug: 'notes/software-development'},
+        { slug: 'cmdrs-log/index'},
+      ]
     },
     {
-        slug: 'notes/quantum-os',
+      slug: 'notes/projects',
+      children: [
+        { slug: 'notes/complete-photo-cataloguing' }
+      ]
+    },
+    {
+      slug: 'notes/quantum-os',
     },
     { slug: 'subscribe'},
     { slug: 'about'}

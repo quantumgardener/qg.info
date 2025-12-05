@@ -65,7 +65,7 @@ const menu: MenuItem[] = [
       ]
     },
     {
-      slug: 'notes/projects',
+      slug: 'projects',
       children: [
         { slug: 'notes/complete-photo-cataloguing' }
       ]

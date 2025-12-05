@@ -60,6 +60,9 @@ export function listClasses(fileData:Data): string | JSX.Element {
         case 'photo':
             classes.push( createClassLink("/photos", clsText, "nf nf-fa-camera") )
             break;
+        case 'project':
+            classes.push( createClassLink("/projects", clsText, "nf nf-oct-goal") )
+            break;
         case 'quote':
             classes.push( createClassLink("/quotes", clsText, "nf nf-fa-quote_right") )
             break;    

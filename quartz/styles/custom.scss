@@ -251,6 +251,7 @@ p {
   --callout-icon-years: url('/static/icons/nf-md-calendar.svg');
   --callout-icon-movie-plot: url('/static/icons/nf-md-movie_open.svg');
   --callout-icon-book: url('/static/icons/nf-md-book.svg');
+  --callout-icon-goal: url('/static/icons/nf-oct-goal.svg');
 
   &[data-callout="landscape"] {
     --color: #8a614e;
@@ -320,6 +321,13 @@ p {
     --border: #127ffc;
     --bg: #95a9ff13;
     --callout-icon: var(--callout-icon-book);
+  }
+
+  &[data-callout="goal"] {
+    --color: #01b71f;
+    --border: #01b71f;
+    --bg: #01b71f20;
+    --callout-icon: var(--callout-icon-goal);
   }
 }
 

@@ -643,7 +643,9 @@ div#engage-buttons {
   align-items: stretch;
   clear: both;
   margin-top: 1rem;
+
 }
+
 button#emailComment,
 button#mastodonComment {
   color: var(--secondary);
@@ -655,6 +657,29 @@ button#mastodonComment {
     font-weight: normal;
   }
 }
+
+div#webmentions {
+
+  & div#webmentioncounters {
+    display: flex;
+    align-items: stretch;
+    clear: both;
+    margin-top: 1rem;
+
+    & div.webmentionCount {
+      flex: 0 1 auto;
+      width: auto;
+      margin-left: 0.5rem;
+      font-size: smaller;
+
+      & i {
+        font-size: larger;
+      }
+    }
+
+  }
+}
+
 
 span.footer {
   display: block;
@@ -817,5 +842,25 @@ span.self-link {
     color: var(--darkgray);
     font-size: 0.9rem;
     opacity: 0.6;
+  }
+}
+
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: smaller;
+
+  & div.navPrev, div.navNext {
+    flex: 1
+  }
+
+  & div.navNext {
+    text-align: right;
+  }
+
+  & div.navPrev:empty, div.navNext:empty {
+    display: none
   }
 }

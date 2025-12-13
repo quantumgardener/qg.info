@@ -42,3 +42,6 @@
 .nf-cod-triangle_left:before{content: "\eb6f"}
 .nf-cod-triangle_right:before{content: "\eb70"}
 .nf-oct-goal:before{content: '\f4de'}
+.nf-fa-heart::before{content: '\f004'}
+.nf-md-repeat:before{content: '\f0456'}
+.nf-fa-repeat:before{content: '\f01e'}

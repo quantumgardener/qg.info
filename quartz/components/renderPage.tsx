@@ -267,11 +267,43 @@ export function renderPage(
   const next = componentData.fileData.nextFile
   const webmentions = componentData.fileData.webmentions!
 
-  interface WebMentionsListProps {
+  interface WebMentionsProps {
     wbm: ProcessedWebMentions
   }
 
-  function WebmentionsList({wbm} : WebMentionsListProps ){
+  function WebmentionsLikes({wbm} : WebMentionsProps) {
+    if (!wbm) {
+      return null; 
+    }
+
+    if ((wbm.likes ?? 0) < 1) {
+      return null
+    }
+
+    return (
+      <div class="webmentionCount">
+        <i class="nf nf-fa-heart"></i> {wbm.likes}
+      </div>
+    )
+  }
+
+  function WebmentionsReposts({wbm} : WebMentionsProps) {
+    if (!wbm) {
+      return null; 
+    }
+
+    if ((wbm.reposts ?? 0) < 1) {
+      return null
+    }
+
+    return (
+      <div class="webmentionCount">
+        <i class="nf nf-fa-repeat"></i> {wbm.reposts}
+      </div>
+    )
+  }
+
+  function WebmentionsList({wbm} : WebMentionsProps){
     if (!wbm) {
       return null; 
     }
@@ -302,6 +334,30 @@ export function renderPage(
         ))}
       </div>
     );
+  }
+
+  function DisplayWebMentions({wbm} : WebMentionsProps){
+    if (!wbm) {
+      return null; 
+    }
+  
+    if( (wbm.likes ?? 0) < 1 && (wbm.reposts ?? 0) < 1 && wbm.mentions?.length == 0 ) {
+      return null;
+
+    }
+    return (
+      <div id="webmentions">
+        <h3>Webmentions  <a href="/notes/webmentions" style="color:var(--secondary)"><i class="nf nf-fa-question_circle"></i></a></h3>
+        {( (wbm.likes ?? 0) > 0 || (wbm.reposts ?? 0) > 0 ) && (
+              <div id="webmentioncounters">
+                <WebmentionsLikes wbm={wbm}/>
+                <WebmentionsReposts wbm={wbm}/>
+              </div>
+            )}
+        {( (wbm.mentions?.length ?? 0) > 0 && (
+          <WebmentionsList wbm={wbm}/>))}
+      </div>
+    )
   }
 
   const doc = (
@@ -337,13 +393,8 @@ export function renderPage(
               </div>
               <Content {...componentData} />
               { (prev || next) && (
-                <div style = {{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  alignItems: 'center', 
-                  marginTop: '1rem',
-                  fontSize: 'smaller' }}>
-                  <div style = {{flex: 1}}>
+                <div class="navContainer">
+                  <div class="navPrev">
                     { prev && (
                       <div>
                         <i className={"nf nf-cod-triangle_left"} style={{marginRight: '0.3rem'}}/>
@@ -353,7 +404,7 @@ export function renderPage(
                       </div>
                     )}
                   </div>
-                  <div style = {{flex: 1, textAlign: 'right'}}>
+                  <div class="navNext">
                     { next && (
                       <div>
                         <a href={resolveRelative(slug!, next.slug!)} className={"internal"}>
@@ -378,7 +429,7 @@ export function renderPage(
                     <button id="emailComment"><a href={emailComment(componentData.fileData.frontmatter?.title)}><i class="nf nf-md-email_check"></i> Comment</a></button>
                   }
                 </div>
-                <WebmentionsList wbm={webmentions}/>
+                <DisplayWebMentions wbm={webmentions}/>
               </div>
               <hr />
               <div class="page-footer">

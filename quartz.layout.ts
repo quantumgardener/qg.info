@@ -54,17 +54,15 @@ export const defaultContentPageLayout: PageLayout = {
     Component.DesktopOnly(
       Component.TableOfContents(),
     ),
-    Component.DesktopOnly(
-      Component.RecentNotes({
-        title: "Recent Blogs",
-        linkToMore: "blog" as SimpleSlug,
-        showTags: false,
-        limit: 5,
-        filter: (note: QuartzPluginData) => {
-          return note.slug!.startsWith("notes") && note.frontmatter!.tags!.includes("blog");
-        }  
-      }),
-    ),
+    Component.RecentNotes({
+      title: "Recent Blogs",
+      linkToMore: "blog" as SimpleSlug,
+      showTags: false,
+      limit: 5,
+      filter: (note: QuartzPluginData) => {
+        return note.slug!.startsWith("notes") && note.frontmatter!.tags!.includes("blog");
+      }  
+    }),
     Component.DesktopOnly(
       Component.Graph({
         localGraph: {
@@ -106,17 +104,15 @@ export const defaultListPageLayout: PageLayout = {
     Component.DesktopOnly(
       Component.TableOfContents(),
     ),
-    Component.DesktopOnly(
-      Component.RecentNotes({
-        title: "Recent Blogs",
-        linkToMore: "blog" as SimpleSlug,
-        showTags: false,
-        limit: 5,
-        filter: (note: QuartzPluginData) => {
-          return note.slug!.startsWith("notes") && note.frontmatter!.tags!.includes("blog");
-        }  
-      }),
-    ),
+    Component.RecentNotes({
+      title: "Recent Blogs",
+      linkToMore: "blog" as SimpleSlug,
+      showTags: false,
+      limit: 5,
+      filter: (note: QuartzPluginData) => {
+        return note.slug!.startsWith("notes") && note.frontmatter!.tags!.includes("blog");
+      }  
+    }),
     Component.DesktopOnly(
       Component.Graph({
         localGraph: {

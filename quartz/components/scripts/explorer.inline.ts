@@ -50,6 +50,12 @@ const menu: MenuItem[] = [
             { slug: 'notes/imatch-to-site' }
           ],
         },
+        { slug: 'notes/miniature-painting',
+          children: [
+            { slug: 'notes/painting-nagash'},
+            { slug: 'notes/sylvaneth-treelord-ancient'}
+          ]
+        },
         { slug: 'notes/lego',
           children: [
             { slug: 'notes/building-the-millennium-falcon-in-lego' },

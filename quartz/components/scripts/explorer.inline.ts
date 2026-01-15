@@ -1,6 +1,7 @@
 import { FileTrieNode } from "../../util/fileTrie"
 import { FullSlug, resolveRelative, simplifySlug } from "../../util/path"
 import { ContentDetails } from "../../plugins/emitters/contentIndex"
+import { toTitleCase } from "../../util/toTitleCase"
 
 type MaybeHTMLElement = HTMLElement | undefined
 
@@ -75,9 +76,7 @@ const menu: MenuItem[] = [
             { slug: 'notes/building-the-batman-tumbler-in-lego' }
           ]
         },
-        { slug: 'notes/video-gaming',
-          title: 'Video gaming'
-        },
+        { slug: 'notes/video-gaming'},
         { slug: 'notes/home-theatre'},
         { slug: 'notes/cross-stitch'},
         { slug: 'notes/software-development'},
@@ -92,6 +91,7 @@ const menu: MenuItem[] = [
     },
     {
       slug: 'notes/quantum-os',
+      title: 'Quantum OS'
     },
     { slug: 'subscribe'},
     { slug: 'about'}
@@ -261,15 +261,16 @@ async function setupExplorer(currentSlug: FullSlug) {
     const trie = new FileTrieNode<ContentDetails>([])
     const parseMenu = (items: MenuItem[], parent: FileTrieNode<ContentDetails>) => {
       items.forEach(item => {
-        console.log(item)
         const slugSegments = item.slug.split("/")
         const newNode = new FileTrieNode<ContentDetails>(
           slugSegments,
           data[item.slug]
         )
+        newNode.displayName = toTitleCase(newNode.displayName) // Force to title case for display purposes
         if (item.title) {
-          newNode.displayName = item.title
-        }
+          newNode.displayName = item.title // Set titles assumed to be in desired case already
+        } 
+
         parent.children.push(newNode)
         if (item.children) {
           newNode.isFolder = true

@@ -1,7 +1,7 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
-import { toTitleCase } from "../util/myUtils";
+import { toTitleCase } from "../util/toTitleCase";
 
 // from https://stackoverflow.com/posts/13897813/revisions
 declare global {

@@ -1,6 +1,7 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
+import { toTitleCase } from "../util/myUtils";
 
 // from https://stackoverflow.com/posts/13897813/revisions
 declare global {
@@ -43,7 +44,8 @@ const ArticleTitle: QuartzComponent = ({ cfg, fileData, displayClass }: QuartzCo
       return <h1 class={classNames(displayClass, "article-title", "p-name")}>{title.replace(`${i18n(cfg.locale).pages.keywordContent.keyword}: `,"")}</h1>
     }
 
-    return <h1 class={classNames(displayClass, "article-title", "p-name")}>{title}</h1>
+    const titleCaseTitle = toTitleCase(title)
+    return <h1 class={classNames(displayClass, "article-title", "p-name")}>{titleCaseTitle}</h1>
   } else {
     return null
   }

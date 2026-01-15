@@ -30,7 +30,10 @@ const menu: MenuItem[] = [
         { slug: 'notes/the-ontology-of-the-human-observer'},
         { slug: 'notes/way-of-being'},
         { slug: 'notes/basic-moods-of-life'},
-        { slug: 'notes/ontological-distinction'}
+        { slug: 'notes/ontological-distinction'},
+        { slug: 'notes/self-authorship-with-a-journal',
+          title: 'Self-authorship journaling'
+        }
       ]
     },
     { 
@@ -72,7 +75,9 @@ const menu: MenuItem[] = [
             { slug: 'notes/building-the-batman-tumbler-in-lego' }
           ]
         },
-        { slug: 'notes/video-gaming'},
+        { slug: 'notes/video-gaming',
+          title: 'Video gaming'
+        },
         { slug: 'notes/home-theatre'},
         { slug: 'notes/cross-stitch'},
         { slug: 'notes/software-development'},

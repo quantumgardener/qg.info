@@ -51,7 +51,10 @@ const menu: MenuItem[] = [
             { slug: 'notes/photos'},
             { slug: 'notes/astrophotography'},
             { slug: 'notes/100-hours-learning-affinity-photo'},
-            { slug: 'notes/imatch-to-site' }
+            { 
+              slug: 'notes/imatch-to-site',
+              title: 'IMatch to Site'
+            }
           ],
         },
         { slug: 'notes/my-miniature-painting-hobby',

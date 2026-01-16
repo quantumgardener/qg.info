@@ -15,7 +15,7 @@ import { Node } from "unist"
 import { StaticResources } from "../../util/resources"
 import { QuartzPluginData } from "../vfile"
 import { Root } from "hast"
-import { buryDeadLinks} from "./buryDeadLinks"
+import { formatInternalLinks} from "./formatInternalLinks"
 
 async function processContent(
   ctx: BuildCtx,
@@ -87,7 +87,7 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
 
         // only process home page, non-tag pages, and non-index pages
         if (slug.endsWith("/index") || slug.startsWith("tags/")) continue
-        yield processContent(ctx, buryDeadLinks(tree as Root, file, allFiles), file.data, allFiles, opts, resources)
+        yield processContent(ctx, formatInternalLinks(tree as Root, file, allFiles), file.data, allFiles, opts, resources)
       }
 
       

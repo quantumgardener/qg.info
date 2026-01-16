@@ -6,6 +6,7 @@ import toml from "toml"
 import { FilePath, FullSlug, getFileExtension, slugifyFilePath, slugTag } from "../../util/path"
 import { QuartzPluginData } from "../vfile"
 import { i18n } from "../../i18n"
+import { toTitleCase } from "../../util/toTitleCase"
 
 export interface Options {
   delimiters: string | [string, string]
@@ -76,6 +77,7 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
             } else {
               data.title = file.stem ?? i18n(cfg.configuration.locale).propertyDefaults.title
             }
+            data.title = toTitleCase(data.title)
 
             let classes: string[] = []
             data.keywords = []

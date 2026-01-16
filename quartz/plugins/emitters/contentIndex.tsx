@@ -8,7 +8,7 @@ import { toHtml } from "hast-util-to-html"
 import { write } from "./helpers"
 import { i18n } from "../../i18n"
 import { emailComment } from "../../util/comment"
-import { buryDeadLinks } from "./buryDeadLinks"
+import { formatInternalLinks } from "./formatInternalLinks"
 import chalk from "chalk"
 
 export type ContentIndexMap = Map<FullSlug, ContentDetails>
@@ -165,7 +165,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             content: file.data.text ?? "",
             richContent: opts?.rssFullHtml
               ?   toHtml(
-                    buryDeadLinks(tree as Root, file, allFiles),
+                    formatInternalLinks(tree as Root, file, allFiles),
                     { allowDangerousHtml: true }
                   )
             

@@ -1,8 +1,9 @@
 import { visit } from "unist-util-visit"
 import type { Root } from "hast"
 import { resolveRelative, splitAnchor } from "../../util/path"
+import { toTitleCase } from "../../util/toTitleCase"
 
-export function buryDeadLinks(tree: Root, file: any, allFiles: any[]): Root {
+export function formatInternalLinks(tree: Root, file: any, allFiles: any[]): Root {
   const slug = file.data.slug!
   const allSlugs = allFiles.map((f) =>
     f.slug ? resolveRelative(slug, f.slug) : ""
@@ -12,12 +13,31 @@ export function buryDeadLinks(tree: Root, file: any, allFiles: any[]): Root {
     if (elem.tagName === "a" && elem.properties.href) {
       const href = elem.properties.href.toString()
 
+      // Convert link text to title case but only for internal links      
+      const classes = elem.properties.className;
+
+      const hasInternal =
+      Array.isArray(classes)
+        ? classes.includes("internal")
+        : typeof classes === "string"
+          ? classes.split(/\s+/).includes("internal")
+          : false;
+      
+      if (hasInternal && elem.children?.[0]?.type === "text") {
+        elem.children[0].value = toTitleCase(elem.children[0].value)
+      }
+
+
+      // Style self references differently
       if (elem.properties['data-slug'] == slug) {
         elem.properties.className = "self-reference"
         delete elem.properties.href
         elem.tagName = "span"
+        elem.children[0].value = toTitleCase(elem.children[0].value)
         return
       }
+
+
 
       if (href.startsWith("#")) return
 

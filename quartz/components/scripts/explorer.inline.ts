@@ -1,7 +1,7 @@
 import { FileTrieNode } from "../../util/fileTrie"
 import { FullSlug, resolveRelative, simplifySlug } from "../../util/path"
 import { ContentDetails } from "../../plugins/emitters/contentIndex"
-import { toTitleCase } from "../../util/toTitleCase"
+//import { toTitleCase } from "../../util/toTitleCase"
 
 type MaybeHTMLElement = HTMLElement | undefined
 
@@ -269,7 +269,7 @@ async function setupExplorer(currentSlug: FullSlug) {
           slugSegments,
           data[item.slug]
         )
-        newNode.displayName = toTitleCase(newNode.displayName) // Force to title case for display purposes
+        //newNode.displayName = toTitleCase(newNode.displayName) // Force to title case for display purposes
         if (item.title) {
           newNode.displayName = item.title // Set titles assumed to be in desired case already
         } 

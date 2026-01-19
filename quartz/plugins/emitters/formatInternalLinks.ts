@@ -1,7 +1,7 @@
 import { visit } from "unist-util-visit"
 import type { Root } from "hast"
 import { resolveRelative, splitAnchor } from "../../util/path"
-import { toTitleCase } from "../../util/toTitleCase"
+//import { toTitleCase } from "../../util/toTitleCase"
 
 export function formatInternalLinks(tree: Root, file: any, allFiles: any[]): Root {
   const slug = file.data.slug!
@@ -23,16 +23,16 @@ export function formatInternalLinks(tree: Root, file: any, allFiles: any[]): Roo
           ? classes.split(/\s+/).includes("internal")
           : false;
       
-      if (hasInternal && elem.children?.[0]?.type === "text" && allSlugs.includes(splitAnchor(href)[0])) {
-        elem.children[0].value = toTitleCase(elem.children[0].value)
-      }
+      // if (hasInternal && elem.children?.[0]?.type === "text" && allSlugs.includes(splitAnchor(href)[0])) {
+      //   elem.children[0].value = toTitleCase(elem.children[0].value)
+      // }
 
       // Style self references differently
       if (elem.properties['data-slug'] == slug) {
         elem.properties.className = "self-reference"
         delete elem.properties.href
         elem.tagName = "span"
-        elem.children[0].value = toTitleCase(elem.children[0].value)
+        //elem.children[0].value = toTitleCase(elem.children[0].value)
         return
       }
 

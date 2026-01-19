@@ -23,10 +23,9 @@ export function formatInternalLinks(tree: Root, file: any, allFiles: any[]): Roo
           ? classes.split(/\s+/).includes("internal")
           : false;
       
-      if (hasInternal && elem.children?.[0]?.type === "text") {
+      if (hasInternal && elem.children?.[0]?.type === "text" && allSlugs.includes(splitAnchor(href)[0])) {
         elem.children[0].value = toTitleCase(elem.children[0].value)
       }
-
 
       // Style self references differently
       if (elem.properties['data-slug'] == slug) {
@@ -36,8 +35,6 @@ export function formatInternalLinks(tree: Root, file: any, allFiles: any[]): Roo
         elem.children[0].value = toTitleCase(elem.children[0].value)
         return
       }
-
-
 
       if (href.startsWith("#")) return
 
@@ -49,7 +46,6 @@ export function formatInternalLinks(tree: Root, file: any, allFiles: any[]): Roo
       if (href.includes("/assets")) {
         return
       }
-
 
       if (!allSlugs.includes(splitAnchor(href)[0])) {
         if (elem.properties.className === undefined) {

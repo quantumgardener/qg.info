@@ -256,6 +256,7 @@ p {
   --callout-icon-movie-plot: url('/static/icons/nf-md-movie_open.svg');
   --callout-icon-book: url('/static/icons/nf-md-book.svg');
   --callout-icon-goal: url('/static/icons/nf-oct-goal.svg');
+  --callout-icon-changelog: url('/static/icons/nf-cod-request_changes.svg');
 
   &[data-callout="landscape"] {
     --color: #8a614e;
@@ -333,6 +334,14 @@ p {
     --bg: #01b71f20;
     --callout-icon: var(--callout-icon-goal);
   }
+
+  &[data-callout="changelog"] {
+    --color: #00a53f;
+    --border: #00b8d444;
+    --bg: #00a53f10;
+    --callout-icon: var(--callout-icon-changelog);
+  }
+
 }
 
 .content-meta, .page-list-meta {

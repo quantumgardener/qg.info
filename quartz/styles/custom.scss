@@ -876,3 +876,114 @@ span.self-link {
     display: none
   }
 }
+
+
+
+// ---------------------------------------------
+// Helper: target both Reading Mode + Live Preview
+// ---------------------------------------------
+@mixin table-col($selector) {
+  // Quartz article
+  .article #{$selector} {
+    @content;
+  }
+}
+
+// ---------------------------------------------
+// Auto generate class values
+// ---------------------------------------------
+$max-cols: 7; // will be named c1 -> c7
+$widths: 20, 50, 75, 100, 125, 150, 200, 250, 275, 300, 350, 400;
+$alignments: (
+  center: center,
+  centre: center,
+  left: left,
+  right: right
+);
+
+// ---------------------------------------------
+// Widths .c1-100, .c2-75, etc.
+// ---------------------------------------------
+@for $i from 1 through $max-cols {
+  @each $w in $widths {
+    .c#{$i}-#{$w} {
+      @include table-col("th:nth-child(#{$i}), td:nth-child(#{$i})") {
+        width: #{$w}px;
+        @if $i == 1 { 
+            min-width: auto; 
+        } @else {
+            min-width: #{$w}px;
+        }
+      }
+    }
+
+    // Last col convenience case
+    .clast-#{$w} {
+       @include table-col("th:last-child, td:last-child") {
+        width: #{$w}px;
+        @if $i == 1 { 
+            min-width: auto; 
+        } @else {
+            min-width: #{$w}px;
+        }
+      } 
+    }
+  }
+}
+
+// ---------------------------------------------
+// Alignment: .c1-center, .c2-right, etc.
+// ---------------------------------------------
+@for $i from 1 through $max-cols {
+  @each $class, $cssval in $alignments {
+    .c#{$i}-#{$class} {
+      @include table-col("th:nth-child(#{$i}), td:nth-child(#{$i})") {
+        text-align: $cssval !important;
+      }
+    }
+
+  .clast-#{$class} {
+      @include table-col("th:last-child, td:last-child") {
+        text-align: $cssval !important;
+      }
+    } 
+  }
+}
+
+// ---------------------------------------------
+// Bold: .c1-bold, .c2-bold, etc.
+// ---------------------------------------------
+@for $i from 1 through $max-cols {
+  .c#{$i}-bold {
+    @include table-col("th:nth-child(#{$i}), td:nth-child(#{$i})") {
+      font-weight: bold;
+    }
+  }
+
+  .clast-bold {
+    @include table-col("th:last-child, td:last-child") {
+      font-weight: bold;
+    }
+  }
+
+}
+
+// ---------------------------------------------
+// Nowrap: .c1-nowrap, .c2-nowrap etc.
+// Idea to use nowrap from 
+// http://theodorelindsey.io/blog/2025/02/18/Obsidian-css-table-tip.html
+// ---------------------------------------------
+@for $i from 1 through $max-cols {
+  .c#{$i}-nowrap {
+    @include table-col("th:nth-child(#{$i}), td:nth-child(#{$i})") {
+      white-space: nowrap;
+    }
+  }
+
+  .clast-nowrap {
+    @include table-col("th:last-child, td:last-child") {
+      white-space: nowrap;
+    }
+  }
+
+}

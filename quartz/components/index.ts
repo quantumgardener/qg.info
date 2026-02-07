@@ -23,6 +23,7 @@ import Breadcrumbs from "./Breadcrumbs"
 import Comments from "./Comments"
 import Flex from "./Flex"
 import KeywordContent from "./pages/KeywordContent"
+import BuyMeACoffee from "./BuyMeACoffee"
 
 export {
   ArticleTitle,
@@ -50,4 +51,5 @@ export {
   Comments,
   Flex,
   KeywordContent,
+  BuyMeACoffee
 }

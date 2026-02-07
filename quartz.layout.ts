@@ -44,11 +44,13 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
+    Component.MobileOnly(Component.Spacer()),
+    Component.BuyMeACoffee(),
     Component.Explorer({
       sortFn: (a, b) => {
         return 0
       }
-    }),
+    })
   ],
   right: [
     Component.DesktopOnly(
@@ -98,7 +100,13 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(),
+    Component.MobileOnly(Component.Spacer()),
+    Component.BuyMeACoffee(),
+    Component.Explorer({
+      sortFn: (a, b) => {
+        return 0
+      }
+    })
   ],
   right: [
     Component.DesktopOnly(

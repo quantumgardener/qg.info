@@ -42,8 +42,8 @@
     "@tweenjs/tween.js": "^25.0.0",
     "ansi-truncate": "^1.4.0",
     "async-mutex": "^0.5.0",
-    "chalk": "^5.4.1",
-    "chokidar": "^4.0.3",
+    "chalk": "^5.6.2",
+    "chokidar": "^5.0.0",
     "cli-spinner": "^0.2.10",
     "d3": "^7.9.0",
     "esbuild-sass-plugin": "^3.6.0",
@@ -106,11 +106,10 @@
     "@types/pretty-time": "^1.1.5",
     "@types/source-map-support": "^0.5.10",
     "@types/ws": "^8.18.1",
-    "@types/yargs": "^17.0.33",
-    "esbuild": "^0.25.5",
-    "prettier": "^3.5.3",
-    "tsx": "^4.19.3",
-    "typescript": "^5.8.3",
-    "wrangler": "^4.19.1"
+    "@types/yargs": "^17.0.35",
+    "esbuild": "^0.27.2",
+    "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }

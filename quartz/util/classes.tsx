@@ -13,7 +13,7 @@ function createClassLink(target:string, text:string, icon:string = "nf nf-fa-lin
     } else {
          return (
             <li>
-                {text} <i className={icon}></i>
+                <i className={icon}></i> {text}
             </li>
         )
     }

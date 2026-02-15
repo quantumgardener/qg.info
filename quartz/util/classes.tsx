@@ -42,7 +42,7 @@ export function listClasses(fileData:Data): string | JSX.Element {
             classes.push( createClassLink("/book-series", clsText, "nf nf-md-bookshelf") )
             break;
         case 'cmdrs-log':
-            classes.push( createClassLink("/cmdrs-log", clsText, "nf nf-fa-shuttle_space") )
+            classes.push( createClassLink("/commander's-log", clsText, "nf nf-fa-shuttle_space") )
             break;
         case 'gear':
             classes.push( createClassLink("/uses#gear-that-i-use", clsText) )

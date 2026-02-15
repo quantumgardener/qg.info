@@ -284,13 +284,16 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
 
   switch (fileData.slug?.split('/')[0]) {
     case "albums":
-      return albumGalleryLayout()
-    case "cmdrs-log":
+      //return albumGalleryLayout()
+      return null
+    case "commander's-log":
       return cmdrsLogLayout()
     case "keywords":
-      return basicGalleryLayout()
+      //return basicGalleryLayout()
+      return null
     case "photos":
-      return datedGalleryLayout()
+      // return datedGalleryLayout()
+      return null
     default:
       return defaultLayout()
   }

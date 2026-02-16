@@ -83,7 +83,7 @@ const menu: MenuItem[] = [
         { slug: 'notes/home-theatre'},
         { slug: 'notes/cross-stitch'},
         { slug: 'notes/software-development'},
-        { slug: 'cmdrs-log/index'},
+        { slug: "commander's-log/index"},
       ]
     },
     {

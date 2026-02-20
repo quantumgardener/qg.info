@@ -5,7 +5,7 @@ export function formatInternalLinks(tree: Root, file: any, allFiles: any[]): Roo
   const slug = file.data.slug!
   const allSlugs = allFiles.map((f) => f.slug).filter(Boolean) as string[]
 
-  visit(tree, "element", (elem) => {
+  visit(tree, "element", (elem, index, parent) => {
     if (elem.tagName === "a" && elem.properties.href) {
       const dataSlug = elem.properties["data-slug"] as string | undefined
       const href = elem.properties.href.toString()
@@ -44,18 +44,15 @@ export function formatInternalLinks(tree: Root, file: any, allFiles: any[]): Roo
       //
       // 5. Internal link validation
       //
-      if (dataSlug) {
-        if (allSlugs.includes(dataSlug)) {
-          // valid internal link — nothing to do
-          return
-        } else {
-          // dead internal link
-          elem.properties.className = "dead-link"
-          elem.properties["data-slug"] = "dead-link"
-          delete elem.properties.href
-          elem.tagName = "span"
-          return
-        }
+      if (dataSlug && !allSlugs.includes(dataSlug)) {
+        // Replace <a> entirely with a text node containing its text content
+        // const text = elem.children
+        //   ?.map((c) => (c.type === "text" ? c.value : ""))
+        //   .join("") || ""
+
+        // parent.children[index] = { type: "text", value: text }
+        parent.children.splice(index, 1, ...elem.children)
+        return
       }
 
       //

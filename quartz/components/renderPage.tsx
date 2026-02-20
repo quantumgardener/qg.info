@@ -67,7 +67,7 @@ export function pageResources(
   return resources
 }
 
-function renderTranscludes(
+export function renderTranscludes(
   root: Root,
   cfg: GlobalConfiguration,
   slug: FullSlug,

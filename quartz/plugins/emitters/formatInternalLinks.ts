@@ -1,79 +1,78 @@
 import { visit } from "unist-util-visit"
 import type { Root } from "hast"
-import { resolveRelative, splitAnchor } from "../../util/path"
-//import { toTitleCase } from "../../util/toTitleCase"
 
 export function formatInternalLinks(tree: Root, file: any, allFiles: any[]): Root {
   const slug = file.data.slug!
-  const allSlugs = allFiles.map((f) =>
-    f.slug ? resolveRelative(slug, f.slug) : ""
-  )
+  const allSlugs = allFiles.map((f) => f.slug).filter(Boolean) as string[]
 
   visit(tree, "element", (elem) => {
     if (elem.tagName === "a" && elem.properties.href) {
+      const dataSlug = elem.properties["data-slug"] as string | undefined
       const href = elem.properties.href.toString()
 
-      // Convert link text to title case but only for internal links      
-      const classes = elem.properties.className;
+      //
+      // 1. Canonicalise ALL internal links
+      //
+      if (dataSlug) {
+        elem.properties.href = "/" + dataSlug
+      }
 
-      const hasInternal =
-      Array.isArray(classes)
-        ? classes.includes("internal")
-        : typeof classes === "string"
-          ? classes.split(/\s+/).includes("internal")
-          : false;
-      
-      // if (hasInternal && elem.children?.[0]?.type === "text" && allSlugs.includes(splitAnchor(href)[0])) {
-      //   elem.children[0].value = toTitleCase(elem.children[0].value)
-      // }
-
-      // Style self references differently
-      if (elem.properties['data-slug'] == slug) {
+      //
+      // 2. Self-reference
+      //
+      if (dataSlug === slug) {
         elem.properties.className = "self-reference"
         delete elem.properties.href
         elem.tagName = "span"
-        //elem.children[0].value = toTitleCase(elem.children[0].value)
         return
       }
 
+      //
+      // 3. Skip anchors and assets
+      //
       if (href.startsWith("#")) return
+      if (href.includes("/assets")) return
 
-      if (href.includes("/public/") && !elem.properties.className.includes("external")) {
+      //
+      // 4. Clean up /public/ links
+      //
+      if (href.includes("/public/") && !elem.properties.className?.includes("external")) {
         elem.properties.href = href.replace("/public", "")
         return
       }
 
-      if (href.includes("/assets")) {
-        return
-      }
-
-      if (!allSlugs.includes(splitAnchor(href)[0])) {
-        if (elem.properties.className === undefined) {
-          elem.properties.className = "dead-link"
-        } else if (Array.isArray(elem.properties.className)) {
-          if (elem.properties.className.includes("external")) return
-          elem.properties.className.push("dead-link")
-        } else if (typeof elem.properties.className === "string") {
-          if (elem.properties.className.includes("external")) return
-          elem.properties.className += " dead-link"
+      //
+      // 5. Internal link validation
+      //
+      if (dataSlug) {
+        if (allSlugs.includes(dataSlug)) {
+          // valid internal link — nothing to do
+          return
         } else {
+          // dead internal link
+          elem.properties.className = "dead-link"
+          elem.properties["data-slug"] = "dead-link"
+          delete elem.properties.href
+          elem.tagName = "span"
           return
         }
-        elem.properties.className = "dead-link"
-        elem.properties['data-slug'] = "dead-link"
-        delete elem.properties.href
-        elem.tagName = "span"
       }
+
+      //
+      // 6. External link — leave untouched
+      //
+      return
     }
 
+    //
+    // 7. Image cleanup
+    //
     if (elem.tagName === "img" && elem.properties.src) {
       const src = elem.properties.src.toString()
-
       if (src.startsWith("../public")) {
         elem.properties.src = src.replace("../public", "")
         return
       }
-
       if (src.startsWith("./public")) {
         elem.properties.src = src.replace("./public", "")
         return

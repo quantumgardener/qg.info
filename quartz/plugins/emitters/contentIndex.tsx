@@ -1,4 +1,3 @@
-import { Root } from "hast"
 import { GlobalConfiguration } from "../../cfg"
 import { getDate } from "../../components/Date"
 import { escapeHTML } from "../../util/escape"
@@ -6,10 +5,10 @@ import { FilePath, FullSlug, SimpleSlug, joinSegments, simplifySlug } from "../.
 import { QuartzEmitterPlugin } from "../types"
 import { toHtml } from "hast-util-to-html"
 import { write } from "./helpers"
-import { i18n } from "../../i18n"
 import { emailComment } from "../../util/comment"
 import { formatInternalLinks } from "./formatInternalLinks"
 import chalk from "chalk"
+import { renderTranscludes } from "../../components/renderPage"
 
 export type ContentIndexMap = Map<FullSlug, ContentDetails>
 export type ContentDetails = {
@@ -155,6 +154,45 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       for (const [tree, file] of content) {
         const slug = file.data.slug!
         const date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
+
+        // Clone the HTML AST so we don't mutate the original
+        const htmlAst = structuredClone(file.data.htmlAst!)
+
+        // Build a minimal QuartzComponentProps object
+        const componentData = {
+          allFiles,
+          cfg,
+          fileData: file.data,
+          ctx: {
+            cfg,            // required field
+            buildId: "",    // unused
+            argv: {},       // unused
+            allSlugs: [],   // unused
+            allFiles,       // unused
+            externalResources: {}, // unused
+          },
+          externalResources: {},
+          children: [],
+          tree: htmlAst,
+          displayClass: undefined,
+        }
+
+        // Expand transclusions
+        renderTranscludes(
+          htmlAst,
+          cfg,
+          file.data.slug!,
+          componentData,
+          new Set()
+        )
+
+        formatInternalLinks(htmlAst, file, allFiles)
+
+        // Convert to HTML
+        const html = toHtml(htmlAst, { allowDangerousHtml: true })
+
+
+
         if (opts?.includeEmptyFiles || (file.data.text && file.data.text !== "")) {
           linkIndex.set(slug, {
             slug,
@@ -163,13 +201,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             links: file.data.links ?? [],
             tags: file.data.frontmatter?.tags ?? [],
             content: file.data.text ?? "",
-            richContent: opts?.rssFullHtml
-              ?   toHtml(
-                    formatInternalLinks(tree as Root, file, allFiles),
-                    { allowDangerousHtml: true }
-                  )
-            
-              : undefined,
+            richContent: opts?.rssFullHtml ? html : undefined,
             date: date,
             description: file.data.description ?? "",
             uri: file.data.frontmatter?.uri,

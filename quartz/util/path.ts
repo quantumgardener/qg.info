@@ -139,10 +139,35 @@ const _rebaseHastElement = (
   }
 }
 
+// export function normalizeHastElement(rawEl: HastElement, curBase: FullSlug, newBase: FullSlug) {
+//   const el = clone(rawEl) // clone so we dont modify the original page
+//   _rebaseHastElement(el, "src", curBase, newBase)
+//   _rebaseHastElement(el, "href", curBase, newBase)
+//   if (el.children) {
+//     el.children = el.children.map((child) =>
+//       normalizeHastElement(child as HastElement, curBase, newBase),
+//     )
+//   }
+
+//   return el
+// }
+
 export function normalizeHastElement(rawEl: HastElement, curBase: FullSlug, newBase: FullSlug) {
-  const el = clone(rawEl) // clone so we dont modify the original page
+  const el = clone(rawEl)
+
+  // Let Quartz do its normal rebasing first
   _rebaseHastElement(el, "src", curBase, newBase)
   _rebaseHastElement(el, "href", curBase, newBase)
+
+  // Canonicalise ALL internal links using data-slug
+  if (el.tagName === "a") {
+    const dataSlug = el.properties?.["data-slug"]
+    if (typeof dataSlug === "string") {
+      // Replace messy relative href with clean canonical slug
+      el.properties.href = "/" + dataSlug
+    }
+  }
+
   if (el.children) {
     el.children = el.children.map((child) =>
       normalizeHastElement(child as HastElement, curBase, newBase),
@@ -151,6 +176,7 @@ export function normalizeHastElement(rawEl: HastElement, curBase: FullSlug, newB
 
   return el
 }
+
 
 // resolve /a/b/c to ../..
 export function pathToRoot(slug: FullSlug): RelativeURL {

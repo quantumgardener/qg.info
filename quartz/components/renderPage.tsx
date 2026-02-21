@@ -80,14 +80,9 @@ export function renderTranscludes(
       const classNames = (node.properties?.className ?? []) as string[]
       if (classNames.includes("transclude")) {
         const inner = node.children[0] as Element
-        // //const transcludeTarget = (inner.properties["data-slug"] ?? slug) as FullSlug
         const transcludeTarget = (
           (inner.type === "element" ? inner.properties?.["data-slug"] : undefined) ?? slug
         ) as FullSlug
-        // const rawTarget = inner.type === "element" ? (inner.properties?.["data-slug"] as string | undefined) : undefined 
-        // // If we can't resolve a target, just skip transclusion logic 
-        // if (!rawTarget) return 
-        // const transcludeTarget = rawTarget as FullSlug
 
         if (visited.has(transcludeTarget)) {
           console.warn(

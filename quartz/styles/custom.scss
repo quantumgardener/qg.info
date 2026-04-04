@@ -289,6 +289,13 @@ p {
   ul li {
     margin-left: 0; //spacing between items
   }
+
+  ul.tags li {
+    margin-left: 0.5rem;
+    &:first-child {
+      margin-left: 0
+    }
+  }
 }
 
 .content-meta {

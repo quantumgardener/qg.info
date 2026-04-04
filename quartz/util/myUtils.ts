@@ -50,22 +50,23 @@ export function buildNavigation(filteredContent: ProcessedContent[]) {
   });
 
   // Process all files with a series. We want to convert the series [[ ]] value to a slug
-  const matchedFilesWithSeries = filteredAllFiles.filter(file => file.frontmatter?.series)
-  matchedFilesWithSeries.map(file=> {
-    const seriesTitle = file.frontmatter?.series?.replace(/^\[\[|\]\]$/g, '')
-    const matchedSeriesFiles = filteredAllFiles.filter(f => f.frontmatter?.title == seriesTitle)
+  // 2026-04-04 - no longer displaying series only if the page exists
+  // const matchedFilesWithSeries = filteredAllFiles.filter(file => file.frontmatter?.series)
+  // matchedFilesWithSeries.map(file=> {
+  //   const seriesTitle = file.frontmatter?.series?.replace(/^\[\[|\]\]$/g, '')
+  //   const matchedSeriesFiles = filteredAllFiles.filter(f => f.frontmatter?.title == seriesTitle)
 
-    if (matchedSeriesFiles.length == 1) {
-      file.seriesLink = {
-        slug: matchedSeriesFiles[0].slug,
-        title: seriesTitle
-      }
-    }
+  //   if (matchedSeriesFiles.length == 1) {
+  //     file.seriesLink = {
+  //       slug: matchedSeriesFiles[0].slug,
+  //       title: seriesTitle
+  //     }
+  //   }
     
-    if (matchedSeriesFiles.length > 1) {
-      console.error("Matched too many series")
-    }
-  })
+  //   if (matchedSeriesFiles.length > 1) {
+  //     console.error("Matched too many series")
+  //   }
+  // })
   console.log(`Inter-page navigation built in ${perf.timeSince()}`)
 }
 

@@ -91,17 +91,27 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
       }
 
       if(fileData.frontmatter?.rating) {
-        const regex = /\[\[(.*?)\|(.*?)\]\]/
-        const match = fileData.frontmatter?.rating.match(regex)
-        if (match) {
-          const ratingSlug = match[1]
-          const ratingStars = match[2]
-          segments.push(<span> | <a href={`/notes/${ratingSlug}`}>{ratingStars}</a></span>)
+        const rating = Number(fileData.frontmatter.rating)
+        if(rating >= 1 && rating <= 5) {
+          segments.push(
+            <span>
+              {" | "}
+              <a href={`/notes/quantum-os-ratings`}>
+                {"⭐️".repeat(rating)}
+              </a>
+            </span>
+          )
         }        
       }
 
-      if(fileData.seriesLink) {
-        segments.push(<span> | <a href={`${resolveRelative(fileData.slug!, fileData.seriesLink.slug!)}`}>{fileData.seriesLink.title}</a></span>)
+      if(fileData.frontmatter?.series) {
+        segments.push(
+          <span>
+            {" | "}
+            {`${fileData.frontmatter.series.replace(/^\[\[|\]\]$/g, '')} (${fileData.frontmatter.sequence})`}
+          </span>
+        )
+        //segments.push(<span> | <a href={`${resolveRelative(fileData.slug!, fileData.seriesLink.slug!)}`}>{fileData.seriesLink.title}</a></span>)
       }
 
       const classList = listClasses(fileData)

@@ -9,8 +9,8 @@ function initializeJustifiedGallery() {
           randomize: false,
           sizeRangeSuffixes: {
             100 : '_t', // used with images which are less than 100px on the longest side
-            240 : '_m', // used with images which are between 100px and 240px on the longest side
-            320 : '_n', // ...
+            240 : '', // normally _m, overwritten for cover images used with images which are between 100px and 240px on the longest side
+            320 : '', // normally _n, overwritten for cover images
             500 : '',
             640 : '_z',
             800 : '_c',

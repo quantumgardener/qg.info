@@ -239,6 +239,64 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
     )
   }
 
+  const coversLayout = () => {
+    return (
+      <div className="section" data-layout="basic">
+        <div class="my-gallery justified-gallery">
+          {list
+            .slice()
+            .sort((a, b) => {
+              const sortTitle = (t: string = "") =>
+                t.replace(/^the\s+/i, "").trim();
+
+              return sortTitle(a.frontmatter?.title)
+                .localeCompare(sortTitle(b.frontmatter?.title), undefined, {
+                  sensitivity: "base"
+                });
+            })
+            .map((page: Data) => {
+              const title = page.frontmatter?.title;
+              const thumbnail = page.frontmatter?.thumbnail as string;
+              const rating = page.frontmatter?.rating;
+              
+              const stars =
+                rating >= 1 && rating <= 5
+                  ? "<br/>" + "⭐️".repeat(rating)
+                  : "";
+
+              const caption = `${title}${stars}`;
+
+              if (thumbnail) {
+                return (
+                  <a
+                    href={resolveRelative(fileData.slug!, page.slug!)}
+                    data-fullsize={resolveRelative(
+                      fileData.slug!,
+                      "/assets/covers/" + (thumbnail as SimpleSlug)
+                    )}
+                    data-caption={caption}
+                    data-orientation={page.frontmatter?.orientation}
+                  >
+                    <img
+                      src={resolveRelative(
+                        fileData.slug!,
+                        "/assets/covers/" + (thumbnail as SimpleSlug)
+                      )}
+                      alt={caption}
+                      class="thumbnail"
+                    />
+                  </a>
+                );
+              } else {
+                console.error(`\n${page.slug!} missing thumbnail.`);
+                process.exit(1);
+              }
+            })}
+        </div>
+      </div>
+    )
+  }
+
   const datedGalleryLayout = () => {
     return (
       <div className="section"  data-layout="dated">
@@ -294,6 +352,11 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
     case "photos":
       // return datedGalleryLayout()
       return null
+    case "books":
+    case "movies":
+    case "tv-shows":
+    case "video-games":
+      return coversLayout()
     default:
       return defaultLayout()
   }

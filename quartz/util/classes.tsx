@@ -36,7 +36,7 @@ export function listClasses(fileData:Data): string | JSX.Element {
             classes.push( createClassLink(`/${cls}`, clsText, "nf nf-fa-square_rss") )
             break;
         case 'book':
-            classes.push( createClassLink("", clsText, "nf nf-md-book") )
+            classes.push( createClassLink("/bookshelf", clsText, "nf nf-md-book") )
             break;
         case 'book-series':
             classes.push( createClassLink("", clsText, "nf nf-md-bookshelf") )
@@ -48,7 +48,7 @@ export function listClasses(fileData:Data): string | JSX.Element {
             classes.push( createClassLink("/uses#gear-that-i-use", clsText) )
             break;
         case 'movie':
-            classes.push( createClassLink("", clsText, "nf nf-md-movie_open") )
+            classes.push( createClassLink("/movies", clsText, "nf nf-md-movie_open") )
             break;
         case 'ontological-distinction':
             classes.push( createClassLink("/notes/ontological-distinction", clsText, "nf nf-md-thought_bubble") )
@@ -73,10 +73,10 @@ export function listClasses(fileData:Data): string | JSX.Element {
             classes.push( createClassLink("/uses#software-that-i-use", clsText, "nf nf-fa-laptop_code") )
             break;
         case 'tv-show':
-            classes.push( createClassLink("", clsText, "nf nf-md-remote_tv") )
+            classes.push( createClassLink("/tv-shows", clsText, "nf nf-md-remote_tv") )
             break;
         case 'video-game':
-            classes.push( createClassLink("", clsText, "nf nf-fa-gamepad") )
+            classes.push( createClassLink("/video-games", clsText, "nf nf-fa-gamepad") )
             break;
         default:
             break;

@@ -135,7 +135,7 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
             const cssclasses = coerceToArray(coalesceAliases(data, ["cssclasses", "cssclass"]))
             if (cssclasses) data.cssclasses = cssclasses
 
-            if (data.thumbnail) data.thumbnail = data.thumbnail.replace(/\[\[|\]\]/g,'')
+            if (data.image) data.thumbnail = data.image.replace(/\[\[|\]\]/g,'')
 
             // inter-article links
             if (data.prev) data.prev = data.prev.replace(/\[\[|\]\]/g,'')
@@ -201,6 +201,8 @@ declare module "vfile" {
         uri: string
         series: string
         sequence: number
+        image: string
+        rating: number
       }>
   }
 }

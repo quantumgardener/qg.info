@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const thumbnails = document.querySelectorAll('.thumbnail');
+  const thumbnails = [...document.querySelectorAll('.thumbnail')]
+    .filter(img => img.parentElement.dataset.photopage?.includes('photos/'));
   if (!thumbnails.length) return;
 
   // Create overlay
@@ -43,9 +44,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   thumbnails.forEach(img => {
     img.parentElement.addEventListener('click', event => {
-      event.preventDefault();
 
       const link = img.parentElement;
+
+      // Detect covers by their fullsize path
+      const isCover = link.dataset.fullsize?.includes('/assets/covers/');
+
+      if (isCover) {
+        // Let the browser navigate normally
+        return;
+      }
+
+      event.preventDefault();
+
       const base = link.dataset.fullsize?.replace(/_[a-z]\.webp$/, '');
       const orientation = link.dataset.orientation;
       const vw = window.innerWidth;

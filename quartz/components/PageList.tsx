@@ -257,7 +257,7 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
             .map((page: Data) => {
               const title = page.frontmatter?.title;
               const thumbnail = page.frontmatter?.thumbnail as string;
-              const rating = page.frontmatter?.rating;
+              const rating = Number(page.frontmatter?.rating) || 0;
               
               const stars =
                 rating >= 1 && rating <= 5

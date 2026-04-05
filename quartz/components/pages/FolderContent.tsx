@@ -58,11 +58,42 @@ export default ((opts?: Partial<FolderContentOptions>) => {
 
     const folderSlug = stripSlashes(simplifySlug(fileData.slug!))
     let allPagesInFolder: QuartzPluginData[] = [];
+
+    // Reduce the list of pages shown depending on tag. By this point all source/* tags are stripped
+    // of the source.
     switch (folderSlug) {
       case "blog":
       case "now":
         allFiles.forEach((file) => {
-          if (file.slug?.startsWith('notes') && file.frontmatter?.tags?.includes(folderSlug)) {
+          if (file.frontmatter?.tags?.includes(folderSlug)) {
+            allPagesInFolder.push(file)
+          }
+        })
+        break
+      case "books":
+        allFiles.forEach((file) => {
+          if (file.frontmatter?.tags?.includes("book")) {
+            allPagesInFolder.push(file)
+          }
+        })
+        break
+      case "movies":
+        allFiles.forEach((file) => {
+          if (file.frontmatter?.tags?.includes("movie")) {
+            allPagesInFolder.push(file)
+          }
+        })
+        break
+      case "tv-shows":
+        allFiles.forEach((file) => {
+          if (file.frontmatter?.tags?.includes("tv-show")) {
+            allPagesInFolder.push(file)
+          }
+        })
+        break
+      case "video-games":
+        allFiles.forEach((file) => {
+          if (file.frontmatter?.tags?.includes("video-game")) {
             allPagesInFolder.push(file)
           }
         })

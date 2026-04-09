@@ -88,7 +88,7 @@ function generateRSSFeed(
         guid = `https://${joinSegments(base, encodeURI(slug))}`
       }
     } else {
-      console.error(chalk.red(`\nRSS entry missing URI: ${content.title}`));
+      console.error(chalk.redBright(`\nRSS entry missing URI: ${content.title}`));
       process.exit(1)
     }
 

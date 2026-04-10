@@ -3,6 +3,7 @@ import { Repository } from "@napi-rs/simple-git"
 import { QuartzTransformerPlugin } from "../types"
 import path from "path"
 import { styleText } from "util"
+import chalk from "chalk"
 
 export interface Options {
   priority: ("frontmatter" | "git" | "filesystem")[]
@@ -26,12 +27,8 @@ function coerceDate(fp: string, d: any): Date {
   const dt = new Date(d)
   const invalidDate = isNaN(dt.getTime()) || dt.getTime() === 0
   if (invalidDate && d !== undefined) {
-    console.log(
-      styleText(
-        "yellow",
-        `\nWarning: found invalid date "${d}" in \`${fp}\`. Supported formats: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format`,
-      ),
-    )
+    console.error(chalk.redBright(`\nFound invalid date "${d}" in \`${fp}\``))
+    process.exit(1)
   }
 
   return invalidDate ? new Date() : dt

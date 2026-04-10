@@ -10,6 +10,7 @@ import { ComponentChildren } from "preact"
 import { concatenateResources } from "../../util/resources"
 import { FileTrieNode } from "../../util/fileTrie"
 import { stripSlashes, simplifySlug } from "../../util/path"
+import chalk from "chalk"
 interface FolderContentOptions {
   /**
    * Whether to display number of folders
@@ -51,16 +52,24 @@ export default ((opts?: Partial<FolderContentOptions>) => {
       })
     }
 
+    const folderSlug = stripSlashes(simplifySlug(fileData.slug!))
     const folder = trie.findNode(fileData.slug!.split("/"))
-    if (!folder) {
+    const virtualFolders = new Set([
+      "books",
+      "movies",
+      "tv-shows",
+      "video-games"
+    ])
+    if (!folder && !virtualFolders.has(folderSlug)) {
       return null
     }
 
-    const folderSlug = stripSlashes(simplifySlug(fileData.slug!))
+    
     let allPagesInFolder: QuartzPluginData[] = [];
 
     // Reduce the list of pages shown depending on tag. By this point all source/* tags are stripped
     // of the source.
+    
     switch (folderSlug) {
       case "blog":
       case "now":
@@ -100,7 +109,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
         break
       default:
         allPagesInFolder =
-          folder.children
+          folder?.children
             .map((node) => {
               // regular file, proceed
               if (node.data) {

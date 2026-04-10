@@ -1,4 +1,4 @@
-import { isFolderPath, resolveRelative, SimpleSlug } from "../util/path"
+import { isFolderPath, joinSegments, resolveRelative, SimpleSlug } from "../util/path"
 import { QuartzPluginData } from "../plugins/vfile"
 import { formatDate, getDate, latestDate  } from "./Date"
 import { QuartzComponent, QuartzComponentProps } from "./types"
@@ -272,7 +272,7 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
                     href={resolveRelative(fileData.slug!, page.slug!)}
                     data-fullsize={resolveRelative(
                       fileData.slug!,
-                      "/assets/covers/" + (thumbnail as SimpleSlug)
+                      joinSegments("/assets/covers/", thumbnail) as SimpleSlug
                     )}
                     data-caption={caption}
                     data-orientation={page.frontmatter?.orientation}
@@ -280,7 +280,7 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
                     <img
                       src={resolveRelative(
                         fileData.slug!,
-                        "/assets/covers/" + (thumbnail as SimpleSlug)
+                        joinSegments("/assets/covers/", thumbnail) as SimpleSlug
                       )}
                       alt={caption}
                       class="thumbnail"

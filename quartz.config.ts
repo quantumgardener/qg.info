@@ -88,7 +88,7 @@ const config: QuartzConfig = {
       Plugin.ContentPage(),
       Plugin.FolderPage(),
       // Plugin.TagPage(),
-      Plugin.KeywordPage(),
+      //Plugin.KeywordPage(),
       Plugin.ContentIndex({
         enableSiteMap: true,
         enableRSS: true,
@@ -100,6 +100,7 @@ const config: QuartzConfig = {
       Plugin.Static(),
       Plugin.Favicon(),
       Plugin.NotFoundPage(),
+      Plugin.VirtualFolderPages(),
       // Comment out CustomOgImages to speed up build time
       // Plugin.CustomOgImages(),
     ],

@@ -111,6 +111,7 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
                     }
                     break
                   default:
+                    classes.push(tag)
                     break
                 }   
               }
@@ -195,7 +196,6 @@ declare module "vfile" {
         cssclasses: string[]
         socialImage: string
         comments: boolean | string
-        rating: string
         classes: string[]
         keywords: string[]
         uri: string

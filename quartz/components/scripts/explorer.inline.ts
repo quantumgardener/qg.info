@@ -93,6 +93,15 @@ const menu: MenuItem[] = [
       ]
     },
     {
+      slug: 'notes/catalogues',
+      children: [
+        { slug: '/books', title: "Books"},
+        { slug: '/movies', title: "Movies" },
+        { slug: '/tv-shows', title: "TV shows"},
+        { slug: '/video-games', title: "Video games" },
+      ]
+    },
+    {
       slug: 'notes/quantum-os',
       title: 'Quantum OS'
     },
@@ -201,7 +210,7 @@ function createFolderNode(
     folderContainer.classList.add("active")
   }
 
-  if (opts.folderClickBehavior === "link") {
+  if (opts.folderClickBehavior === "link" || node.slug !== '') {
     // Replace button with link for link behavior
     const button = titleContainer.querySelector(".folder-button") as HTMLElement
     const a = document.createElement("a")

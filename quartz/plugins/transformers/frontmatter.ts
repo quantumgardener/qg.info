@@ -96,7 +96,19 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
                 const tagGroup = tag.split("/")
                 switch (tagGroup[0]) {
                   case "class":
-                    classes.push(tag.replace("class/", "")) // add it in without the "class/"
+                    switch(tag) {
+                      case "class/blog-post":
+                        // add as "blog" which is the way I want to display on the site
+                        classes.push("blog")
+                        break
+                      case "class/now-post":
+                        // add as "now" which is the way I want to display on the site
+                        classes.push("now")
+                        break
+                      default:
+                        // add it in without the "class/"
+                        classes.push(tag.replace("class/", ""))
+                    } 
                     break
                   case "keyword":
                     // The tag coming in is hiearchical, even if just one level. keyword/lvl1/lvl2/...

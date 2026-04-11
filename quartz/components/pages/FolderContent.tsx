@@ -55,8 +55,10 @@ export default ((opts?: Partial<FolderContentOptions>) => {
     const folderSlug = stripSlashes(simplifySlug(fileData.slug!))
     const folder = trie.findNode(fileData.slug!.split("/"))
     const virtualFolders = new Set([
+      "blog",
       "books",
       "movies",
+      "now",
       "tv-shows",
       "video-games"
     ])

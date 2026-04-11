@@ -98,6 +98,9 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
           if (title !== "index") {
             curPathSegment = title
           }
+        } else {
+          // Capitalise folder name if no index file
+          curPathSegment = curPathSegment.charAt(0).toUpperCase() + curPathSegment.slice(1)
         }
 
         // Add current slug to full path

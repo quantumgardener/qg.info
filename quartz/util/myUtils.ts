@@ -1,9 +1,15 @@
 import { ProcessedContent } from "../plugins/vfile";
 import { QuartzPluginData } from "../plugins/vfile";
-import { FullSlug } from "./path";
+import { FullSlug, normalizeHastElement } from "./path";
 import { URLSearchParams } from "url";
 import { WEBMENTION_TOKEN } from "./myUtils_cfg";
 import { PerfTimer } from "./perf";
+import { VFile } from "vfile"
+import { Root as HTMLRoot } from "hast"
+import { BuildCtx } from "../util/ctx"
+import { createMdProcessor, createHtmlProcessor } from "../processors/parse";
+import type { Element as HastElement } from "hast"
+import { clone } from "./clone"
 
 export function addYearsToUTC(inputDate: unknown, yearsToAdd: number): Date {
 
@@ -154,4 +160,36 @@ declare module "vfile" {
     seriesLink: SeriesLink
     webmentions: ProcessedWebMentions
   }
+}
+
+export async function renderMarkdownToHtmlAst(
+  ctx: BuildCtx,
+  markdown: string,
+  slug: string
+): Promise<HTMLRoot> {
+
+  // 1. Create synthetic VFile
+  const file = new VFile({
+    value: markdown,
+    path: `${slug}.md`,
+  })
+  file.data.slug = slug
+
+
+  // 2. Build processors
+  const mdProcessor = createMdProcessor(ctx)
+  const htmlProcessor = createHtmlProcessor(ctx)
+
+  // 3. Markdown → mdast
+  const mdAst = mdProcessor.parse(file)
+
+  // 4. Apply MD transforms (plugins)
+  const transformedMdAst = await mdProcessor.run(mdAst, file)
+
+  // 5. mdast → hast
+  const htmlAst = await htmlProcessor.run(transformedMdAst as any, file)
+
+  // 6. Align internal links to root and not ./
+  const normalized = normalizeHastElement(htmlAst, "", "")
+  return normalized
 }

@@ -4,8 +4,9 @@ import chalk from "chalk";
 // Set the list of illegal patterns here. Anything beginning with class/* has had the class/ removed.
 // e.g. use "blog" and not "class/blog"
 const illegalTagPatterns = [
-    "journal/",     // ALL journal entries
-    "class/class"   // Internal list of class pages
+    "journal/",             // ALL journal entries
+    "class/class-index",    // Internal list of class pages
+    "class/home"           // Places I've lived
 ]
 
 export const Portcullis: QuartzFilterPlugin = () => ({

@@ -19,7 +19,7 @@ const config: QuartzConfig = {
     locale: "en-AU",
     timezone: "Australia/Melbourne",
     baseUrl: "quantumgardener.info",
-    ignorePatterns: ["private", "templates", ".obsidian"],
+    ignorePatterns: ["atlas-unchecked","Home Life Index", "JDEX","maps","notes/sources"],
     defaultDateType: "created",
     theme: {
       fontOrigin: "googleFonts",
@@ -77,9 +77,6 @@ const config: QuartzConfig = {
       Plugin.RemoveInternalFromPhotoLinks(),
     ],
     filters: [
-      //Plugin.RemoveDrafts()
-      //Plugin.ExplicitPublish(),
-      //Plugin.DelayPublish()
       Plugin.Portcullis()
     ],
     emitters: [

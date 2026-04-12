@@ -57,6 +57,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
     const virtualFolders = new Set([
       "blog",
       "books",
+      "commander's-log",
       "movies",
       "now",
       "tv-shows",
@@ -84,6 +85,13 @@ export default ((opts?: Partial<FolderContentOptions>) => {
       case "books":
         allFiles.forEach((file) => {
           if (file.frontmatter?.tags?.includes("book")) {
+            allPagesInFolder.push(file)
+          }
+        })
+        break
+      case "commander's-log":
+        allFiles.forEach((file) => {
+          if (file.frontmatter?.tags?.includes("cmdrs-log")) {
             allPagesInFolder.push(file)
           }
         })

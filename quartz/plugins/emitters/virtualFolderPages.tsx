@@ -69,7 +69,7 @@ export const VirtualFolderPages: QuartzEmitterPlugin<Partial<FolderPageOptions>>
   const Header = HeaderConstructor()
   const Body = BodyConstructor()
 
-  // Uses PageList.tsx to render. ***LISTS MUST MATCH** in FolderContent.tsx "VirtualFolders" or page will be blank
+  // Uses PageList.tsx to render. ***LISTS MUST MATCH** in components/pages/FolderContent.tsx "VirtualFolders" or page will be blank
   const virtualFolders: Record<string, { title: string, description: string, intro?: string }> = {
     blog: {
       title: "Blog",
@@ -86,6 +86,15 @@ Time-based notes as I share my thinking.
     books: { 
       title: "Books", 
       description: "This is a list of all movies referenced on the site. Hover for title and rating, click for detail."
+    },
+    "commander's-log": {
+      title: "Commander's Log",
+      description: "A list of Commanders log posts.",
+      intro: `
+![[cmdr-q4ntum.webp|right|200]]When checking out some quantum possibilities I picked up a strange signal. The origins are certainly the Milky Way galaxy yet they can't be from now. Have I stumbled across a closed timelike curve? All I have is a commander's log. Maybe Commander Q4NTUM is a distant ancestor? 
+
+I'm cross-posting these log entries at <a rel="me" href="https://aus.social/@q4ntum">aus.social/@q4ntum</a> and via a dedicated [[RSS feed]] at  https://quantumgardener.info/cmdrs-log.xml
+`
     },
     movies: { 
       title: "Movies", 

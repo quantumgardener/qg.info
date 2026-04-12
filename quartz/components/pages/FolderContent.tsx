@@ -10,7 +10,7 @@ import { ComponentChildren } from "preact"
 import { concatenateResources } from "../../util/resources"
 import { FileTrieNode } from "../../util/fileTrie"
 import { stripSlashes, simplifySlug } from "../../util/path"
-import chalk from "chalk"
+
 interface FolderContentOptions {
   /**
    * Whether to display number of folders

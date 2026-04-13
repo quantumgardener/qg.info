@@ -247,7 +247,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             `https://${base}/commander's-log/`,
             "The log of Commander Q4NTUM",
             "cmdrs-log",
-            "commander's-log",
+            "notes",
             "cmdrs-log",
             "cmdr-q4ntum.jpg",
             opts.rssLimit

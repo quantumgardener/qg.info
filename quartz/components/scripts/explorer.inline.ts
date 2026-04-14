@@ -21,76 +21,81 @@ interface MenuItem {
     parent?: MenuItem | undefined;
     title?: string,
     depth?: number;
+    icon?: string;
   }
 
+type MenuNode = FileTrieNode<ContentDetails> & { icon?: string }
+
 const menu: MenuItem[] = [
-    { slug: 'notes/humanity-in-the-workplace' },
+    { 
+      slug: 'notes/humanity-in-the-workplace',
+      icon: 'icon-landscape'
+    },
     { 
       slug: 'notes/expand-my-way-of-being', 
-      children: [
-        { slug: 'notes/the-ontology-of-the-human-observer'},
-        { slug: 'notes/way-of-being'},
-        { slug: 'notes/basic-moods-of-life'},
-        { slug: 'notes/ontological-distinction'},
-        { slug: 'notes/self-authorship-with-a-journal',
-          title: 'Self-authorship journaling'
-        }
-      ]
+      icon: 'icon-landscape'
+      // children: [
+      //   { slug: 'notes/the-ontology-of-the-human-observer'},
+      //   { slug: 'notes/way-of-being'},
+      //   { slug: 'notes/basic-moods-of-life'},
+      //   { slug: 'notes/ontological-distinction'},
+      //   { slug: 'notes/self-authorship-with-a-journal',
+      //     title: 'Self-authorship journaling'
+      //   }
+      // ]
     },
     { 
       slug: 'notes/productive-laziness',
-      children: [
-        { slug: 'notes/personal-knowledge-management'}
-      ]
+      icon: 'icon-landscape'
     },
     { 
       slug: 'notes/hobby-together',
-      children: [
-        { slug: 'notes/photography',
-          children: [
-            { slug: 'notes/photos'},
-            { slug: 'notes/astrophotography'},
-            { slug: 'notes/100-hours-learning-affinity-photo'},
-            { 
-              slug: 'notes/imatch-to-site',
-              title: 'IMatch to Site'
-            }
-          ],
-        },
-        { slug: 'notes/my-miniature-painting-hobby',
-          children: [
-            { slug: 'notes/painting-nagash'},
-            { slug: 'notes/sylvaneth-treelord-ancient'},
-            { slug: 'notes/my-painted-miniatures',
-              title: 'All painted minis'
-            },
-            { slug: 'notes/my-incomplete-miniatures',
-              title: 'Pile of shame'
-            },
-            { slug: 'notes/my-miniature-painting-toolkit',
-              title: 'Toolkit'
-            }
-          ]
-        },
-        { slug: 'notes/lego',
-          children: [
-            { slug: 'notes/building-the-millennium-falcon-in-lego' },
-            { slug: 'notes/building-r2-d2-in-lego' },
-            { slug: 'notes/building-the-batman-tumbler-in-lego' }
-          ]
-        },
-        { slug: 'notes/video-gaming'},
-        { slug: 'notes/home-theatre'},
-        { slug: 'notes/cross-stitch'},
-        { slug: 'notes/software-development'},
-        { slug: "commander's-log/index"},
-      ]
+      icon: 'icon-landscape'
+      // children: [
+      //   { slug: 'notes/photography',
+      //     children: [
+      //       { slug: 'notes/photos'},
+      //       { slug: 'notes/astrophotography'},
+      //       { slug: 'notes/100-hours-learning-affinity-photo'},
+      //       { 
+      //         slug: 'notes/imatch-to-site',
+      //         title: 'IMatch to Site'
+      //       }
+      //     ],
+      //   },
+      //   { slug: 'notes/my-miniature-painting-hobby',
+      //     children: [
+      //       { slug: 'notes/painting-nagash'},
+      //       { slug: 'notes/sylvaneth-treelord-ancient'},
+      //       { slug: 'notes/my-painted-miniatures',
+      //         title: 'All painted minis'
+      //       },
+      //       { slug: 'notes/my-incomplete-miniatures',
+      //         title: 'Pile of shame'
+      //       },
+      //       { slug: 'notes/my-miniature-painting-toolkit',
+      //         title: 'Toolkit'
+      //       }
+      //     ]
+      //   },
+      //   { slug: 'notes/lego',
+      //     children: [
+      //       { slug: 'notes/building-the-millennium-falcon-in-lego' },
+      //       { slug: 'notes/building-r2-d2-in-lego' },
+      //       { slug: 'notes/building-the-batman-tumbler-in-lego' }
+      //     ]
+      //   },
+      //   { slug: 'notes/video-gaming'},
+      //   { slug: 'notes/home-theatre'},
+      //   { slug: 'notes/cross-stitch'},
+      //   { slug: 'notes/software-development'},
+      //   { slug: "commander's-log/index"},
+      // ]
     },
     {
-      slug: 'projects',
-      children: [
-        { slug: 'notes/complete-photo-cataloguing' }
-      ]
+      slug: 'notes/quantum-os',
+      title: 'Quantum OS',
+      icon: 'icon-landscape'
     },
     {
       slug: 'notes/catalogues',
@@ -102,11 +107,21 @@ const menu: MenuItem[] = [
       ]
     },
     {
-      slug: 'notes/quantum-os',
-      title: 'Quantum OS'
+      slug: 'notes/projects',
+      children: [
+        { slug: 'notes/complete-photo-cataloguing' }
+      ]
     },
-    { slug: 'subscribe'},
-    { slug: 'about'}
+    { 
+      title: 'Subscribe',
+      slug: 'notes/subscribe',
+      icon: 'menu-icon nf nf-fa-square_rss'
+    },
+    { 
+      title: 'About',
+      slug: 'notes/about',
+      icon: 'menu-icon nf nf-fa-address_card'
+    }
 ]
 
 type FolderState = {
@@ -174,11 +189,20 @@ function toggleFolder(evt: MouseEvent) {
   localStorage.setItem("fileTree", stringifiedFileTree)
 }
 
-function createFileNode(currentSlug: FullSlug, node: FileTrieNode): HTMLLIElement {
+function createFileNode(currentSlug: FullSlug, node: MenuNode): HTMLLIElement {
   const template = document.getElementById("template-file") as HTMLTemplateElement
   const clone = template.content.cloneNode(true) as DocumentFragment
   const li = clone.querySelector("li") as HTMLLIElement
   const a = li.querySelector("a") as HTMLAnchorElement
+
+
+  // Inject the icon
+  if(node.icon) {
+    const icon = document.createElement("i")
+    icon.classList.add(...node.icon.split(/\s+/))
+    li.insertBefore(icon, a)
+  }
+
   a.href = resolveRelative(currentSlug, node.slug).replace("..","") // Halts /notes/notes recursion error
   a.dataset.for = node.slug
   a.textContent = node.displayName
@@ -192,7 +216,7 @@ function createFileNode(currentSlug: FullSlug, node: FileTrieNode): HTMLLIElemen
 
 function createFolderNode(
   currentSlug: FullSlug,
-  node: FileTrieNode,
+  node: MenuNode,
   opts: ParsedOptions,
 ): HTMLLIElement {
   const template = document.getElementById("template-folder") as HTMLTemplateElement
@@ -281,11 +305,15 @@ async function setupExplorer(currentSlug: FullSlug) {
         const newNode = new FileTrieNode<ContentDetails>(
           slugSegments,
           data[item.slug]
-        )
+        ) as MenuNode
         //newNode.displayName = toTitleCase(newNode.displayName) // Force to title case for display purposes
         if (item.title) {
           newNode.displayName = item.title // Set titles assumed to be in desired case already
-        } 
+        }
+
+        if (item.icon) {
+          newNode.icon = item.icon
+        }
 
         parent.children.push(newNode)
         if (item.children) {

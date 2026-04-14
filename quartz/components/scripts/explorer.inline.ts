@@ -100,10 +100,10 @@ const menu: MenuItem[] = [
     {
       slug: 'notes/catalogues',
       children: [
-        { slug: '/books', title: "Books"},
-        { slug: '/movies', title: "Movies" },
-        { slug: '/tv-shows', title: "TV shows"},
-        { slug: '/video-games', title: "Video games" },
+        { slug: '/books', title: "Books", icon: 'menu-icon nf nf-md-book'},
+        { slug: '/movies', title: "Movies", icon: 'menu-icon nf nf-md-movie_open' },
+        { slug: '/tv-shows', title: "TV shows", icon: 'menu-icon nf nf-md-remote_tv'},
+        { slug: '/video-games', title: "Video games", icon: 'menu-icon nf nf-fa-gamepad' },
       ]
     },
     {

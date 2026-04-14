@@ -653,13 +653,24 @@ span.self-link {
 
 .explorer-content {
   & ul {
-    & li {
-      a {
+    & li > a {
         font-weight: inherit;
-      }
+
+        &.active {
+          color: var(--secondary);
+          font-weight: bolder;
+        }
     }
   }
 }
+
+.folder-container {
+  & div > a {
+    font-size: 1rem;
+  }
+}
+
+
 .toc-content {
   list-style: none;
   position: relative;

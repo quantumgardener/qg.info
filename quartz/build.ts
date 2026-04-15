@@ -1,5 +1,6 @@
 import sourceMapSupport from "source-map-support"
 sourceMapSupport.install(options)
+import fs from "fs"
 import path from "path"
 import { PerfTimer } from "./util/perf"
 import { rm } from "fs/promises"
@@ -9,7 +10,7 @@ import { parseMarkdown } from "./processors/parse"
 import { filterContent } from "./processors/filter"
 import { emitContent } from "./processors/emit"
 import cfg from "../quartz.config"
-import { FilePath, joinSegments, slugifyFilePath } from "./util/path"
+import { FilePath, FullSlug, joinSegments, slugifyFilePath } from "./util/path"
 import chokidar from "chokidar"
 import { ProcessedContent } from "./plugins/vfile"
 import { Argv, BuildCtx } from "./util/ctx"
@@ -22,6 +23,7 @@ import { randomIdNonSecure } from "./util/random"
 import { ChangeEvent } from "./plugins/types"
 import { minimatch } from "minimatch"
 import { buildNavigation, buildWebmentions } from "./util/myUtils"
+
 
 type ContentMap = Map<
   FilePath,
@@ -41,6 +43,25 @@ type BuildData = {
   contentMap: ContentMap
   changesSinceLastBuild: Record<FilePath, ChangeEvent["type"]>
   lastBuildMs: number
+}
+
+const VIRTUAL_PAGES: Record<string, { title: string; body: string }> = {
+  "books/index.md": {
+    title: "Chickens rock",
+    body: `All hail the egg`,
+  },
+}
+
+function buildVirtualMarkdown(title: string, body: string): string {
+  const datetime = new Date().toISOString()
+  return `---
+title: ${title}
+datetime: ${datetime}
+publish: allow
+---
+
+${body}
+`.trimStart()
 }
 
 async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
@@ -71,6 +92,26 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
   await rm(output, { recursive: true, force: true })
   console.log(`Cleaned output directory \`${output}\` in ${perf.timeSince("clean")}`)
 
+  perf.addEvent("virtual")
+  const VIRTUAL_FOLDER = "_virtual-indexes"
+  const virtualRoot = path.join(argv.directory, VIRTUAL_FOLDER)
+  if (!fs.existsSync(virtualRoot)) {
+    fs.mkdirSync(virtualRoot)
+  }
+
+  for (const [relPath, { title, body }] of Object.entries(VIRTUAL_PAGES)) {
+    const fullPath = path.join(virtualRoot, relPath)
+    const dir = path.dirname(fullPath)
+
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true })
+    }
+
+    const markdown = buildVirtualMarkdown(title, body)
+    fs.writeFileSync(fullPath, markdown, "utf8")
+  }
+  console.log(`Created virtual indexes in \`${VIRTUAL_FOLDER}\` in ${perf.timeSince("virtual")}`)
+
   perf.addEvent("glob")
   const allFiles = await glob("**/*.*", argv.directory, cfg.configuration.ignorePatterns)
   const markdownPaths = allFiles.filter((fp) => fp.endsWith(".md")).sort()
@@ -83,6 +124,19 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
   ctx.allSlugs = allFiles.map((fp) => slugifyFilePath(fp as FilePath))
 
   const parsedFiles = await parseMarkdown(ctx, filePaths)
+
+  // Normalise virtual folder paths
+  for (const [_ast, file] of parsedFiles) {
+    if (file.data.filePath?.includes("_virtual-indexes/")) {
+      // Rewrite filePath to remove the virtual folder prefix
+      file.data.filePath = file.data.filePath.replace("_virtual-indexes/", "") as FilePath
+
+      // Rewrite slug to match the new path
+      if (file.data.slug) {
+        file.data.slug = file.data.slug.replace(/^_virtual-indexes\//, "") as FullSlug
+      }
+    }
+}
   const filteredContent = filterContent(ctx, parsedFiles)
   await buildNavigation(filteredContent)
   await buildWebmentions(filteredContent)
@@ -91,6 +145,15 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
   console.log(
     styleText("green", `Done processing ${markdownPaths.length} files in ${perf.timeSince()}`),
   )
+  perf.addEvent("clean_virtual")
+  if (fs.existsSync(virtualRoot)) {
+    try {
+      fs.rmSync(virtualRoot, { recursive: true, force: true })
+      console.log(`Removed virtual indexes from \`${VIRTUAL_FOLDER}\` in ${perf.timeSince("clean_virtual")}`)
+    } catch (err) {
+      console.error("Failed to remove virtual folder:", err)
+    }
+  }
   release()
 
   if (argv.watch) {

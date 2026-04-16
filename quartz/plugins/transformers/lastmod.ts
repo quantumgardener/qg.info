@@ -93,7 +93,7 @@ export const CreatedModifiedDate: QuartzTransformerPlugin<Partial<Options>> = (u
             }
 
             if (created === undefined && file.data.filePath) {
-              console.error(chalk.redBright(`\nMissing datetime in \`${file.data.frontmatter?.title}\``))
+              console.error(chalk.redBright(`\nMissing datetime in \`${file.data.frontmatter?.title}\` (${file.data.slug})`))
               process.exit(1)
             }
 

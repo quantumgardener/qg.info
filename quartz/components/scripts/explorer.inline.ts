@@ -27,6 +27,11 @@ interface MenuItem {
 type MenuNode = FileTrieNode<ContentDetails> & { icon?: string }
 
 const menu: MenuItem[] = [
+    {
+      slug: '/',
+      icon: 'menu-icon nf nf-md-home',
+      title: 'Home'
+    },
     { 
       slug: 'notes/humanity-in-the-workplace',
       icon: 'icon-landscape'

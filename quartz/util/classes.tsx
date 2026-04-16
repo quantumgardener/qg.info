@@ -29,11 +29,11 @@ export function listClasses(fileData:Data): string | JSX.Element {
         const clsText = cls.replace(/-/g, " ")
         switch (cls) {
         case 'album': // photo album, not music
-            classes.push( createClassLink("/albums", clsText, "nf nf-md-image_album") )
+            classes.push( createClassLink("/albums/", clsText, "nf nf-md-image_album") )
             break;
         case 'blog':
         case 'now':
-            classes.push( createClassLink(`/${cls}`, clsText, "nf nf-fa-square_rss") )
+            classes.push( createClassLink(`/${cls}/`, clsText, "nf nf-fa-square_rss") )
             break;
         case 'book':
             classes.push( createClassLink("/books/", clsText, "nf nf-md-book") )
@@ -42,7 +42,7 @@ export function listClasses(fileData:Data): string | JSX.Element {
             classes.push( createClassLink("", clsText, "nf nf-md-bookshelf") )
             break;
         case 'cmdrs-log':
-            classes.push( createClassLink("/commander's-log", clsText, "nf nf-fa-shuttle_space") )
+            classes.push( createClassLink("/cmdrs-log/", clsText, "nf nf-fa-shuttle_space") )
             break;
         case 'gear':
             classes.push( createClassLink("/uses#gear-that-i-use", clsText) )
@@ -51,23 +51,23 @@ export function listClasses(fileData:Data): string | JSX.Element {
             classes.push( createClassLink("/movies/", clsText, "nf nf-md-movie_open") )
             break;
         case 'ontological-distinction':
-            classes.push( createClassLink("/notes/ontological-distinction", clsText, "nf nf-md-thought_bubble") )
+            classes.push( createClassLink("/notes/ontological-distinction/", clsText, "nf nf-md-thought_bubble") )
             break;
         case 'person':
             // Not linked anywhere
             classes.push( createClassLink("", clsText, "nf nf-oct-person") )
             break;
         case 'photo':
-            classes.push( createClassLink("/photos", clsText, "nf nf-fa-camera") )
+            classes.push( createClassLink("/photos/", clsText, "nf nf-fa-camera") )
             break;
         case 'project':
-            classes.push( createClassLink("/projects", clsText, "nf nf-oct-goal") )
+            classes.push( createClassLink("/projects/", clsText, "nf nf-oct-goal") )
             break;
         case 'quote':
-            classes.push( createClassLink("/quotes", clsText, "nf nf-fa-quote_right") )
+            classes.push( createClassLink("/quotes/", clsText, "nf nf-fa-quote_right") )
             break;    
         case 'slash-page':
-            classes.push( createClassLink("/slashes", clsText, "nf nf-md-slash_forward") )
+            classes.push( createClassLink("/slashes/", clsText, "nf nf-md-slash_forward") )
             break;
         case 'software':
             classes.push( createClassLink("/uses#software-that-i-use", clsText, "nf nf-fa-laptop_code") )

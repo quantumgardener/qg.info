@@ -344,7 +344,7 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
     case "albums":
       //return albumGalleryLayout()
       return null
-    case "commander's-log":
+    case "cmdrs-log":
       return cmdrsLogLayout()
     case "keywords":
       //return basicGalleryLayout()

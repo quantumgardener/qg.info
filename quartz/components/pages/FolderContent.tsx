@@ -54,20 +54,6 @@ export default ((opts?: Partial<FolderContentOptions>) => {
 
     const folderSlug = stripSlashes(simplifySlug(fileData.slug!))
     const folder = trie.findNode(fileData.slug!.split("/"))
-    const virtualFolders = new Set([
-      "blog",
-      "books",
-      "commander's-log",
-      "movies",
-      "now",
-      "tv-shows",
-      "video-games"
-    ])
-    if (!folder && !virtualFolders.has(folderSlug)) {
-      return null
-    }
-
-    
     let allPagesInFolder: QuartzPluginData[] = [];
 
     // Reduce the list of pages shown depending on tag. By this point all source/* tags are stripped
@@ -89,7 +75,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
           }
         })
         break
-      case "commander's-log":
+      case "cmdrs-log":
         allFiles.forEach((file) => {
           if (file.frontmatter?.tags?.includes("cmdrs-log")) {
             allPagesInFolder.push(file)

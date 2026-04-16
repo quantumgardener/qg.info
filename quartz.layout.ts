@@ -58,7 +58,7 @@ export const defaultContentPageLayout: PageLayout = {
     ),
     Component.RecentNotes({
       title: "Recent Blogs",
-      linkToMore: "blog" as SimpleSlug,
+      linkToMore: "blog/" as SimpleSlug,
       showTags: false,
       limit: 5,
       filter: (note: QuartzPluginData) => {

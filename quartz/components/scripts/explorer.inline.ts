@@ -34,15 +34,6 @@ const menu: MenuItem[] = [
     { 
       slug: 'notes/expand-my-way-of-being', 
       icon: 'icon-landscape'
-      // children: [
-      //   { slug: 'notes/the-ontology-of-the-human-observer'},
-      //   { slug: 'notes/way-of-being'},
-      //   { slug: 'notes/basic-moods-of-life'},
-      //   { slug: 'notes/ontological-distinction'},
-      //   { slug: 'notes/self-authorship-with-a-journal',
-      //     title: 'Self-authorship journaling'
-      //   }
-      // ]
     },
     { 
       slug: 'notes/productive-laziness',
@@ -96,21 +87,6 @@ const menu: MenuItem[] = [
       slug: 'notes/quantum-os',
       title: 'Quantum OS',
       icon: 'icon-landscape'
-    },
-    {
-      slug: 'notes/catalogues',
-      children: [
-        { slug: '/books', title: "Books", icon: 'menu-icon nf nf-md-book'},
-        { slug: '/movies', title: "Movies", icon: 'menu-icon nf nf-md-movie_open' },
-        { slug: '/tv-shows', title: "TV shows", icon: 'menu-icon nf nf-md-remote_tv'},
-        { slug: '/video-games', title: "Video games", icon: 'menu-icon nf nf-fa-gamepad' },
-      ]
-    },
-    {
-      slug: 'notes/projects',
-      children: [
-        { slug: 'notes/complete-photo-cataloguing' }
-      ]
     },
     { 
       title: 'Subscribe',

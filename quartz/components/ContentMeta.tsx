@@ -104,14 +104,8 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
         }        
       }
 
-      if(fileData.frontmatter?.series) {
-        segments.push(
-          <span>
-            {" | "}
-            {`${fileData.frontmatter.series.replace(/^\[\[|\]\]$/g, '')} (${fileData.frontmatter.sequence})`}
-          </span>
-        )
-        //segments.push(<span> | <a href={`${resolveRelative(fileData.slug!, fileData.seriesLink.slug!)}`}>{fileData.seriesLink.title}</a></span>)
+      if(fileData.seriesLink) {
+        segments.push(<span> | <a href={`${resolveRelative(fileData.slug!, fileData.seriesLink.slug!)}`}>{fileData.seriesLink.title}</a> ({fileData.frontmatter?.sequence})</span>)
       }
 
       const classList = listClasses(fileData)

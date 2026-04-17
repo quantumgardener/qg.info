@@ -8,8 +8,13 @@ import { VFile } from "vfile"
 import { Root as HTMLRoot } from "hast"
 import { BuildCtx } from "../util/ctx"
 import { createMdProcessor, createHtmlProcessor } from "../processors/parse";
-import type { Element as HastElement } from "hast"
-import { clone } from "./clone"
+
+
+export const PublishStatus = Object.freeze({
+  ALLOW: "allow",
+  DENY: "deny",
+  UNDECIDED: "undecided",
+});
 
 export function addYearsToUTC(inputDate: unknown, yearsToAdd: number): Date {
 

@@ -1,3 +1,4 @@
+import { PublishStatus } from "../../util/myUtils";
 import { QuartzFilterPlugin } from "../types"
 import chalk from "chalk";
 
@@ -21,13 +22,13 @@ export const Portcullis: QuartzFilterPlugin = () => ({
     }
 
     switch(publish) {
-        case "deny":
+        case PublishStatus.DENY:
             console.debug(chalk.yellow(`Deny: ${vfile.data?.frontmatter?.title}`))
             return false;
-        case "undecided":
+        case PublishStatus.UNDECIDED:
             console.debug(chalk.yellow(`Undecided: ${vfile.data?.frontmatter?.title}`))
             return false
-        case "allow":
+        case PublishStatus.ALLOW:
             // Check for illegal tags
             const tags = vfile.data?.frontmatter?.tags ?? []
             const illegalTagsFound = tags.some(tag =>

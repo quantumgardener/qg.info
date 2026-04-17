@@ -29,7 +29,7 @@ export function byDateAndAlphabetical(cfg: GlobalConfiguration): SortFn {
   }
 }
 
-export function byDateAndAlphabeticalFolderFirst(cfg: GlobalConfiguration): SortFn {
+export function byDateAndAlphabeticalFolderFirst(_cfg: GlobalConfiguration): SortFn {
   return (f1, f2) => {
     // Sort folders first
     const f1IsFolder = isFolderPath(f1.slug ?? "")
@@ -68,16 +68,16 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
     list = list.slice(0, limit)
   }
 
-  const groupedByYear = list.reduce((acc: Record<string, Data[]>, page: Data) => {
-    const dateObj = page.dates ? latestDate(page) : null;
-    const year = dateObj ? dateObj.toLocaleString(cfg.locale || "en", { year: "numeric" }) : "";
-    if (!year) return acc; // Skip items without a valid date
-    if (!acc[year]) {
-      acc[year] = [];
-    }
-    acc[year].push(page);
-    return acc;
-  }, {});
+  // const groupedByYear = list.reduce((acc: Record<string, Data[]>, page: Data) => {
+  //   const dateObj = page.dates ? latestDate(page) : null;
+  //   const year = dateObj ? dateObj.toLocaleString(cfg.locale || "en", { year: "numeric" }) : "";
+  //   if (!year) return acc; // Skip items without a valid date
+  //   if (!acc[year]) {
+  //     acc[year] = [];
+  //   }
+  //   acc[year].push(page);
+  //   return acc;
+  // }, {});
 
   const groupedByMonthYear = list.reduce((acc: Record<string, Data[]>, page: Data) => {
     const dateObj = page.dates ? latestDate(page) : null;
@@ -179,65 +179,65 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
   }
 
   // This is for the gallery of albums, not the album itself
-  const albumGalleryLayout = () => {
-    return (
-      <div className="section" data-layout="album">
-        <div class="my-gallery justified-gallery" >
-          {list.map((page: Data) => {
-            const title = page.frontmatter?.title?.replace("Album: ","")
-            let thumbnail = page.frontmatter?.thumbnail
-            if (thumbnail) {
-              return (
-                <a href={resolveRelative(fileData.slug!, page.slug!)}>
-                    <img 
-                      src={resolveRelative(fileData.slug!, "photos/"+thumbnail as SimpleSlug)} 
-                      style="float:left; margin-top:0; margin-right:1rem;" 
-                      alt={title}
-                    />
-                  </a>
-              )  
-            } else {
-              console.error(`\nPhoto ${page.slug!} missing thumbnail for album.`)
-              process.exit(1)            
-            }
-          })}
-        </div>
-      </div>
-    )
-  }
+  // const albumGalleryLayout = () => {
+  //   return (
+  //     <div className="section" data-layout="album">
+  //       <div class="my-gallery justified-gallery" >
+  //         {list.map((page: Data) => {
+  //           const title = page.frontmatter?.title?.replace("Album: ","")
+  //           let thumbnail = page.frontmatter?.thumbnail
+  //           if (thumbnail) {
+  //             return (
+  //               <a href={resolveRelative(fileData.slug!, page.slug!)}>
+  //                   <img 
+  //                     src={resolveRelative(fileData.slug!, "photos/"+thumbnail as SimpleSlug)} 
+  //                     style="float:left; margin-top:0; margin-right:1rem;" 
+  //                     alt={title}
+  //                   />
+  //                 </a>
+  //             )  
+  //           } else {
+  //             console.error(`\nPhoto ${page.slug!} missing thumbnail for album.`)
+  //             process.exit(1)            
+  //           }
+  //         })}
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
-  const basicGalleryLayout = () => {
-    return (
-      <div className="section" data-layout="basic">
-        <div class="my-gallery justified-gallery">
-          {list.map((page: Data) => {
-            const title = page.frontmatter?.title
-            let thumbnail = page.frontmatter?.thumbnail as string
-            if (thumbnail) {
-              return (
-                <a
-                  href="#" 
-                  data-fullsize={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
-                  data-caption={title}
-                  data-photopage={resolveRelative(fileData.slug!, page.slug!)}
-                  data-orientation={page.frontmatter?.orientation}
-                  >
-                  <img 
-                    src={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
-                    alt={title}
-                    class="thumbnail"
-                  />
-                </a>
-              );
-            } else {
-              console.error(`\nPhoto ${page.slug!} missing thumbnail.`)
-              process.exit(1)            
-            }
-          })}
-        </div>
-      </div>
-    )
-  }
+  // const basicGalleryLayout = () => {
+  //   return (
+  //     <div className="section" data-layout="basic">
+  //       <div class="my-gallery justified-gallery">
+  //         {list.map((page: Data) => {
+  //           const title = page.frontmatter?.title
+  //           let thumbnail = page.frontmatter?.thumbnail as string
+  //           if (thumbnail) {
+  //             return (
+  //               <a
+  //                 href="#" 
+  //                 data-fullsize={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
+  //                 data-caption={title}
+  //                 data-photopage={resolveRelative(fileData.slug!, page.slug!)}
+  //                 data-orientation={page.frontmatter?.orientation}
+  //                 >
+  //                 <img 
+  //                   src={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
+  //                   alt={title}
+  //                   class="thumbnail"
+  //                 />
+  //               </a>
+  //             );
+  //           } else {
+  //             console.error(`\nPhoto ${page.slug!} missing thumbnail.`)
+  //             process.exit(1)            
+  //           }
+  //         })}
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
   const coversLayout = () => {
     return (
@@ -297,48 +297,48 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
     )
   }
 
-  const datedGalleryLayout = () => {
-    return (
-      <div className="section"  data-layout="dated">
-        {Object
-          .keys(groupedByYear)
-          .sort((a, b) => b.localeCompare(a))
-          .map(year => (
-          <div key={year}>
-            <hr/>
-            <h2 id={year}>{year}</h2>
-            <div class="my-gallery justified-gallery">
-              {groupedByYear[year].map((page: Data) => {
-                const title = page.frontmatter?.title;
-                const thumbnail = page.frontmatter?.thumbnail as string;
-                if (thumbnail) {
-                  return (
-                    <a
-                      href="#" 
-                      data-fullsize={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
-                      data-caption={title}
-                      data-photopage={resolveRelative(fileData.slug!, page.slug!)}
-                      data-orientation={page.frontmatter?.orientation}
-                      >
-                      <img 
-                        src={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
-                        alt={title}
-                        class="thumbnail"
-                      />
-                    </a>
-                  );
-                } else {
-                  console.error(`\nPhoto ${page.slug!} missing thumbnail for photo gallery.`)
-                  process.exit(1)
-                }
-              })}
-            </div>
-          </div>
-        ))
-        }
-      </div>
-    )
-  }
+  // const datedGalleryLayout = () => {
+  //   return (
+  //     <div className="section"  data-layout="dated">
+  //       {Object
+  //         .keys(groupedByYear)
+  //         .sort((a, b) => b.localeCompare(a))
+  //         .map(year => (
+  //         <div key={year}>
+  //           <hr/>
+  //           <h2 id={year}>{year}</h2>
+  //           <div class="my-gallery justified-gallery">
+  //             {groupedByYear[year].map((page: Data) => {
+  //               const title = page.frontmatter?.title;
+  //               const thumbnail = page.frontmatter?.thumbnail as string;
+  //               if (thumbnail) {
+  //                 return (
+  //                   <a
+  //                     href="#" 
+  //                     data-fullsize={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
+  //                     data-caption={title}
+  //                     data-photopage={resolveRelative(fileData.slug!, page.slug!)}
+  //                     data-orientation={page.frontmatter?.orientation}
+  //                     >
+  //                     <img 
+  //                       src={resolveRelative(fileData.slug!, "photos/" + thumbnail as SimpleSlug)}
+  //                       alt={title}
+  //                       class="thumbnail"
+  //                     />
+  //                   </a>
+  //                 );
+  //               } else {
+  //                 console.error(`\nPhoto ${page.slug!} missing thumbnail for photo gallery.`)
+  //                 process.exit(1)
+  //               }
+  //             })}
+  //           </div>
+  //         </div>
+  //       ))
+  //       }
+  //     </div>
+  //   )
+  // }
 
   switch (fileData.slug?.split('/')[0]) {
     case "albums":
@@ -353,9 +353,12 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
       // return datedGalleryLayout()
       return null
     case "books":
+    case "book-series":
     case "movies":
+    case "movie-series":
     case "tv-shows":
     case "video-games":
+    case "video-game-series":
       return coversLayout()
     default:
       return defaultLayout()

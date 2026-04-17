@@ -62,6 +62,10 @@ export default ((opts?: Partial<FolderContentOptions>) => {
     switch (folderSlug) {
       case "blog":
       case "now":
+      case "cmdrs-log":
+      case "book-series":
+      case "movie-series":
+      case "video-game-series":
         allFiles.forEach((file) => {
           if (file.frontmatter?.tags?.includes(folderSlug)) {
             allPagesInFolder.push(file)
@@ -71,13 +75,6 @@ export default ((opts?: Partial<FolderContentOptions>) => {
       case "books":
         allFiles.forEach((file) => {
           if (file.frontmatter?.tags?.includes("book")) {
-            allPagesInFolder.push(file)
-          }
-        })
-        break
-      case "cmdrs-log":
-        allFiles.forEach((file) => {
-          if (file.frontmatter?.tags?.includes("cmdrs-log")) {
             allPagesInFolder.push(file)
           }
         })

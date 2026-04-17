@@ -39,7 +39,7 @@ export function listClasses(fileData:Data): string | JSX.Element {
             classes.push( createClassLink("/books/", clsText, "nf nf-md-book") )
             break;
         case 'book-series':
-            classes.push( createClassLink("", clsText, "nf nf-md-bookshelf") )
+            classes.push( createClassLink("/book-series/", clsText, "nf nf-md-bookshelf") )
             break;
         case 'cmdrs-log':
             classes.push( createClassLink("/cmdrs-log/", clsText, "nf nf-fa-shuttle_space") )
@@ -49,6 +49,9 @@ export function listClasses(fileData:Data): string | JSX.Element {
             break;
         case 'movie':
             classes.push( createClassLink("/movies/", clsText, "nf nf-md-movie_open") )
+            break;
+        case 'movie-series':
+            classes.push( createClassLink("/movie-series/", clsText, "nf nf-md-movie_open_plus") )
             break;
         case 'ontological-distinction':
             classes.push( createClassLink("/notes/ontological-distinction/", clsText, "nf nf-md-thought_bubble") )
@@ -77,6 +80,9 @@ export function listClasses(fileData:Data): string | JSX.Element {
             break;
         case 'video-game':
             classes.push( createClassLink("/video-games/", clsText, "nf nf-fa-gamepad") )
+            break;
+        case 'video-game-series':
+            classes.push( createClassLink("/video-game-series/", clsText, "nf nf-md-gamepad_right") )
             break;
         default:
             break;

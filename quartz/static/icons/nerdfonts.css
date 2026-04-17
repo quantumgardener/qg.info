@@ -8,10 +8,14 @@
 @font-face{font-family:'NerdFontsSymbols Nerd Font';src:url("https://www.nerdfonts.com/assets/fonts/Symbols-2048-em Nerd Font Complete.woff2") format("woff2");font-weight:normal;font-style:normal}.nf,.nerd-font,.nerd-fonts{font-family:'NerdFontsSymbols Nerd Font';font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 .nf-cod-key:before{content:"\eb11"}
 .nf-cod-tag:before{content:"\ea66"}
+.nf-cod-triangle_left:before{content: "\eb6f"}
+.nf-cod-triangle_right:before{content: "\eb70"}
 .nf-fa-address_card:before{content:"\f2bb"}
 .nf-fa-camera:before{content:"\f030"}
+.nf-fa-coffee:before{content: '\f0f4'}
 .nf-fa-gamepad:before{content: "\f11b"}
 .nf-fa-github:before{content:"\f09b"}
+.nf-fa-heart::before{content: '\f004'}
 .nf-fa-laptop_code:before{content:"\eea7"}
 .nf-fa-link:before{content:"\f0c1"}
 .nf-fa-lock:before{content:"\f023"}
@@ -20,6 +24,7 @@
 .nf-fa-photo_film:before{content:"\efab"}
 .nf-fa-question_circle:before{content:"\f059"}
 .nf-fa-quote_right:before{content:"\f10e"}
+.nf-fa-repeat:before{content: '\f01e'}
 .nf-fa-ruler_horizontal:before{content:"\ee10"}
 .nf-fa-shuttle_space:before{content:"\f197"}
 .nf-fa-square_rss:before{content:"\f143"} 
@@ -32,17 +37,14 @@
 .nf-md-camera_timer:before{content:"\f0109"}
 .nf-md-email_check:before{content:"\f0ab1"}
 .nf-md-eye:before{content:"\f0208"}
+.nf-md-gamepad_right:before{content: '\f0e3b'}
 .nf-md-image_album:before{content:"\f02ea"}
 .nf-md-map_marker:before{content:"\f034e"}
+.nf-md-movie_open_plus:before{content: '\f1707'}
 .nf-md-movie_open:before{content:"\f0fce"}
 .nf-md-remote_tv:before{content:"\f0ec5"}
+.nf-md-repeat:before{content: '\f0456'}
 .nf-md-slash_forward:before{content:"\f0fdf"}
 .nf-md-thought_bubble:before{content:"\f07f6"}
-.nf-oct-person:before{content:"\f415"}
-.nf-cod-triangle_left:before{content: "\eb6f"}
-.nf-cod-triangle_right:before{content: "\eb70"}
 .nf-oct-goal:before{content: '\f4de'}
-.nf-fa-heart::before{content: '\f004'}
-.nf-md-repeat:before{content: '\f0456'}
-.nf-fa-repeat:before{content: '\f01e'}
-.nf-fa-coffee:before{content: '\f0f4'}
+.nf-oct-person:before{content:"\f415"}

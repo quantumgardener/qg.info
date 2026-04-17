@@ -19,7 +19,17 @@ const config: QuartzConfig = {
     locale: "en-AU",
     timezone: "Australia/Melbourne",
     baseUrl: "quantumgardener.info",
-    ignorePatterns: ["atlas-unchecked","Home Life Index", "JDEX","maps","notes/sources"],
+    ignorePatterns: [
+      "atlas-unchecked",
+      "Home Life Index", 
+      "JDEX",
+      "maps",
+      "notes/sources", 
+      "**/*.drawio",
+      "**/*.jpeg",
+      "**/*.png",
+      "**/*.pdf"
+    ],
     defaultDateType: "created",
     theme: {
       fontOrigin: "googleFonts",

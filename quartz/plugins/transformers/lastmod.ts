@@ -4,6 +4,7 @@ import { QuartzTransformerPlugin } from "../types"
 import path from "path"
 import { styleText } from "util"
 import chalk from "chalk"
+import { PublishStatus } from "../../util/myUtils"
 
 export interface Options {
   priority: ("frontmatter" | "git" | "filesystem")[]
@@ -63,6 +64,9 @@ export const CreatedModifiedDate: QuartzTransformerPlugin<Partial<Options>> = (u
             let modified: MaybeDate = undefined
             let published: MaybeDate = undefined
 
+            if(file.data.frontmatter?.publish !== PublishStatus.ALLOW) {
+              return // Not interested in dates if now allow for publish
+            }
             const fp = file.data.relativePath!
             const fullFp = file.data.filePath!
             for (const source of opts.priority) {

@@ -64,9 +64,14 @@ export const CreatedModifiedDate: QuartzTransformerPlugin<Partial<Options>> = (u
             let modified: MaybeDate = undefined
             let published: MaybeDate = undefined
 
+            // This function is called before filtering occurs, causing unnecessary errors for
+            // notes which will not be published, but also have no valid date. So, unless going
+            // to publish, processing dates is unnecessary and we can then know the filter
+            // in portcullis.tsx is going to remove the files with invalid dates anyway.
             if(file.data.frontmatter?.publish !== PublishStatus.ALLOW) {
-              return // Not interested in dates if now allow for publish
+              return 
             }
+            
             const fp = file.data.relativePath!
             const fullFp = file.data.filePath!
             for (const source of opts.priority) {

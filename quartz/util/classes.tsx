@@ -29,17 +29,17 @@ export function listClasses(fileData:Data): string | JSX.Element {
         const clsText = cls.replace(/-/g, " ")
         switch (cls) {
         case 'album': // photo album, not music
-            classes.push( createClassLink("/albums/", clsText, "nf nf-md-image_album") )
+            classes.push( createClassLink("", clsText, "nf nf-md-image_album") )
             break;
         case 'blog':
         case 'now':
             classes.push( createClassLink(`/${cls}/`, clsText, "nf nf-fa-square_rss") )
             break;
         case 'book':
-            classes.push( createClassLink("/books/", clsText, "nf nf-md-book") )
+            classes.push( createClassLink("", clsText, "nf nf-md-book") )
             break;
         case 'book-series':
-            classes.push( createClassLink("/book-series/", clsText, "nf nf-md-bookshelf") )
+            classes.push( createClassLink("", clsText, "nf nf-md-bookshelf") )
             break;
         case 'cmdrs-log':
             classes.push( createClassLink("/cmdrs-log/", clsText, "nf nf-fa-shuttle_space") )
@@ -48,10 +48,10 @@ export function listClasses(fileData:Data): string | JSX.Element {
             classes.push( createClassLink("/uses#gear-that-i-use", clsText) )
             break;
         case 'movie':
-            classes.push( createClassLink("/movies/", clsText, "nf nf-md-movie_open") )
+            classes.push( createClassLink("", clsText, "nf nf-md-movie_open") )
             break;
         case 'movie-series':
-            classes.push( createClassLink("/movie-series/", clsText, "nf nf-md-movie_open_plus") )
+            classes.push( createClassLink("", clsText, "nf nf-md-movie_open_plus") )
             break;
         case 'ontological-distinction':
             classes.push( createClassLink("/notes/ontological-distinction/", clsText, "nf nf-md-thought_bubble") )
@@ -76,13 +76,13 @@ export function listClasses(fileData:Data): string | JSX.Element {
             classes.push( createClassLink("/uses#software-that-i-use", clsText, "nf nf-fa-laptop_code") )
             break;
         case 'tv-show':
-            classes.push( createClassLink("/tv-shows/", clsText, "nf nf-md-remote_tv") )
+            classes.push( createClassLink("", clsText, "nf nf-md-remote_tv") )
             break;
         case 'video-game':
-            classes.push( createClassLink("/video-games/", clsText, "nf nf-fa-gamepad") )
+            classes.push( createClassLink("", clsText, "nf nf-fa-gamepad") )
             break;
         case 'video-game-series':
-            classes.push( createClassLink("/video-game-series/", clsText, "nf nf-md-gamepad_right") )
+            classes.push( createClassLink("", clsText, "nf nf-md-gamepad_right") )
             break;
         default:
             break;

@@ -24,7 +24,6 @@ const config: QuartzConfig = {
       "Home Life Index", 
       "JDEX",
       "maps",
-      "notes/sources", 
       "**/*.drawio",
       "**/*.jpeg",
       "**/*.png",

@@ -34,10 +34,16 @@ export function formatInternalLinks(tree: Root, file: any, allFiles: any[]): Roo
       if (href.includes("/assets")) return
 
       //
-      // 4. Clean up /public/ links
+      // 4. Clean up /atlas/ links
       //
-      if (href.includes("/public/") && !elem.properties.className?.includes("external")) {
-        elem.properties.href = href.replace("/public", "")
+      if (href.includes("/atlas/") && !elem.properties.className?.includes("external")) {
+        elem.properties.href = href.replace("/atlas", "")
+
+        // Further check for _virtual-pages
+        if(elem.properties.href.includes("/_virtual-pages/")) {
+          elem.properties.href = elem.properties.href.replace("/_virtual-pages", "")
+        }
+
         return
       }
 

@@ -8,7 +8,8 @@ import chalk from "chalk";
 const illegalTagPatterns = [
     "journal/",             // ALL journal entries
     "class/class-index",    // Internal list of class pages
-    "class/home"           // Places I've lived
+    "class/home",           // Places I've lived
+    "class/travel-log"      // Collations of travel related journal entries
 ]
 
 export const Portcullis: QuartzFilterPlugin = () => ({

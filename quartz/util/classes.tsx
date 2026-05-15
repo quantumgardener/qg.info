@@ -63,6 +63,9 @@ export function listClasses(fileData:Data): string | JSX.Element {
         case 'photo':
             classes.push( createClassLink("/photos/", clsText, "nf nf-fa-camera") )
             break;
+        case 'podcast':
+            classes.push( createClassLink("", clsText, "nf nf-fa-podcast") )
+            break;
         case 'project':
             classes.push( createClassLink("/projects/", clsText, "nf nf-oct-goal") )
             break;
@@ -83,6 +86,9 @@ export function listClasses(fileData:Data): string | JSX.Element {
             break;
         case 'video-game-series':
             classes.push( createClassLink("", clsText, "nf nf-md-gamepad_right") )
+            break;
+        case 'youtube':
+            classes.push( createClassLink("", clsText, "nf nf-fa-youtube") )
             break;
         default:
             break;

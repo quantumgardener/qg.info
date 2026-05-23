@@ -745,6 +745,13 @@ span.self-link {
   font-style: italic;
 }
 
+sup {
+  position: relative;
+  top: -0.5em;
+  font-size: smaller;
+  line-height: 0;
+  vertical-align: baseline !important;
+}
 
 .mentions {
   max-width: 600px;

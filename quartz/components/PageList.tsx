@@ -79,70 +79,94 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
   //   return acc;
   // }, {});
 
-  const groupedByMonthYear = list.reduce((acc: Record<string, Data[]>, page: Data) => {
-    const dateObj = page.dates ? latestDate(page) : null;
-    const monthYear = dateObj ? dateObj.toLocaleString(cfg.locale || "en", { year: "numeric", month: "long" }) : "";
-    if (!monthYear) return acc; // Skip items without a valid date
-    if (!acc[monthYear]) {
-      acc[monthYear] = [];
-    }
-    acc[monthYear].push(page);
-    return acc;
-  }, {});
+  // Build groups with a stable ISO key
+  const groupedByMonthYear = list.reduce(
+    (acc: Record<string, { label: string; pages: Data[] }>, page: Data) => {
+      const dateObj = page.dates ? latestDate(page) : null;
+      if (!dateObj) return acc;
+
+      // Stable sortable key: "2026-06"
+      const key = dateObj.toISOString().slice(0, 7);
+
+      // Human-readable label: "June 2026"
+      const label = dateObj.toLocaleString(cfg.locale || "en", {
+        year: "numeric",
+        month: "long",
+      });
+
+      if (!acc[key]) {
+        acc[key] = { label, pages: [] };
+      }
+
+      acc[key].pages.push(page);
+      return acc;
+    },
+    {}
+  );
+
+  // Sort the month groups chronologically
+  const sortedSections = Object.entries(groupedByMonthYear).sort(
+    ([a], [b]) => b.localeCompare(a)
+  );
 
   
   const defaultLayout = () => {
     return (
       <div className="section" data-layout="default">
-        {Object.entries(groupedByMonthYear).map(([date, pages]) => {
-          const id = date.replace(" ", "-").toLowerCase()
-  
+        {sortedSections.map(([key, { label, pages }]) => {
+          const id = label.replace(" ", "-").toLowerCase();
+
           return (
-          <div key={date}>
-            <hr/>
-            <h2 id={id}>{date}</h2> {/* Display the grouped date as a heading */}
-            <ul className="section-ul">
-              {pages.map((page: Data) => {
-                const title = page.frontmatter?.title
-                const fileDataSlug = fileData.slug!
-                const classList = listClasses(page)
-                let pagedate:string | JSX.Element = ""
-                if (page.dates && fileDataSlug! != "now/index") {
-                  if (page.dates?.created.getTime() === page.dates?.modified.getTime()) {
-                    pagedate = (
-                      <span>
-                        {formatDate(getDate(cfg, page)!, cfg.locale)}
-                      </span>
-                    )
-                  } else {
-                    pagedate = (
-                      <span>
-                        {formatDate(latestDate(page)!, cfg.locale)}
-                        &dagger;
-                      </span>
-                    )
+            <div key={key}>
+              <hr />
+              <h2 id={id}>{label}</h2>
+              <ul className="section-ul">
+                {pages.map((page: Data) => {
+                  const title = page.frontmatter?.title;
+                  const fileDataSlug = fileData.slug!;
+                  const classList = listClasses(page);
+
+                  let pagedate: string | JSX.Element = "";
+                  if (page.dates && fileDataSlug !== "now/index") {
+                    if (
+                      page.dates?.created.getTime() ===
+                      page.dates?.modified.getTime()
+                    ) {
+                      pagedate = (
+                        <span>{formatDate(getDate(cfg, page)!, cfg.locale)}</span>
+                      );
+                    } else {
+                      pagedate = (
+                        <span>
+                          {formatDate(latestDate(page)!, cfg.locale)}
+                          &dagger;
+                        </span>
+                      );
+                    }
                   }
-                }              
-                return (
-                  <li className="page-list-li">
-                    <div className="page-list-meta">
-                      <p>
-                        <a
-                          href={resolveRelative(fileDataSlug, page.slug!)}
-                          className="internal"
-                        >
-                          {title}
-                        </a> {pagedate}
-                      </p>
-                      {classList}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          )
+
+                  return (
+                    <li className="page-list-li">
+                      <div className="page-list-meta">
+                        <p>
+                          <a
+                            href={resolveRelative(fileDataSlug, page.slug!)}
+                            className="internal"
+                          >
+                            {title}
+                          </a>{" "}
+                          {pagedate}
+                        </p>
+                        {classList}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
         })}
+
       </div>
     )
   }
